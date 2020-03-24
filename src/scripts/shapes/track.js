@@ -7,5 +7,5 @@ var material = new THREE.MeshStandardMaterial({
 });
 material.map.wrapS = THREE.RepeatWrapping;
 material.map.wrapT = THREE.RepeatWrapping;
-material.map.repeat.set(5, 5);
+material.map.repeat.set(5, 10);
 export var track = new THREE.Mesh(geometry, material);

@@ -50,7 +50,7 @@ car.position.set(0, -10, 2);
 scene.add(car);
 scene.add(track);
 
-ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
 scene.add(ambientLight);
 
 // light = new THREE.PointLight(0xffffff, 0.8, 18);
