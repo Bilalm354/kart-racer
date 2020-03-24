@@ -38,3 +38,8 @@ https://www.youtube.com/watch?v=Ki-tWT50cEQ
 
 Making my own Karting game in Unity
 https://www.youtube.com/watch?v=pYI-O-Q9AJk
+
+## Contact
+
+-   Discord: bilzone97#2770
+-   Email: bilalm354@gmail.com
