@@ -6,7 +6,18 @@
 -   [x] add keyboard controls for the car to move around. look at the unity karting tutorial for how they do it.
 -   [x] add acceleration and deceleration
 -   [x] add mechanics for turning
+-   [ ] add physijs as the physics engine
+-   [ ] add gravity to scene
+-   [ ] fix problem of track background img not loading on deployed site.ne
+-   [ ] add a box to collide with
+-   [ ] add a ramp
+-   [ ] increase initial y position of car so it starts in the air and falls down
 -   [ ] create a track
 -   [ ] add detection for crossing finish line and time laps
 -   [ ] Add dynamic camera movement
 -   [ ] try a delay on the camera following the car around a turn
+-   [ ] add sounds to cars
+-   [ ] add drifting
+-   [ ] add mini turbo
+-   [ ] add animations and particle effects etc
+-   [ ] add VR
