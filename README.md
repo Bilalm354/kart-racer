@@ -1,5 +1,7 @@
 # Voxel Racing Game Built In Three JS
 
+Hello and welcome.
+
 ## Idea
 
 Building a racing game in javascript with ThreeJS. Using webpack to allow importing modules using ES6 imports and to allow bunding and modularisation of code.
@@ -19,10 +21,6 @@ Start a local server with
 
 Produce a production build by running
 `npm run build`
-
-## Contributing
-
-Hi and welcome. Look at the issues or message me on facebook Bilal Minhas.
 
 ## Helpful Resources
 

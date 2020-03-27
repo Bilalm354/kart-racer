@@ -49,6 +49,8 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "core-js": "^3.6.4",
-    "three": "^0.114.0"
+    "physijs-webpack": "^0.1.4",
+    "three": "^0.114.0",
+    "worker-loader": "^2.0.0"
   }
 }

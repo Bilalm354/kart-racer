@@ -1,5 +1,6 @@
 import * as THREE from "three";
+import Physijs from "physijs-webpack";
 
-var geometry = new THREE.BoxGeometry(10, 16, 6);
-var material = new THREE.MeshStandardMaterial({ color: 0x0000ff });
-export var car = new THREE.Mesh(geometry, material);
+const geometry = new THREE.BoxGeometry(8, 12, 4);
+const material = new THREE.MeshStandardMaterial({ color: 0x0000ff });
+export const car = new Physijs.BoxMesh(geometry, material, 10);
