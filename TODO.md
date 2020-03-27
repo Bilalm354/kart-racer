@@ -15,10 +15,14 @@
 -   [x] increase initial y position of car so it starts in the air and falls down
 -   [x] change vars to lets and consts
 -   [x] tidy up code
--   [ ] add wheels to car using group https://threejs.org/docs/#api/en/objects/Group
+-   [x] add wheels to car using compound shapes https://github.com/chandlerprall/Physijs/wiki/Compound-Shapes
+-   [x] refactor car code to define const wheel geometry and dimensions
+-   [ ] make wheels cylinders - https://threejs.org/docs/#api/en/geometries/CylinderGeometry
+-   [ ] rotate cylinders
 -   [ ] add collision detection https://github.com/chandlerprall/Physijs/wiki/Collisions
 -   [ ] add a ramp
 -   [ ] tidy up code
+-   [ ] don't allow movement if you're not on ground
 -   [ ] maybe add ray casting for something
 -   [ ] create a track
 -   [ ] add detection for crossing finish line and time laps
@@ -29,3 +33,4 @@
 -   [ ] add mini turbo
 -   [ ] add animations and particle effects etc
 -   [ ] add VR
+-   [ ] take out wireframe calls
