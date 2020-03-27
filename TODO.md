@@ -23,7 +23,8 @@
 -   [ ] add a ramp
 -   [ ] tidy up code
 -   [ ] don't allow movement if you're not on ground
--   [ ] maybe add ray casting for something
+-   [ ] let player fall off edge
+-   [ ] if player falls off edge restart them on the middle of the road.
 -   [ ] create a track
 -   [ ] add detection for crossing finish line and time laps
 -   [ ] Add dynamic camera movement
