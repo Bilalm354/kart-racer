@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     entry: {
-        app: Path.resolve(__dirname, "../src/scripts/index.js")
+        app: Path.resolve(__dirname, "../src/scripts/index.jsx")
     },
     output: {
         path: Path.join(__dirname, "../build"),
@@ -33,7 +33,7 @@ module.exports = {
     },
     module: {
         rules: [
-            { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
+            { test: /\.jsx/, exclude: /node_modules/, loader: "babel-loader" },
             {
                 test: /\.mjs$/,
                 include: /node_modules/,

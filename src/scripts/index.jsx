@@ -19,7 +19,7 @@ import { keyUpHandler } from "./functions/keyUpHandler";
 // parsing error
 class Welcome extends React.Component {
     render() {
-        return <h1>hello</h1>;
+        return <button>Left</button>;
     }
 }
 
@@ -33,7 +33,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.antialias = true;
 renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
-
+//
 car.position.set(0, -10, 20);
 obstacle.position.set(0, 100, 5);
 camera.position.z = 25;
