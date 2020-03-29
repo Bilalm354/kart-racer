@@ -1,16 +1,28 @@
 import "../styles/index.scss";
+import * as React from "react";
+import ReactDOM from "react-dom";
 import * as THREE from "three";
+import Physijs from "physijs-webpack";
 import { car } from "./shapes/car";
 import { obstacle } from "./shapes/obstacle";
 import { track } from "./shapes/track";
-import Physijs from "physijs-webpack";
 import { keyboardUpdate } from "./functions/keyboardUpdate";
 import { updateCar } from "./functions/updateCar";
 import { updateCar3dObject } from "./functions/updateCar3dObject";
+import { keyDownHandler } from "./functions/keyDownHandler";
 import { playerCar } from "./data/playerCar";
 import { keyboard } from "./data/keyboard";
 import { camera } from "./three/camera";
 import { ambientLight } from "./three/ambientLight";
+import { keyUpHandler } from "./functions/keyUpHandler";
+
+class Welcome extends React.Component {
+    render() {
+        return;
+    }
+}
+
+ReactDOM.render(<Welcome />, document.body);
 
 const scene = new Physijs.Scene();
 scene.setGravity(new THREE.Vector3(0, 0, -100));
@@ -40,31 +52,11 @@ function animate() {
 
 animate();
 
-function keyDownHandler(event) {
-    if (event.keyCode == 39) {
-        keyboard.right = true;
-    } else if (event.keyCode == 37) {
-        keyboard.left = true;
-    }
-    if (event.keyCode == 40) {
-        keyboard.down = true;
-    } else if (event.keyCode == 38) {
-        keyboard.up = true;
-    }
-}
+document.addEventListener("keydown", event => keyDownHandler(event, keyboard));
+document.addEventListener("keyup", event => keyUpHandler(event, keyboard));
 
-function keyUpHandler(event) {
-    if (event.keyCode == 39) {
-        keyboard.right = false;
-    } else if (event.keyCode == 37) {
-        keyboard.left = false;
-    }
-    if (event.keyCode == 40) {
-        keyboard.down = false;
-    } else if (event.keyCode == 38) {
-        keyboard.up = false;
-    }
-}
-
-document.addEventListener("keydown", keyDownHandler);
-document.addEventListener("keyup", keyUpHandler);
+// TODO: touch controls
+// create buttons left, up, right, down
+// create event listeners which set keyboard settings to true.
+// try using pointerdown
+//

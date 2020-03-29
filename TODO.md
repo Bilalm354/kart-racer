@@ -17,6 +17,7 @@
 -   [x] tidy up code
 -   [x] add wheels to car using compound shapes https://github.com/chandlerprall/Physijs/wiki/Compound-Shapes
 -   [x] refactor car code to define const wheel geometry and dimensions
+-   [ ] add mobile controls
 -   [ ] make wheels cylinders - https://threejs.org/docs/#api/en/geometries/CylinderGeometry
 -   [ ] rotate cylinders
 -   [ ] add collision detection https://github.com/chandlerprall/Physijs/wiki/Collisions
@@ -35,3 +36,4 @@
 -   [ ] add animations and particle effects etc
 -   [ ] add VR
 -   [ ] take out wireframe calls
+-   [ ] fix bug: that when standing still turning if you press a direction the car turns the wrong way.
