@@ -16,13 +16,13 @@ import { camera } from "./three/camera";
 import { ambientLight } from "./three/ambientLight";
 import { keyUpHandler } from "./functions/keyUpHandler";
 
-class Welcome extends React.Component {
-    render() {
-        return;
-    }
-}
+// class Welcome extends React.Component {
+//     render() {
+//         return <h1>hello</h1>;
+//     }
+// }
 
-ReactDOM.render(<Welcome />, document.body);
+// ReactDOM.render(<Welcome />, document.body);
 
 const scene = new Physijs.Scene();
 scene.setGravity(new THREE.Vector3(0, 0, -100));
