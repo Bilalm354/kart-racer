@@ -4,11 +4,9 @@ Hello and welcome.
 
 ## Idea
 
-Building a racing game in javascript with ThreeJS. Using webpack to allow importing modules using ES6 imports and to allow bunding and modularisation of code.
+Building a racing game in javascript with ThreeJS.
 
-I'd like the drifting and mini turbo mechanics of mariokart with the takedowns of burnout. With good items and fun multiplayer. losing players get better items to even skill gaps and allow players of different skill levels to play the game together. In the future I'd like the game to be playable online. Similar to Krunker.
-
-It's really important for the game ot be fun and for this the speed and controls have to feel good. The tracks have to be fun. The tracks for the game wipeout look cool. Krunker type of graphics could be cool. Maybe animal characters.
+Using webpack to allow importing modules using ES6 imports and to allow bunding and modularisation of code.
 
 ## Planning
 
