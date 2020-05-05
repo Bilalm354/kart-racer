@@ -20,7 +20,8 @@
 -   [x] npm install stats.js
 -   [x] add stats to index and animate function
 -   [x] Decide whether to use the physics frameworks or make my own. I think I should make my own so I have more control over things.
--   [ ] make wheels cylinders - https://threejs.org/docs/#api/en/geometries/CylinderGeometry
+-   [x] make wheels cylinders - https://threejs.org/docs/#api/en/geometries/CylinderGeometry
+-   [ ] rotate wheels on movement
 -   [ ] remove physijs
 -   [ ] create own 2D collision detection
 -   [ ] add gravity and vertical collision detection.
@@ -29,10 +30,7 @@
 -   [ ] add 3d skybox backgrounds
 -   [ ] add speedometer function
 -   [ ] add gravity
--   [ ] add own collision detection
--   [ ] add collision detection https://github.com/chandlerprall/Physijs/wiki/Collisions
 -   [ ] add mobile controls
--   [ ] rotate cylinders
 -   [ ] add a ramp
 -   [ ] tidy up code
 -   [ ] don't allow movement if you're not on ground
