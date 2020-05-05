@@ -1,7 +1,6 @@
 import * as React from "react";
 import ReactDOM from "react-dom";
 
-// parsing error
 class Welcome extends React.Component {
     render() {
         return <h1>hello</h1>;
@@ -9,4 +8,5 @@ class Welcome extends React.Component {
 }
 
 ReactDOM.render(<Welcome />, document.body);
-// end of error
+
+// I think this needs to go in the index. Or atleast something react so that other componenets can be child elements.

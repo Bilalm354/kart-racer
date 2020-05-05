@@ -17,10 +17,24 @@
 -   [x] tidy up code
 -   [x] add wheels to car using compound shapes https://github.com/chandlerprall/Physijs/wiki/Compound-Shapes
 -   [x] refactor car code to define const wheel geometry and dimensions
--   [ ] add mobile controls
+-   [x] npm install stats.js
+-   [x] add stats to index and animate function
+-   [x] Decide whether to use the physics frameworks or make my own. I think I should make my own so I have more control over things.
+-   [ ] remove physi js
+-   [ ] create own 2D collision detection
+-   [ ] add gravity and vertical collision detection.
+-   [ ] give car a circular hitbox for lateral collision detection
+-   [ ] remove any setting position of the three js stuff and always render the things from the object positions and stuff.
+-   [ ] add 3d skybox backgrounds
+-   [ ] add speedometer function
+-   [ ] remove physijs
+-   [ ] add gravity
+-   [ ] add own collision detection
+-   [ ] don's allow a moving object to go through a stationary object
 -   [ ] make wheels cylinders - https://threejs.org/docs/#api/en/geometries/CylinderGeometry
--   [ ] rotate cylinders
 -   [ ] add collision detection https://github.com/chandlerprall/Physijs/wiki/Collisions
+-   [ ] add mobile controls
+-   [ ] rotate cylinders
 -   [ ] add a ramp
 -   [ ] tidy up code
 -   [ ] don't allow movement if you're not on ground
