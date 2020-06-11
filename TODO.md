@@ -6,11 +6,12 @@
 -   [x] add keyboard controls for the car to move around. look at the unity karting tutorial for how they do it.
 -   [x] add acceleration and deceleration
 -   [x] add mechanics for turning
--   [ ] add physijs as the physics engine
+-   [ ] change vars to lets and consts
+-   [ ] add wheels to car using compound shapes https://github.com/chandlerprall/Physijs/wiki/Compound-Shapes
+-   [ ] refactor car code to define const wheel geometry and dimensions
+-   [ ] make wheels cylinders - https://threejs.org/docs/#api/en/geometries/CylinderGeometry
 -   [ ] add gravity to scene
--   [ ] fix problem of track background img not loading on deployed site.ne
--   [ ] add a box to collide with
--   [ ] add a ramp
+-   [ ] add walls around track to collide with
 -   [ ] increase initial y position of car so it starts in the air and falls down
 -   [ ] create a track
 -   [ ] add detection for crossing finish line and time laps
