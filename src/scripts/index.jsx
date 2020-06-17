@@ -1,6 +1,5 @@
 import "../styles/index.scss";
 import * as THREE from "three";
-import Physijs from "physijs-webpack";
 import Stats from "stats.js";
 import { car } from "./shapes/car";
 import { obstacle } from "./shapes/obstacle";
@@ -19,17 +18,17 @@ const stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild(stats.dom);
 
-const scene = new Physijs.Scene();
-scene.setGravity(new THREE.Vector3(0, 0, -100));
+const scene = new THREE.Scene();
+// scene.setGravity(new THREE.Vector3(0, 0, -100));
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.antialias = true;
 renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
 
-car.position.set(0, -10, 520);
-obstacle.position.set(0, 100, 505);
-track.position.set(0, -10, 500);
+car.position.set(0, 0, 0);
+obstacle.position.set(0, 100, 0);
+track.position.set(0, -10, 0);
 camera.position.z = car.position.z + 20;
 
 scene.add(car);
@@ -39,7 +38,6 @@ scene.add(ambientLight);
 
 function animate() {
     stats.begin();
-    scene.simulate();
     stats.end();
     requestAnimationFrame(animate);
     keyboardUpdate(keyboard, playerCar);
