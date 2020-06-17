@@ -1,6 +1,14 @@
-# Voxel Racing Game Built In Three JS
+# Kart Racing Game Built In Three JS
+
+repo: https://github.com/Bilalm354/kart-racer
 
 Hello and welcome.
+
+## Notes
+
+x is left and right
+y is forward and back
+z is up and down
 
 ## Idea
 
