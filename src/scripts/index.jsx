@@ -48,10 +48,6 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-// function showSpeed() {
-//     return playerCar.xVelocity;
-// }
-
 animate();
 
 document.addEventListener("keydown", (event) =>
