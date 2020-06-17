@@ -6,15 +6,17 @@ const bodyMaterial = new THREE.MeshStandardMaterial({
     color: 0x0000ff,
     wireframe: false,
 });
-const car = new Physijs.BoxMesh(bodyGeometry, bodyMaterial, 10);
+
+const car = new THREE.Mesh(bodyGeometry, bodyMaterial, 10);
+
 
 const wheelGeometry = new THREE.CylinderGeometry(1, 1);
 const wheelMaterial = new THREE.MeshBasicMaterial({ color: 0x888888 });
 
-const frontLeftWheel = new Physijs.BoxMesh(wheelGeometry, wheelMaterial);
-const frontRightWheel = new Physijs.BoxMesh(wheelGeometry, wheelMaterial);
-const backLeftWheel = new Physijs.BoxMesh(wheelGeometry, wheelMaterial);
-const backRightWheel = new Physijs.BoxMesh(wheelGeometry, wheelMaterial);
+const frontLeftWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
+const frontRightWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
+const backLeftWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
+const backRightWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
 
 frontLeftWheel.position.x = -4;
 frontLeftWheel.position.y = 6;
