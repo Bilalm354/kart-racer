@@ -1,11 +1,14 @@
 import * as THREE from "three";
+import Physijs from "physijs-webpack";
 
 const bodyGeometry = new THREE.BoxGeometry(8, 12, 4);
 const bodyMaterial = new THREE.MeshStandardMaterial({
     color: 0x0000ff,
     wireframe: false,
 });
+
 const car = new THREE.Mesh(bodyGeometry, bodyMaterial, 10);
+
 
 const wheelGeometry = new THREE.CylinderGeometry(1, 1);
 const wheelMaterial = new THREE.MeshBasicMaterial({ color: 0x888888 });
