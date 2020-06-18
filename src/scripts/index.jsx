@@ -39,6 +39,8 @@ camera.position.set(0, 0, 100);
 
 scene.background = new THREE.Color(0xbfd1e5);
 
+scene.background = new THREE.Color(0xbfd1e5);
+
 scene.add(car);
 scene.add(obstacle);
 scene.add(track);
