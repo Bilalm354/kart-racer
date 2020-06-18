@@ -1,5 +1,8 @@
 import * as THREE from "three";
 
+// https://threejsfundamentals.org/threejs/lessons/threejs-voxel-geometry.html
+// https://github.com/mrdoob/three.js/blob/dev/examples/webgl_interactive_voxelpainter.html
+
 const loader = new THREE.TextureLoader();
 const geometry = new THREE.BoxGeometry(1000, 1000, 10);
 const material = new THREE.MeshStandardMaterial({
@@ -14,11 +17,9 @@ const ground = new THREE.Mesh(geometry, material);
 
 const wallGeometry = new THREE.BoxGeometry(100, 1000, 100);
 const wallMaterial = new THREE.MeshStandardMaterial({
-    map: loader.load("src/scripts/textures/roadTexture.jpg"),
+    color: 0xff0000,
     wireframe: false,
 });
-wallMaterial.map.wrapS = THREE.RepeatWrapping;
-wallMaterial.map.wrapT = THREE.RepeatWrapping;
 const leftWall = new THREE.Mesh(wallGeometry, wallMaterial);
 const rightWall = new THREE.Mesh(wallGeometry, wallMaterial);
 leftWall.geometry.translate(-500, 0, 100);
