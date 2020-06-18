@@ -8,7 +8,7 @@ const bodyMaterial = new THREE.MeshStandardMaterial({
 const carBody = new THREE.Mesh(bodyGeometry, bodyMaterial, 10);
 
 const wheelGeometry = new THREE.CylinderGeometry(1, 1);
-const wheelMaterial = new THREE.MeshBasicMaterial({ color: 0x888888 });
+const wheelMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
 
 // TODO: can this next section be done in a loop?
 const frontLeftWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
