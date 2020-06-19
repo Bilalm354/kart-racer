@@ -3,8 +3,8 @@ import * as THREE from "three";
 import Stats from "stats.js";
 // import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-import { car } from "./shapes/car";
-import { track } from "./shapes/track";
+import { car } from "./objects/car";
+import { track } from "./objects/squareTrack";
 
 import { keyboardUpdate } from "./functions/keyboardUpdate";
 import { updateCar } from "./functions/updateCar";
