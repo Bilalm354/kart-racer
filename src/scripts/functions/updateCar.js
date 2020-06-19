@@ -11,7 +11,11 @@ const turnSpeed = 0.002;
 
 export function updateCar(car) {
     if (car.isThrottling) {
-        car.power += powerFactor * car.isThrottling;
+        // car.power += powerFactor * car.isThrottling;
+        car.power += powerFactor;
+    } else if (car.turbo) {
+        console.log("hiii");
+        car.power += 5 * powerFactor;
     } else {
         car.power -= powerFactor;
     }

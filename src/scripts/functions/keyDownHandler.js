@@ -3,10 +3,11 @@ export function keyDownHandler(event, keyboard) {
         keyboard.right = true;
     } else if (event.keyCode == 37) {
         keyboard.left = true;
-    }
-    if (event.keyCode == 40) {
+    } else if (event.keyCode == 40) {
         keyboard.down = true;
     } else if (event.keyCode == 38) {
         keyboard.up = true;
+    } else if (event.keyCode == 32) {
+        keyboard.space = true;
     }
 }

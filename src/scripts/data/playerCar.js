@@ -12,5 +12,6 @@ export const playerCar = {
     isThrottling: false,
     isReversing: false,
     isTurningLeft: false,
-    isTurningRight: false
+    isTurningRight: false,
+    turbo: false,
 };

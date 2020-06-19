@@ -8,5 +8,7 @@ export function keyUpHandler(event, keyboard) {
         keyboard.down = false;
     } else if (event.keyCode == 38) {
         keyboard.up = false;
+    } else if (event.keyCode == 32) {
+        keyboard.space = false;
     }
 }

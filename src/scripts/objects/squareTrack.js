@@ -5,6 +5,8 @@ const track = new THREE.Group();
 // https://threejsfundamentals.org/threejs/lessons/threejs-voxel-geometry.html
 // https://github.com/mrdoob/three.js/blob/dev/examples/webgl_interactive_voxelpainter.html
 
+// TODO: create a const for length of edge of map and make everything work off of that, so that changing just that one variable will result in a different sized square map.
+
 const loader = new THREE.TextureLoader();
 const geometry = new THREE.PlaneGeometry(410, 410);
 const material = new THREE.MeshStandardMaterial({
