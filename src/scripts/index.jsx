@@ -50,12 +50,12 @@ camera.up.set(0, 0, 1);
 // const controls = new OrbitControls(camera, renderer.domElement);
 // controls.update();
 
-const size = 400;
-const divisions = 40;
-
-const gridHelper = new THREE.GridHelper(size, divisions);
-gridHelper.rotateX(Math.PI / 2);
-scene.add(gridHelper);
+// Uncooment for grid on floor plane
+// const size = 400;
+// const divisions = 40;
+// const gridHelper = new THREE.GridHelper(size, divisions);
+// gridHelper.rotateX(Math.PI / 2);
+// scene.add(gridHelper);
 
 function animate() {
     stats.begin();

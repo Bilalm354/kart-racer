@@ -1,53 +1,91 @@
+// TODO: pass cubeLength to functions
+
 import * as THREE from "three";
 
 const track = new THREE.Group();
+const cubeLength = 10;
 
+// RESOURCES
 // https://threejsfundamentals.org/threejs/lessons/threejs-voxel-geometry.html
 // https://github.com/mrdoob/three.js/blob/dev/examples/webgl_interactive_voxelpainter.html
 
-// TODO: create a const for length of edge of map and make everything work off of that, so that changing just that one variable will result in a different sized square map.
-
-const loader = new THREE.TextureLoader();
-const geometry = new THREE.PlaneGeometry(410, 410);
-const material = new THREE.MeshStandardMaterial({
-    map: loader.load("src/scripts/textures/roadTexture.jpg"),
-    wireframe: false,
-});
-material.map.wrapS = THREE.RepeatWrapping;
-material.map.wrapT = THREE.RepeatWrapping;
-material.map.repeat.set(100, 100);
-const ground = new THREE.Mesh(geometry, material);
-track.add(ground);
+function createGround(lengthOfSidesInCubes) {
+    const loader = new THREE.TextureLoader();
+    const geometry = new THREE.PlaneGeometry(
+        lengthOfSidesInCubes * cubeLength,
+        lengthOfSidesInCubes * cubeLength
+    );
+    const material = new THREE.MeshStandardMaterial({
+        map: loader.load("src/scripts/textures/roadTexture.jpg"),
+        wireframe: false,
+    });
+    material.map.wrapS = THREE.RepeatWrapping;
+    material.map.wrapT = THREE.RepeatWrapping;
+    material.map.repeat.set(100, 100);
+    const ground = new THREE.Mesh(geometry, material);
+    track.add(ground);
+    return;
+}
 
 function newCube() {
-    const geometry = new THREE.BoxGeometry(10, 10, 10);
+    const cube = new THREE.Group();
+    const geometry = new THREE.BoxGeometry(cubeLength, cubeLength, cubeLength); // the 10s here seem random.
     const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-    const cube = new THREE.Mesh(geometry, material, 100);
+    const box = new THREE.Mesh(geometry, material, 100);
+    cube.add(box);
+    /* 
+    const edges = new THREE.EdgesGeometry(geometry);
+    const line = new THREE.LineSegments(
+        edges,
+        new THREE.LineBasicMaterial({ color: 0xffffff })
+    );
+    cube.add(line); 
+    */
     return cube;
 }
 
-function createWall(xStart, yStart, length, direction) {
-    for (let i = 0; i < length; i++) {
+function createWall(xStart, yStart, wallLengthInCubes, direction) {
+    for (let i = 0; i < wallLengthInCubes; i++) {
         const cube = newCube();
         if (direction == "x") {
-            cube.position.set(xStart, yStart + i * 10, 5, i); // 5 to raise the box vertically so it sits on top of the plane
+            cube.position.set(xStart + i * cubeLength, yStart, 5, i); // 5 to raise the box vertically so it sits on top of the plane
         }
         if (direction == "y") {
-            cube.position.set(xStart + i * 10, yStart, 5, i); // 5 to raise the box vertically so it sits on top of the plane
+            cube.position.set(xStart, yStart + i * cubeLength, 5, i); // 5 to raise the box vertically so it sits on top of the plane
         }
         track.add(cube);
     }
 }
 
-function createSquareOfWalls(length) {
+function createSquareOfWalls(wallLengthInCubes) {
     // 5 is the length of a cube/2 (10/2)
-    createWall(-length * 5, -length * 5, length, "x");
-    createWall(length * 5, -length * 5, length, "x");
-    createWall(-length * 5, length * 5, length, "y");
-    createWall(-length * 5, -length * 5, length, "y");
-    // TODO: add a cube to the empty spot.
+    createWall(
+        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+        wallLengthInCubes,
+        "x"
+    );
+    createWall(
+        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+        (wallLengthInCubes * cubeLength - cubeLength) / 2,
+        wallLengthInCubes,
+        "x"
+    );
+    createWall(
+        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+        wallLengthInCubes,
+        "y"
+    );
+    createWall(
+        (wallLengthInCubes * cubeLength - cubeLength) / 2,
+        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+        wallLengthInCubes,
+        "y"
+    );
 }
 
+createGround(40);
 createSquareOfWalls(20); // inner square
 createSquareOfWalls(40); // outer square
 
