@@ -48,17 +48,26 @@ function createWall(xStart, yStart, wallLengthInCubes, direction) {
     for (let i = 0; i < wallLengthInCubes; i++) {
         const cube = newCube();
         if (direction == "x") {
-            cube.position.set(xStart + i * cubeLength, yStart, 5, i); // 5 to raise the box vertically so it sits on top of the plane
+            cube.position.set(
+                xStart + i * cubeLength,
+                yStart,
+                cubeLength / 2, // to raise the box vertically so it sits on top of the plane
+                i
+            );
         }
         if (direction == "y") {
-            cube.position.set(xStart, yStart + i * cubeLength, 5, i); // 5 to raise the box vertically so it sits on top of the plane
+            cube.position.set(
+                xStart,
+                yStart + i * cubeLength,
+                cubeLength / 2, // to raise the box vertically so it sits on top of the plane
+                i
+            );
         }
         track.add(cube);
     }
 }
 
 function createSquareOfWalls(wallLengthInCubes) {
-    // 5 is the length of a cube/2 (10/2)
     createWall(
         -(wallLengthInCubes * cubeLength - cubeLength) / 2,
         -(wallLengthInCubes * cubeLength - cubeLength) / 2,
