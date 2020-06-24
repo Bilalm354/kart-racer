@@ -19,4 +19,9 @@ export function keyboardUpdate(keyboard, playerCar) {
     } else {
         playerCar.isTurningLeft = false;
     }
+    if (keyboard.space) {
+        playerCar.turbo = true;
+    } else {
+        playerCar.turbo = false;
+    }
 }

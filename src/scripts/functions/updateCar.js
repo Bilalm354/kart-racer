@@ -1,6 +1,6 @@
 // Car mechanics
 
-const maxPower = 0.175;
+let maxPower = 0.175;
 const maxReverse = 0.0375;
 const powerFactor = 0.001;
 const reverseFactor = 0.0005;
@@ -11,8 +11,14 @@ const turnSpeed = 0.002;
 
 export function updateCar(car) {
     if (car.isThrottling) {
-        car.power += powerFactor * car.isThrottling;
+        // car.power += powerFactor * car.isThrottling;
+        car.power += powerFactor;
+    } else if (car.turbo) {
+        maxPower = 3;
+        console.log("turbo");
+        car.power += 5 * powerFactor;
     } else {
+        maxPower = 0.175;
         car.power -= powerFactor;
     }
     if (car.isReversing) {
