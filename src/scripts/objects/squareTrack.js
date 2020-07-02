@@ -1,13 +1,7 @@
-// TODO: pass cubeLength to functions
-
 import * as THREE from "three";
 
 const track = new THREE.Group();
 const cubeLength = 10;
-
-// RESOURCES
-// https://threejsfundamentals.org/threejs/lessons/threejs-voxel-geometry.html
-// https://github.com/mrdoob/three.js/blob/dev/examples/webgl_interactive_voxelpainter.html
 
 function createGround(lengthOfSidesInCubes) {
     const loader = new THREE.TextureLoader();
@@ -16,7 +10,7 @@ function createGround(lengthOfSidesInCubes) {
         lengthOfSidesInCubes * cubeLength
     );
     const material = new THREE.MeshStandardMaterial({
-        map: loader.load("src/scripts/textures/roadTexture.jpg"),
+        map: loader.load("public/roadTexture.jpg"),
         wireframe: false,
     });
     material.map.wrapS = THREE.RepeatWrapping;
