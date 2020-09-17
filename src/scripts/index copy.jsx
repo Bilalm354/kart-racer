@@ -1,6 +1,7 @@
 import "../styles/index.scss";
 import * as THREE from "three";
 import Stats from "stats.js";
+import { React, ReactDOM } from "React";
 
 import { car } from "./objects/car";
 import { track } from "./objects/squareTrack";
@@ -34,6 +35,7 @@ camera.position.set(0, 100, 100);
 
 scene.background = new THREE.Color(0xfad6a5);
 
+// track.position.set(-200, -200, -10);
 car.position.set(0, 0, 3);
 
 scene.add(track);
@@ -74,3 +76,14 @@ document.addEventListener("keydown", (event) =>
     keyDownHandler(event, keyboard)
 );
 document.addEventListener("keyup", (event) => keyUpHandler(event, keyboard));
+
+class HelloMessage extends React.Component {
+    render() {
+        return <div>Hello</div>;
+    }
+}
+
+ReactDOM.render(
+    <HelloMessage name="Taylor" />,
+    document.getElementById("hello-example")
+);
