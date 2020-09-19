@@ -12,7 +12,6 @@ function createGround(lengthOfSidesInCubes: number) {
         color: 'grey',
         wireframe: false,
     });
-    console.log(material);
     const ground = new THREE.Mesh(geometry, material);
     track.add(ground);
     return;
@@ -22,17 +21,8 @@ function newCube() {
     const cube = new THREE.Group();
     const geometry = new THREE.BoxGeometry(cubeLength, cubeLength, cubeLength); // the 10s here seem random.
     const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-    // const box = new THREE.Mesh(geometry, material, 100);
     const box = new THREE.Mesh(geometry, material);
     cube.add(box);
-    /* 
-    const edges = new THREE.EdgesGeometry(geometry);
-    const line = new THREE.LineSegments(
-        edges,
-        new THREE.LineBasicMaterial({ color: 0xffffff })
-    );
-    cube.add(line); 
-    */
     return cube;
 }
 

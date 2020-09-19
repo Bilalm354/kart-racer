@@ -35491,7 +35491,6 @@ function createGround(lengthOfSidesInCubes) {
     color: 'grey',
     wireframe: false
   });
-  console.log(material);
   var ground = new THREE.Mesh(geometry, material);
   track.add(ground);
   return;
@@ -35503,19 +35502,9 @@ function newCube() {
 
   var material = new THREE.MeshStandardMaterial({
     color: 0xff0000
-  }); // const box = new THREE.Mesh(geometry, material, 100);
-
+  });
   var box = new THREE.Mesh(geometry, material);
   cube.add(box);
-  /*
-  const edges = new THREE.EdgesGeometry(geometry);
-  const line = new THREE.LineSegments(
-      edges,
-      new THREE.LineBasicMaterial({ color: 0xffffff })
-  );
-  cube.add(line);
-  */
-
   return cube;
 }
 
