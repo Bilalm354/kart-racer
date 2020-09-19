@@ -35378,27 +35378,60 @@ if (typeof __THREE_DEVTOOLS__ !== 'undefined') {
   /* eslint-enable no-undef */
 
 }
-},{}],"../node_modules/stats.js/build/stats.min.js":[function(require,module,exports) {
-var define;
-// stats.js - http://github.com/mrdoob/stats.js
-(function(f,e){"object"===typeof exports&&"undefined"!==typeof module?module.exports=e():"function"===typeof define&&define.amd?define(e):f.Stats=e()})(this,function(){var f=function(){function e(a){c.appendChild(a.dom);return a}function u(a){for(var d=0;d<c.children.length;d++)c.children[d].style.display=d===a?"block":"none";l=a}var l=0,c=document.createElement("div");c.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000";c.addEventListener("click",function(a){a.preventDefault();
-u(++l%c.children.length)},!1);var k=(performance||Date).now(),g=k,a=0,r=e(new f.Panel("FPS","#0ff","#002")),h=e(new f.Panel("MS","#0f0","#020"));if(self.performance&&self.performance.memory)var t=e(new f.Panel("MB","#f08","#201"));u(0);return{REVISION:16,dom:c,addPanel:e,showPanel:u,begin:function(){k=(performance||Date).now()},end:function(){a++;var c=(performance||Date).now();h.update(c-k,200);if(c>g+1E3&&(r.update(1E3*a/(c-g),100),g=c,a=0,t)){var d=performance.memory;t.update(d.usedJSHeapSize/
-1048576,d.jsHeapSizeLimit/1048576)}return c},update:function(){k=this.end()},domElement:c,setMode:u}};f.Panel=function(e,f,l){var c=Infinity,k=0,g=Math.round,a=g(window.devicePixelRatio||1),r=80*a,h=48*a,t=3*a,v=2*a,d=3*a,m=15*a,n=74*a,p=30*a,q=document.createElement("canvas");q.width=r;q.height=h;q.style.cssText="width:80px;height:48px";var b=q.getContext("2d");b.font="bold "+9*a+"px Helvetica,Arial,sans-serif";b.textBaseline="top";b.fillStyle=l;b.fillRect(0,0,r,h);b.fillStyle=f;b.fillText(e,t,v);
-b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{dom:q,update:function(h,w){c=Math.min(c,h);k=Math.max(k,h);b.fillStyle=l;b.globalAlpha=1;b.fillRect(0,0,r,m);b.fillStyle=f;b.fillText(g(h)+" "+e+" ("+g(c)+"-"+g(k)+")",t,v);b.drawImage(q,d+a,m,n-a,p,d,m,n-a,p);b.fillRect(d+n-a,m,a,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d+n-a,m,a,g((1-h/w)*p))}}};return f});
-
-},{}],"scripts/objects/car.js":[function(require,module,exports) {
+},{}],"scripts/vehicles/car.ts":[function(require,module,exports) {
 "use strict";
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.car = void 0;
 
-var THREE = _interopRequireWildcard(require("three"));
+var THREE = __importStar(require("three")); // import { Vector3, Vector } from "three";
+// class Car {
+//     public position: Vector3
+//     public velocity: Vector3
+//     constructor(position: Vector3) {
+//         this.position = position
+//         this.velocity = new Vector3(0,0,0)
+//     }
+//     update(position: Vector3, velocity: Vector3) {
+//     }
+// }
 
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 var bodyGeometry = new THREE.BoxGeometry(8, 12, 4);
 var bodyMaterial = new THREE.MeshStandardMaterial({
@@ -35437,7 +35470,7 @@ car.add(frontLeftWheel);
 car.add(frontRightWheel);
 car.add(backLeftWheel);
 car.add(backRightWheel);
-},{"three":"../node_modules/three/build/three.module.js"}],"scripts/objects/squareTrack.ts":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js"}],"scripts/tracks/squareTrack.ts":[function(require,module,exports) {
 "use strict";
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
@@ -35826,25 +35859,19 @@ var __importStar = this && this.__importStar || function (mod) {
   return result;
 };
 
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
 require("../styles/index.scss");
 
-var THREE = __importStar(require("three"));
+var THREE = __importStar(require("three")); // geometries
 
-var stats_js_1 = __importDefault(require("stats.js"));
 
-var car_1 = require("./objects/car");
+var car_1 = require("./vehicles/car");
 
-var squareTrack_1 = require("./objects/squareTrack");
+var squareTrack_1 = require("./tracks/squareTrack"); // update functions
+
 
 var keyboardUpdate_1 = require("./functions/keyboardUpdate");
 
@@ -35858,9 +35885,11 @@ var keyDownHandler_1 = require("./functions/keyDownHandler");
 
 var keyUpHandler_1 = require("./functions/keyUpHandler");
 
-var playerCar_1 = require("./data/playerCar");
+var playerCar_1 = require("./data/playerCar"); // this should be a class maybe
 
-var keyboard_1 = require("./data/keyboard");
+
+var keyboard_1 = require("./data/keyboard"); // these could all be in one file but don't need to be
+
 
 var camera_1 = require("./three/camera");
 
@@ -35868,9 +35897,12 @@ var ambientLight_1 = require("./three/ambientLight");
 
 var directionalLight_1 = require("./three/directionalLight");
 
-var stats = new stats_js_1.default();
-stats.showPanel(0);
-document.body.appendChild(stats.dom);
+document.addEventListener("keydown", function (event) {
+  return keyDownHandler_1.keyDownHandler(event, keyboard_1.keyboard);
+});
+document.addEventListener("keyup", function (event) {
+  return keyUpHandler_1.keyUpHandler(event, keyboard_1.keyboard);
+});
 var scene = new THREE.Scene();
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -35885,22 +35917,15 @@ scene.add(car_1.car);
 scene.add(ambientLight_1.ambientLight);
 directionalLight_1.directionalLight.position.set(1, 1, 0.5).normalize();
 scene.add(directionalLight_1.directionalLight);
-camera_1.camera.up.set(0, 0, 1); // uncomment when switch to orbit controls
-// const controls = new OrbitControls(camera, renderer.domElement);
-// controls.update();
-// Uncooment for grid on floor plane
-// const size = 400;
-// const divisions = 40;
-// const gridHelper = new THREE.GridHelper(size, divisions);
-// gridHelper.rotateX(Math.PI / 2);
-// scene.add(gridHelper);
+camera_1.camera.up.set(0, 0, 1);
+
+function update() {// update car 
+  // update camera
+  // 
+}
 
 function animate() {
-  stats.begin();
-  stats.end(); // controls.update();
-
-  requestAnimationFrame(animate); // * uncomment these and comment out orbiit control related things to play the game. *
-
+  requestAnimationFrame(animate);
   keyboardUpdate_1.keyboardUpdate(keyboard_1.keyboard, playerCar_1.playerCar);
   updateCar_1.updateCar(playerCar_1.playerCar);
   updateCar3dObject_1.updateCar3dObject(car_1.car, playerCar_1.playerCar);
@@ -35909,13 +35934,7 @@ function animate() {
 }
 
 animate();
-document.addEventListener("keydown", function (event) {
-  return keyDownHandler_1.keyDownHandler(event, keyboard_1.keyboard);
-});
-document.addEventListener("keyup", function (event) {
-  return keyUpHandler_1.keyUpHandler(event, keyboard_1.keyboard);
-});
-},{"../styles/index.scss":"styles/index.scss","three":"../node_modules/three/build/three.module.js","stats.js":"../node_modules/stats.js/build/stats.min.js","./objects/car":"scripts/objects/car.js","./objects/squareTrack":"scripts/objects/squareTrack.ts","./functions/keyboardUpdate":"scripts/functions/keyboardUpdate.js","./functions/updateCar":"scripts/functions/updateCar.js","./functions/updateCar3dObject":"scripts/functions/updateCar3dObject.js","./functions/followCarWithCamera":"scripts/functions/followCarWithCamera.js","./functions/keyDownHandler":"scripts/functions/keyDownHandler.js","./functions/keyUpHandler":"scripts/functions/keyUpHandler.js","./data/playerCar":"scripts/data/playerCar.js","./data/keyboard":"scripts/data/keyboard.js","./three/camera":"scripts/three/camera.js","./three/ambientLight":"scripts/three/ambientLight.js","./three/directionalLight":"scripts/three/directionalLight.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../styles/index.scss":"styles/index.scss","three":"../node_modules/three/build/three.module.js","./vehicles/car":"scripts/vehicles/car.ts","./tracks/squareTrack":"scripts/tracks/squareTrack.ts","./functions/keyboardUpdate":"scripts/functions/keyboardUpdate.js","./functions/updateCar":"scripts/functions/updateCar.js","./functions/updateCar3dObject":"scripts/functions/updateCar3dObject.js","./functions/followCarWithCamera":"scripts/functions/followCarWithCamera.js","./functions/keyDownHandler":"scripts/functions/keyDownHandler.js","./functions/keyUpHandler":"scripts/functions/keyUpHandler.js","./data/playerCar":"scripts/data/playerCar.js","./data/keyboard":"scripts/data/keyboard.js","./three/camera":"scripts/three/camera.js","./three/ambientLight":"scripts/three/ambientLight.js","./three/directionalLight":"scripts/three/directionalLight.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -35943,7 +35962,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58696" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54026" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
