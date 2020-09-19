@@ -117,7 +117,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"../../node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
+})({"../node_modules/parcel/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -149,7 +149,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"../../node_modules/parcel/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"../node_modules/parcel/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -184,12 +184,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../../node_modules/parcel/src/builtins/bundle-url.js"}],"../styles/index.scss":[function(require,module,exports) {
+},{"./bundle-url":"../node_modules/parcel/src/builtins/bundle-url.js"}],"styles/index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../../node_modules/parcel/src/builtins/css-loader.js"}],"../../node_modules/three/build/three.module.js":[function(require,module,exports) {
+},{"_css_loader":"../node_modules/parcel/src/builtins/css-loader.js"}],"../node_modules/three/build/three.module.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35378,7 +35378,7 @@ if (typeof __THREE_DEVTOOLS__ !== 'undefined') {
   /* eslint-enable no-undef */
 
 }
-},{}],"../../node_modules/stats.js/build/stats.min.js":[function(require,module,exports) {
+},{}],"../node_modules/stats.js/build/stats.min.js":[function(require,module,exports) {
 var define;
 // stats.js - http://github.com/mrdoob/stats.js
 (function(f,e){"object"===typeof exports&&"undefined"!==typeof module?module.exports=e():"function"===typeof define&&define.amd?define(e):f.Stats=e()})(this,function(){var f=function(){function e(a){c.appendChild(a.dom);return a}function u(a){for(var d=0;d<c.children.length;d++)c.children[d].style.display=d===a?"block":"none";l=a}var l=0,c=document.createElement("div");c.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000";c.addEventListener("click",function(a){a.preventDefault();
@@ -35437,7 +35437,7 @@ car.add(frontLeftWheel);
 car.add(frontRightWheel);
 car.add(backLeftWheel);
 car.add(backRightWheel);
-},{"three":"../../node_modules/three/build/three.module.js"}],"scripts/objects/squareTrack.ts":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js"}],"scripts/objects/squareTrack.ts":[function(require,module,exports) {
 "use strict";
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
@@ -35546,7 +35546,7 @@ createGround(40);
 createSquareOfWalls(20); // inner square
 
 createSquareOfWalls(40); // outer square
-},{"three":"../../node_modules/three/build/three.module.js"}],"functions/keyboardUpdate.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js"}],"scripts/functions/keyboardUpdate.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35585,7 +35585,7 @@ function keyboardUpdate(keyboard, playerCar) {
     playerCar.turbo = false;
   }
 }
-},{}],"functions/updateCar.js":[function(require,module,exports) {
+},{}],"scripts/functions/updateCar.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35641,7 +35641,7 @@ function updateCar(car) {
   car.angle += car.angularVelocity;
   car.angularVelocity *= angularDrag;
 }
-},{}],"functions/updateCar3dObject.js":[function(require,module,exports) {
+},{}],"scripts/functions/updateCar3dObject.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35654,7 +35654,7 @@ function updateCar3dObject(car, playerCar) {
   car.position.y = playerCar.y;
   car.rotation.z = -playerCar.angle;
 }
-},{}],"functions/followCarWithCamera.js":[function(require,module,exports) {
+},{}],"scripts/functions/followCarWithCamera.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35669,7 +35669,7 @@ function followCarWithCamera(camera, car, playerCar) {
   camera.lookAt(car.position.x, car.position.y, car.position.z);
   camera.up.set(0, 0, 1);
 }
-},{}],"functions/keyDownHandler.js":[function(require,module,exports) {
+},{}],"scripts/functions/keyDownHandler.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35690,7 +35690,7 @@ function keyDownHandler(event, keyboard) {
     keyboard.space = true;
   }
 }
-},{}],"functions/keyUpHandler.js":[function(require,module,exports) {
+},{}],"scripts/functions/keyUpHandler.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35713,7 +35713,7 @@ function keyUpHandler(event, keyboard) {
     keyboard.space = false;
   }
 }
-},{}],"data/playerCar.js":[function(require,module,exports) {
+},{}],"scripts/data/playerCar.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35738,7 +35738,7 @@ var playerCar = {
   turbo: false
 };
 exports.playerCar = playerCar;
-},{}],"data/keyboard.js":[function(require,module,exports) {
+},{}],"scripts/data/keyboard.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35753,7 +35753,7 @@ var keyboard = {
 }; //
 
 exports.keyboard = keyboard;
-},{}],"three/camera.js":[function(require,module,exports) {
+},{}],"scripts/three/camera.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35769,7 +35769,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 exports.camera = camera;
-},{"three":"../../node_modules/three/build/three.module.js"}],"three/ambientLight.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js"}],"scripts/three/ambientLight.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35785,7 +35785,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 exports.ambientLight = ambientLight;
-},{"three":"../../node_modules/three/build/three.module.js"}],"three/directionalLight.js":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js"}],"scripts/three/directionalLight.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35801,7 +35801,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 exports.directionalLight = directionalLight;
-},{"three":"../../node_modules/three/build/three.module.js"}],"scripts/index.tsx":[function(require,module,exports) {
+},{"three":"../node_modules/three/build/three.module.js"}],"scripts/index.tsx":[function(require,module,exports) {
 "use strict";
 
 var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
@@ -35927,7 +35927,7 @@ document.addEventListener("keydown", function (event) {
 document.addEventListener("keyup", function (event) {
   return keyUpHandler_1.keyUpHandler(event, keyboard_1.keyboard);
 });
-},{"../styles/index.scss":"../styles/index.scss","three":"../../node_modules/three/build/three.module.js","stats.js":"../../node_modules/stats.js/build/stats.min.js","./objects/car":"scripts/objects/car.js","./objects/squareTrack":"scripts/objects/squareTrack.ts","./functions/keyboardUpdate":"functions/keyboardUpdate.js","./functions/updateCar":"functions/updateCar.js","./functions/updateCar3dObject":"functions/updateCar3dObject.js","./functions/followCarWithCamera":"functions/followCarWithCamera.js","./functions/keyDownHandler":"functions/keyDownHandler.js","./functions/keyUpHandler":"functions/keyUpHandler.js","./data/playerCar":"data/playerCar.js","./data/keyboard":"data/keyboard.js","./three/camera":"three/camera.js","./three/ambientLight":"three/ambientLight.js","./three/directionalLight":"three/directionalLight.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../styles/index.scss":"styles/index.scss","three":"../node_modules/three/build/three.module.js","stats.js":"../node_modules/stats.js/build/stats.min.js","./objects/car":"scripts/objects/car.js","./objects/squareTrack":"scripts/objects/squareTrack.ts","./functions/keyboardUpdate":"scripts/functions/keyboardUpdate.js","./functions/updateCar":"scripts/functions/updateCar.js","./functions/updateCar3dObject":"scripts/functions/updateCar3dObject.js","./functions/followCarWithCamera":"scripts/functions/followCarWithCamera.js","./functions/keyDownHandler":"scripts/functions/keyDownHandler.js","./functions/keyUpHandler":"scripts/functions/keyUpHandler.js","./data/playerCar":"scripts/data/playerCar.js","./data/keyboard":"scripts/data/keyboard.js","./three/camera":"scripts/three/camera.js","./three/ambientLight":"scripts/three/ambientLight.js","./three/directionalLight":"scripts/three/directionalLight.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -35955,7 +35955,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52919" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55550" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
