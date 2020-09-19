@@ -1,0 +1,7 @@
+// gravity 
+
+// collisions
+
+// f = ma
+
+// 
