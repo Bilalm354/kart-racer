@@ -2,7 +2,8 @@
 node_modules
 
 # production
-build
+dist
 
 # misc
 .DS_Store
+.cache
