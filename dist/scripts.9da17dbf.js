@@ -35596,7 +35596,6 @@ function updateCar(car) {
     car.power += powerFactor;
   } else if (car.turbo) {
     maxPower = 3;
-    console.log("turbo");
     car.power += 5 * powerFactor;
   } else {
     maxPower = 0.175;
@@ -35944,7 +35943,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55550" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58696" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -15,7 +15,6 @@ export function updateCar(car) {
         car.power += powerFactor;
     } else if (car.turbo) {
         maxPower = 3;
-        console.log("turbo");
         car.power += 5 * powerFactor;
     } else {
         maxPower = 0.175;
