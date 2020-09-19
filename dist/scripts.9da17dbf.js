@@ -35386,7 +35386,7 @@ u(++l%c.children.length)},!1);var k=(performance||Date).now(),g=k,a=0,r=e(new f.
 1048576,d.jsHeapSizeLimit/1048576)}return c},update:function(){k=this.end()},domElement:c,setMode:u}};f.Panel=function(e,f,l){var c=Infinity,k=0,g=Math.round,a=g(window.devicePixelRatio||1),r=80*a,h=48*a,t=3*a,v=2*a,d=3*a,m=15*a,n=74*a,p=30*a,q=document.createElement("canvas");q.width=r;q.height=h;q.style.cssText="width:80px;height:48px";var b=q.getContext("2d");b.font="bold "+9*a+"px Helvetica,Arial,sans-serif";b.textBaseline="top";b.fillStyle=l;b.fillRect(0,0,r,h);b.fillStyle=f;b.fillText(e,t,v);
 b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{dom:q,update:function(h,w){c=Math.min(c,h);k=Math.max(k,h);b.fillStyle=l;b.globalAlpha=1;b.fillRect(0,0,r,m);b.fillStyle=f;b.fillText(g(h)+" "+e+" ("+g(c)+"-"+g(k)+")",t,v);b.drawImage(q,d+a,m,n-a,p,d,m,n-a,p);b.fillRect(d+n-a,m,a,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d+n-a,m,a,g((1-h/w)*p))}}};return f});
 
-},{}],"objects/car.js":[function(require,module,exports) {
+},{}],"scripts/objects/car.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35409,8 +35409,7 @@ var carBody = new THREE.Mesh(bodyGeometry, bodyMaterial, 10);
 var wheelGeometry = new THREE.CylinderGeometry(1, 1);
 var wheelMaterial = new THREE.MeshBasicMaterial({
   color: 0x000000
-}); // TODO: can this next section be done in a loop?
-
+});
 var frontLeftWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
 var frontRightWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
 var backLeftWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
@@ -35438,34 +35437,61 @@ car.add(frontLeftWheel);
 car.add(frontRightWheel);
 car.add(backLeftWheel);
 car.add(backRightWheel);
-},{"three":"../../node_modules/three/build/three.module.js"}],"objects/squareTrack.js":[function(require,module,exports) {
+},{"three":"../../node_modules/three/build/three.module.js"}],"scripts/objects/squareTrack.ts":[function(require,module,exports) {
 "use strict";
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.track = void 0;
 
-var THREE = _interopRequireWildcard(require("three"));
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+var THREE = __importStar(require("three"));
 
 var track = new THREE.Group();
 exports.track = track;
 var cubeLength = 10;
 
 function createGround(lengthOfSidesInCubes) {
-  var loader = new THREE.TextureLoader();
   var geometry = new THREE.PlaneGeometry(lengthOfSidesInCubes * cubeLength, lengthOfSidesInCubes * cubeLength);
   var material = new THREE.MeshStandardMaterial({
-    map: loader.load("public/roadTexture.jpg"),
+    color: 'grey',
     wireframe: false
   });
-  material.map.wrapS = THREE.RepeatWrapping;
-  material.map.wrapT = THREE.RepeatWrapping;
-  material.map.repeat.set(100, 100);
+  console.log(material);
   var ground = new THREE.Mesh(geometry, material);
   track.add(ground);
   return;
@@ -35477,16 +35503,17 @@ function newCube() {
 
   var material = new THREE.MeshStandardMaterial({
     color: 0xff0000
-  });
-  var box = new THREE.Mesh(geometry, material, 100);
+  }); // const box = new THREE.Mesh(geometry, material, 100);
+
+  var box = new THREE.Mesh(geometry, material);
   cube.add(box);
-  /* 
+  /*
   const edges = new THREE.EdgesGeometry(geometry);
   const line = new THREE.LineSegments(
       edges,
       new THREE.LineBasicMaterial({ color: 0xffffff })
   );
-  cube.add(line); 
+  cube.add(line);
   */
 
   return cube;
@@ -35497,13 +35524,11 @@ function createWall(xStart, yStart, wallLengthInCubes, direction) {
     var cube = newCube();
 
     if (direction == "x") {
-      cube.position.set(xStart + i * cubeLength, yStart, cubeLength / 2, // to raise the box vertically so it sits on top of the plane
-      i);
+      cube.position.set(xStart + i * cubeLength, yStart, cubeLength / 2);
     }
 
     if (direction == "y") {
-      cube.position.set(xStart, yStart + i * cubeLength, cubeLength / 2, // to raise the box vertically so it sits on top of the plane
-      i);
+      cube.position.set(xStart, yStart + i * cubeLength, cubeLength / 2);
     }
 
     track.add(cube);
@@ -35776,48 +35801,86 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
 exports.directionalLight = directionalLight;
-},{"three":"../../node_modules/three/build/three.module.js"}],"index.jsx":[function(require,module,exports) {
+},{"three":"../../node_modules/three/build/three.module.js"}],"scripts/index.tsx":[function(require,module,exports) {
 "use strict";
+
+var __createBinding = this && this.__createBinding || (Object.create ? function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  Object.defineProperty(o, k2, {
+    enumerable: true,
+    get: function get() {
+      return m[k];
+    }
+  });
+} : function (o, m, k, k2) {
+  if (k2 === undefined) k2 = k;
+  o[k2] = m[k];
+});
+
+var __setModuleDefault = this && this.__setModuleDefault || (Object.create ? function (o, v) {
+  Object.defineProperty(o, "default", {
+    enumerable: true,
+    value: v
+  });
+} : function (o, v) {
+  o["default"] = v;
+});
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+  }
+
+  __setModuleDefault(result, mod);
+
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 require("../styles/index.scss");
 
-var THREE = _interopRequireWildcard(require("three"));
+var THREE = __importStar(require("three"));
 
-var _stats = _interopRequireDefault(require("stats.js"));
+var stats_js_1 = __importDefault(require("stats.js"));
 
-var _car = require("./objects/car");
+var car_1 = require("./objects/car");
 
-var _squareTrack = require("./objects/squareTrack");
+var squareTrack_1 = require("./objects/squareTrack");
 
-var _keyboardUpdate = require("./functions/keyboardUpdate");
+var keyboardUpdate_1 = require("./functions/keyboardUpdate");
 
-var _updateCar = require("./functions/updateCar");
+var updateCar_1 = require("./functions/updateCar");
 
-var _updateCar3dObject = require("./functions/updateCar3dObject");
+var updateCar3dObject_1 = require("./functions/updateCar3dObject");
 
-var _followCarWithCamera = require("./functions/followCarWithCamera");
+var followCarWithCamera_1 = require("./functions/followCarWithCamera");
 
-var _keyDownHandler = require("./functions/keyDownHandler");
+var keyDownHandler_1 = require("./functions/keyDownHandler");
 
-var _keyUpHandler = require("./functions/keyUpHandler");
+var keyUpHandler_1 = require("./functions/keyUpHandler");
 
-var _playerCar = require("./data/playerCar");
+var playerCar_1 = require("./data/playerCar");
 
-var _keyboard = require("./data/keyboard");
+var keyboard_1 = require("./data/keyboard");
 
-var _camera = require("./three/camera");
+var camera_1 = require("./three/camera");
 
-var _ambientLight = require("./three/ambientLight");
+var ambientLight_1 = require("./three/ambientLight");
 
-var _directionalLight = require("./three/directionalLight");
+var directionalLight_1 = require("./three/directionalLight");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-var stats = new _stats.default();
+var stats = new stats_js_1.default();
 stats.showPanel(0);
 document.body.appendChild(stats.dom);
 var scene = new THREE.Scene();
@@ -35826,22 +35889,15 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.antialias = true;
 renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
-
-_camera.camera.position.set(0, 100, 100);
-
+camera_1.camera.position.set(0, 100, 100);
 scene.background = new THREE.Color(0xfad6a5);
-
-_car.car.position.set(0, 0, 3);
-
-scene.add(_squareTrack.track);
-scene.add(_car.car);
-scene.add(_ambientLight.ambientLight);
-
-_directionalLight.directionalLight.position.set(1, 1, 0.5).normalize();
-
-scene.add(_directionalLight.directionalLight);
-
-_camera.camera.up.set(0, 0, 1); // uncomment when switch to orbit controls
+car_1.car.position.set(0, 0, 3);
+scene.add(squareTrack_1.track);
+scene.add(car_1.car);
+scene.add(ambientLight_1.ambientLight);
+directionalLight_1.directionalLight.position.set(1, 1, 0.5).normalize();
+scene.add(directionalLight_1.directionalLight);
+camera_1.camera.up.set(0, 0, 1); // uncomment when switch to orbit controls
 // const controls = new OrbitControls(camera, renderer.domElement);
 // controls.update();
 // Uncooment for grid on floor plane
@@ -35851,28 +35907,27 @@ _camera.camera.up.set(0, 0, 1); // uncomment when switch to orbit controls
 // gridHelper.rotateX(Math.PI / 2);
 // scene.add(gridHelper);
 
-
 function animate() {
   stats.begin();
   stats.end(); // controls.update();
 
   requestAnimationFrame(animate); // * uncomment these and comment out orbiit control related things to play the game. *
 
-  (0, _keyboardUpdate.keyboardUpdate)(_keyboard.keyboard, _playerCar.playerCar);
-  (0, _updateCar.updateCar)(_playerCar.playerCar);
-  (0, _updateCar3dObject.updateCar3dObject)(_car.car, _playerCar.playerCar);
-  (0, _followCarWithCamera.followCarWithCamera)(_camera.camera, _car.car, _playerCar.playerCar);
-  renderer.render(scene, _camera.camera);
+  keyboardUpdate_1.keyboardUpdate(keyboard_1.keyboard, playerCar_1.playerCar);
+  updateCar_1.updateCar(playerCar_1.playerCar);
+  updateCar3dObject_1.updateCar3dObject(car_1.car, playerCar_1.playerCar);
+  followCarWithCamera_1.followCarWithCamera(camera_1.camera, car_1.car, playerCar_1.playerCar);
+  renderer.render(scene, camera_1.camera);
 }
 
 animate();
 document.addEventListener("keydown", function (event) {
-  return (0, _keyDownHandler.keyDownHandler)(event, _keyboard.keyboard);
+  return keyDownHandler_1.keyDownHandler(event, keyboard_1.keyboard);
 });
 document.addEventListener("keyup", function (event) {
-  return (0, _keyUpHandler.keyUpHandler)(event, _keyboard.keyboard);
+  return keyUpHandler_1.keyUpHandler(event, keyboard_1.keyboard);
 });
-},{"../styles/index.scss":"../styles/index.scss","three":"../../node_modules/three/build/three.module.js","stats.js":"../../node_modules/stats.js/build/stats.min.js","./objects/car":"objects/car.js","./objects/squareTrack":"objects/squareTrack.js","./functions/keyboardUpdate":"functions/keyboardUpdate.js","./functions/updateCar":"functions/updateCar.js","./functions/updateCar3dObject":"functions/updateCar3dObject.js","./functions/followCarWithCamera":"functions/followCarWithCamera.js","./functions/keyDownHandler":"functions/keyDownHandler.js","./functions/keyUpHandler":"functions/keyUpHandler.js","./data/playerCar":"data/playerCar.js","./data/keyboard":"data/keyboard.js","./three/camera":"three/camera.js","./three/ambientLight":"three/ambientLight.js","./three/directionalLight":"three/directionalLight.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"../styles/index.scss":"../styles/index.scss","three":"../../node_modules/three/build/three.module.js","stats.js":"../../node_modules/stats.js/build/stats.min.js","./objects/car":"scripts/objects/car.js","./objects/squareTrack":"scripts/objects/squareTrack.ts","./functions/keyboardUpdate":"functions/keyboardUpdate.js","./functions/updateCar":"functions/updateCar.js","./functions/updateCar3dObject":"functions/updateCar3dObject.js","./functions/followCarWithCamera":"functions/followCarWithCamera.js","./functions/keyDownHandler":"functions/keyDownHandler.js","./functions/keyUpHandler":"functions/keyUpHandler.js","./data/playerCar":"data/playerCar.js","./data/keyboard":"data/keyboard.js","./three/camera":"three/camera.js","./three/ambientLight":"three/ambientLight.js","./three/directionalLight":"three/directionalLight.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -35900,7 +35955,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64487" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52919" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -36076,5 +36131,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel/src/builtins/hmr-runtime.js","index.jsx"], null)
-//# sourceMappingURL=/scripts.bb9f651a.js.map
+},{}]},{},["../node_modules/parcel/src/builtins/hmr-runtime.js","scripts/index.tsx"], null)
+//# sourceMappingURL=/scripts.9da17dbf.js.map

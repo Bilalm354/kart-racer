@@ -3,19 +3,16 @@ import * as THREE from "three";
 const track = new THREE.Group();
 const cubeLength = 10;
 
-function createGround(lengthOfSidesInCubes) {
-    const loader = new THREE.TextureLoader();
+function createGround(lengthOfSidesInCubes: number) {
     const geometry = new THREE.PlaneGeometry(
         lengthOfSidesInCubes * cubeLength,
         lengthOfSidesInCubes * cubeLength
     );
     const material = new THREE.MeshStandardMaterial({
-        map: loader.load("public/roadTexture.jpg"),
+        color: 'grey',
         wireframe: false,
     });
-    material.map.wrapS = THREE.RepeatWrapping;
-    material.map.wrapT = THREE.RepeatWrapping;
-    material.map.repeat.set(100, 100);
+    console.log(material);
     const ground = new THREE.Mesh(geometry, material);
     track.add(ground);
     return;
@@ -25,7 +22,8 @@ function newCube() {
     const cube = new THREE.Group();
     const geometry = new THREE.BoxGeometry(cubeLength, cubeLength, cubeLength); // the 10s here seem random.
     const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-    const box = new THREE.Mesh(geometry, material, 100);
+    // const box = new THREE.Mesh(geometry, material, 100);
+    const box = new THREE.Mesh(geometry, material);
     cube.add(box);
     /* 
     const edges = new THREE.EdgesGeometry(geometry);
@@ -38,7 +36,9 @@ function newCube() {
     return cube;
 }
 
-function createWall(xStart, yStart, wallLengthInCubes, direction) {
+type direction = 'x' | 'y';
+
+function createWall(xStart: number, yStart: number, wallLengthInCubes: number, direction: direction) {
     for (let i = 0; i < wallLengthInCubes; i++) {
         const cube = newCube();
         if (direction == "x") {
@@ -46,7 +46,6 @@ function createWall(xStart, yStart, wallLengthInCubes, direction) {
                 xStart + i * cubeLength,
                 yStart,
                 cubeLength / 2, // to raise the box vertically so it sits on top of the plane
-                i
             );
         }
         if (direction == "y") {
@@ -54,14 +53,13 @@ function createWall(xStart, yStart, wallLengthInCubes, direction) {
                 xStart,
                 yStart + i * cubeLength,
                 cubeLength / 2, // to raise the box vertically so it sits on top of the plane
-                i
             );
         }
         track.add(cube);
     }
 }
 
-function createSquareOfWalls(wallLengthInCubes) {
+function createSquareOfWalls(wallLengthInCubes: number) {
     createWall(
         -(wallLengthInCubes * cubeLength - cubeLength) / 2,
         -(wallLengthInCubes * cubeLength - cubeLength) / 2,
