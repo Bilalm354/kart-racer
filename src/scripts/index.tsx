@@ -30,7 +30,6 @@ document.addEventListener("keyup", (event) => keyUpHandler(event, keyboard));
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer();
 
-
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.antialias = true;
 renderer.shadowMap.enabled = true;
@@ -39,6 +38,8 @@ document.body.appendChild(renderer.domElement);
 camera.position.set(0, 100, 100);
 
 scene.background = new THREE.Color(0xfad6a5);
+
+// const playerCar = new Car
 
 car.position.set(0, 0, 3);
 
@@ -50,12 +51,10 @@ scene.add(directionalLight);
 
 camera.up.set(0, 0, 1);
 
-
-
 function update() {
-    // update car 
+    // update car
     // update camera
-    // 
+    //
 }
 
 function animate() {
@@ -68,3 +67,14 @@ function animate() {
 }
 
 animate();
+
+import * as React from "react";
+import ReactDOM from "react-dom";
+
+class Welcome extends React.Component {
+    render() {
+        return <h1>hi</h1>;
+    }
+}
+
+ReactDOM.render(<Welcome />, document.getElementById("react"));
