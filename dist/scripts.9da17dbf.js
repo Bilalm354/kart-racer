@@ -35771,8 +35771,7 @@ var keyboard = {
   left: false,
   up: false,
   down: false
-}; //
-
+};
 exports.keyboard = keyboard;
 },{}],"scripts/three/camera.js":[function(require,module,exports) {
 "use strict";
@@ -64108,13 +64107,15 @@ document.body.appendChild(renderer.domElement);
 camera_1.camera.position.set(0, 100, 100);
 scene.background = new THREE.Color(0xfad6a5); // const playerCar = new Car
 
-car_1.car.position.set(0, 0, 3);
-scene.add(squareTrack_1.track);
-scene.add(car_1.car);
-scene.add(ambientLight_1.ambientLight);
-directionalLight_1.directionalLight.position.set(1, 1, 0.5).normalize();
-scene.add(directionalLight_1.directionalLight);
-camera_1.camera.up.set(0, 0, 1);
+function init() {
+  car_1.car.position.set(0, 0, 3);
+  scene.add(squareTrack_1.track);
+  scene.add(car_1.car);
+  scene.add(ambientLight_1.ambientLight);
+  directionalLight_1.directionalLight.position.set(1, 1, 0.5).normalize();
+  scene.add(directionalLight_1.directionalLight);
+  camera_1.camera.up.set(0, 0, 1);
+}
 
 function update() {// update car
   // update camera
@@ -64130,27 +64131,52 @@ function animate() {
   renderer.render(scene, camera_1.camera);
 }
 
-animate();
+animate(); // TODO: separate into UI folder - can call it something else. 
 
 var React = __importStar(require("react"));
 
 var react_dom_1 = __importDefault(require("react-dom"));
 
-var Welcome = /*#__PURE__*/function (_React$Component) {
-  _inherits(Welcome, _React$Component);
+var Play = /*#__PURE__*/function (_React$Component) {
+  _inherits(Play, _React$Component);
 
-  var _super = _createSuper(Welcome);
+  var _super = _createSuper(Play);
+
+  function Play() {
+    _classCallCheck(this, Play);
+
+    return _super.apply(this, arguments);
+  }
+
+  _createClass(Play, [{
+    key: "render",
+    value: function render() {
+      return React.createElement("button", {
+        onClick: function onClick() {
+          return init();
+        }
+      }, "Play");
+    }
+  }]);
+
+  return Play;
+}(React.Component);
+
+var Welcome = /*#__PURE__*/function (_React$Component2) {
+  _inherits(Welcome, _React$Component2);
+
+  var _super2 = _createSuper(Welcome);
 
   function Welcome() {
     _classCallCheck(this, Welcome);
 
-    return _super.apply(this, arguments);
+    return _super2.apply(this, arguments);
   }
 
   _createClass(Welcome, [{
     key: "render",
     value: function render() {
-      return React.createElement("h1", null, "hi");
+      return React.createElement(Play, null);
     }
   }]);
 

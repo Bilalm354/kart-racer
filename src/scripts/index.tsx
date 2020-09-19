@@ -1,6 +1,5 @@
 import "../styles/index.scss";
 import * as THREE from "three";
-import Stats from "stats.js";
 
 // geometries
 import { car } from "./vehicles/car";
@@ -40,16 +39,16 @@ camera.position.set(0, 100, 100);
 scene.background = new THREE.Color(0xfad6a5);
 
 // const playerCar = new Car
+function init() {
+    car.position.set(0, 0, 3);
+    scene.add(track);
+    scene.add(car);
+    scene.add(ambientLight);
+    directionalLight.position.set(1, 1, 0.5).normalize();
+    scene.add(directionalLight);
+    camera.up.set(0, 0, 1);
+}
 
-car.position.set(0, 0, 3);
-
-scene.add(track);
-scene.add(car);
-scene.add(ambientLight);
-directionalLight.position.set(1, 1, 0.5).normalize();
-scene.add(directionalLight);
-
-camera.up.set(0, 0, 1);
 
 function update() {
     // update car
@@ -68,12 +67,21 @@ function animate() {
 
 animate();
 
+// TODO: separate into UI folder - can call it something else. 
+
 import * as React from "react";
 import ReactDOM from "react-dom";
 
+
+class Play extends React.Component {
+    render() {
+        return <button onClick={() => init()}>Play</button>;
+    }
+}
+
 class Welcome extends React.Component {
     render() {
-        return <h1>hi</h1>;
+        return <Play />;
     }
 }
 
