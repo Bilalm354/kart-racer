@@ -18,7 +18,7 @@ const bodyMaterial = new THREE.MeshStandardMaterial({
     color: 0x0000ff,
     wireframe: false,
 });
-const carBody = new THREE.Mesh(bodyGeometry, bodyMaterial, 10);
+const carBody = new THREE.Mesh(bodyGeometry, bodyMaterial);
 
 const wheelGeometry = new THREE.CylinderGeometry(1, 1);
 const wheelMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
