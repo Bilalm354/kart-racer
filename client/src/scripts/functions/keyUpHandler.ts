@@ -1,4 +1,13 @@
-export function keyUpHandler(event, keyboard) {
+export function keyUpHandler(
+    event: KeyboardEvent,
+    keyboard: {
+        right: boolean;
+        left: boolean;
+        down: boolean;
+        up: boolean;
+        space: boolean;
+    }
+) {
     if (event.keyCode == 39) {
         keyboard.right = false;
     } else if (event.keyCode == 37) {

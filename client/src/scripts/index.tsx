@@ -1,25 +1,21 @@
 import "../styles/index.scss";
 import * as THREE from "three";
-
-// geometries
+import React from "react";
+import ReactDOM from "react-dom";
 import { car } from "./vehicles/car";
 import { track } from "./tracks/squareTrack";
-
-// update functions
 import { keyboardUpdate } from "./functions/keyboardUpdate";
 import { updateCar } from "./functions/updateCar";
 import { updateCar3dObject } from "./functions/updateCar3dObject";
 import { followCarWithCamera } from "./functions/followCarWithCamera";
 import { keyDownHandler } from "./functions/keyDownHandler";
 import { keyUpHandler } from "./functions/keyUpHandler";
-
-import { playerCar } from "./data/playerCar"; // this should be a class maybe
+import { playerCar } from "./data/playerCar";
 import { keyboard } from "./data/keyboard";
-
-// these could all be in one file but don't need to be
 import { camera } from "./three/camera";
 import { ambientLight } from "./three/ambientLight";
 import { directionalLight } from "./three/directionalLight";
+import Options from "./react/Play";
 
 document.addEventListener("keydown", (event) =>
     keyDownHandler(event, keyboard)
@@ -30,7 +26,6 @@ const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer();
 
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.antialias = true;
 renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
 
@@ -38,9 +33,6 @@ camera.position.set(0, 100, 100);
 
 scene.background = new THREE.Color(0xfad6a5);
 
-// const things = [playerCar, track, otherCars];
-
-// const playerCar = new Car
 function init() {
     car.position.set(0, 0, 3);
     scene.add(track);
@@ -50,14 +42,7 @@ function init() {
     scene.add(directionalLight);
     camera.up.set(0, 0, 1);
 }
-
-
-function update() {
-    // update car
-    // update camera
-    //
-    // check and solve collision
-}
+init();
 
 function animate() {
     requestAnimationFrame(animate);
@@ -67,27 +52,7 @@ function animate() {
     followCarWithCamera(camera, car, playerCar);
     renderer.render(scene, camera);
 }
-
 animate();
 
-// TODO: separate into UI folder - can call it something else. 
-
-import * as React from "react";
-import ReactDOM from "react-dom";
-
-
-class Play extends React.Component {
-    render() {
-        return (
-        <button onClick={() => init()}>Play</button>
-        );
-    }
-}
-
-class Welcome extends React.Component {
-    render() {
-        return <Play />;
-    }
-}
-
-ReactDOM.render(<Welcome />, document.getElementById("react"));
+const Menu = () => <Options />;
+ReactDOM.render(<Menu />, document.getElementById("react"));

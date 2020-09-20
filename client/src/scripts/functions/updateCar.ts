@@ -9,9 +9,8 @@ const drag = 0.95;
 const angularDrag = 0.95;
 const turnSpeed = 0.002;
 
-export function updateCar(car) {
+export function updateCar(car: any) {
     if (car.isThrottling) {
-        // car.power += powerFactor * car.isThrottling;
         car.power += powerFactor;
     } else if (car.turbo) {
         maxPower = 3;

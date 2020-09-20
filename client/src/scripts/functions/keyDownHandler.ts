@@ -1,4 +1,13 @@
-export function keyDownHandler(event, keyboard) {
+export function keyDownHandler(
+    event: KeyboardEvent,
+    keyboard: {
+        right: boolean;
+        left: boolean;
+        down: boolean;
+        up: boolean;
+        space: boolean;
+    }
+) {
     if (event.keyCode == 39) {
         keyboard.right = true;
     } else if (event.keyCode == 37) {

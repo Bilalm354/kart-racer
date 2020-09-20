@@ -1,4 +1,4 @@
-export function keyboardUpdate(keyboard, playerCar) {
+export function keyboardUpdate(keyboard: any, playerCar: any) {
     if (keyboard.up) {
         playerCar.isThrottling = true;
     } else {
