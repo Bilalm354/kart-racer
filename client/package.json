@@ -1,0 +1,48 @@
+{
+    "name": "kart-racer",
+    "version": "1.0.0",
+    "description": "A sick game.",
+    "scripts": {
+        "dev": "parcel src/index.html",
+        "build": "parcel build index.html"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.9.0",
+        "@babel/plugin-proposal-class-properties": "^7.8.3",
+        "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+        "@babel/preset-env": "^7.9.0",
+        "@babel/preset-react": "^7.9.4",
+        "@types/react": "^16.9.49",
+        "@types/react-dom": "^16.9.8",
+        "@types/stats.js": "^0.17.0",
+        "babel-loader": "^8.1.0",
+        "chai": "^4.2.0",
+        "clean-webpack-plugin": "^3.0.0",
+        "copy-webpack-plugin": "^5.1.1",
+        "cross-env": "^7.0.2",
+        "css-loader": "^3.4.2",
+        "eslint": "^6.8.0",
+        "eslint-loader": "^3.0.3",
+        "eslint-plugin-react": "^7.19.0",
+        "file-loader": "^5.1.0",
+        "html-webpack-plugin": "^4.0.0-beta.11",
+        "mini-css-extract-plugin": "^0.9.0",
+        "mocha": "^8.1.3",
+        "node-sass": "^4.14.1",
+        "parcel": "^1.12.4",
+        "parcel-bundler": "^1.12.4",
+        "ts-loader": "^8.0.3",
+        "typescript": "^4.0.2"
+    },
+    "dependencies": {
+        "@babel/polyfill": "^7.8.7",
+        "babel-preset-env": "^1.7.0",
+        "babel-preset-react": "^6.24.1",
+        "core-js": "^3.6.4",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "stats.js": "^0.17.0",
+        "three": "^0.114.0",
+        "worker-loader": "^2.0.0"
+    }
+}
