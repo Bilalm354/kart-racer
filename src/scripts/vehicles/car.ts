@@ -11,6 +11,7 @@ import * as THREE from "three";
 //     update(position: Vector3, velocity: Vector3) {
 
 //     }
+//      amIColliding??? () {}
 // }
 
 const bodyGeometry = new THREE.BoxGeometry(8, 12, 4);

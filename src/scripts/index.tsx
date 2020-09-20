@@ -38,6 +38,8 @@ camera.position.set(0, 100, 100);
 
 scene.background = new THREE.Color(0xfad6a5);
 
+// const things = [playerCar, track, otherCars];
+
 // const playerCar = new Car
 function init() {
     car.position.set(0, 0, 3);
@@ -54,6 +56,7 @@ function update() {
     // update car
     // update camera
     //
+    // check and solve collision
 }
 
 function animate() {
