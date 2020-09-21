@@ -1,2 +1,6 @@
+client/node_modules
+client/dist
+client/.cache
+client/.DS_Store
 server/node_modules
 server/dist

@@ -1,13 +1,10 @@
-import express from 'express';
+import './LoadEnv'; // Must be the first import
 
-const app = express();
-const port = 8080;
+import app from '@server';
+import logger from '@shared/Logger';
 
-app.get('/', (_req, res) => {
-  res.send('Hello Mate!');
-});
-
+// Start the server
+const port = Number(process.env.PORT || 3000);
 app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Server started at http://localhost:${port}`);
+    logger.info('Express server started on port: ' + port);
 });
