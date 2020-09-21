@@ -6,7 +6,7 @@ const selectTrack = () => { console.log('selectTrack'); };
 const showLeaderboard = () => { console.log('showLeaderboard'); };
 const mute = () => { console.log('mute'); };
 // TODO: add music - robotunicornattack song.
-const Options = () => (
+export const Options = () => (
   <form>
     <button type="button" onClick={() => play()}>Play</button>
     <button type="button" onClick={() => pause()}>Pause</button>
@@ -15,5 +15,3 @@ const Options = () => (
     <button type="button" onClick={() => mute()}>Mute/ Unmute</button>
   </form>
 );
-
-export default Options;
