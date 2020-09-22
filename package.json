@@ -4,7 +4,8 @@
     "description": "A sick game.",
     "scripts": {
         "start": "parcel src/index.html",
-        "build": "parcel build index.html"
+        "build": "parcel build index.html",
+       "lint": "eslint '**/*.js' --ignore-pattern node_modules/"
     },
     "devDependencies": {
         "@babel/core": "^7.9.0",
