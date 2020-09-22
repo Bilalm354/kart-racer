@@ -1,4 +1,4 @@
-# Kart Racing Game Built In Three JS
+# Kart Racing Game Built In TypeScript with Three JS
 
 repo: https://github.com/Bilalm354/kart-racer
 
@@ -13,8 +13,6 @@ z is up and down
 ## Idea
 
 Building a racing game in javascript with ThreeJS.
-
-Using webpack to allow importing modules using ES6 imports and to allow bunding and modularisation of code.
 
 ## Planning
 
