@@ -40,7 +40,7 @@ scene.background = new THREE.Color(0xfad6a5);
 
 // }
 
-interface Object {
+interface things {
     id: number,
     object3d: Object3D,
     location: Vector3
@@ -56,23 +56,50 @@ function init() {
 }
 init();
 
+export function unmute() {
+// instantiate a listener
+const audioListener = new THREE.AudioListener();
+
+// add the listener to the camera
+camera.add( audioListener );
+
+// instantiate audio object
+const oceanAmbientSound = new THREE.Audio( audioListener );
+
+// add the audio object to the scene
+scene.add( oceanAmbientSound );
+
+// instantiate a loader
+const loader = new THREE.AudioLoader();
+
+// load a resource
+loader.load(
+	// resource URL
+	'audio/aliensExist.mp3',
+
+	// onLoad callback
+	function ( audioBuffer ) {
+		// set the audio object buffer to the loaded object
+		oceanAmbientSound.setBuffer( audioBuffer );
+
+		// play the audio
+		oceanAmbientSound.play();
+	},
+
+	// onProgress callback
+	function ( xhr ) {
+		console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+	},
+
+	// onError callback
+	function ( err ) {
+		console.log( 'An error happened' );
+	}
+);
+}
+
 function updateSceneAndCamera() {
     // create an AudioListener and add it to the camera
-    const listener = new THREE.AudioListener();
-    camera.add( listener );
-
-    // create a global audio source
-    const sound = new THREE.Audio( listener );
-
-    // load a sound and set it as the Audio object's buffer
-    const audioLoader = new THREE.AudioLoader();
-    audioLoader.load( 'sounds/ambient.ogg', function( buffer ) {
-        sound.setBuffer( buffer );
-        sound.setLoop( true );
-        sound.setVolume( 0.5 );
-        sound.play();
-    });
-
     // listener = playAudio();
     keyboardUpdate(keyboard, playerCar); // keyboard.update()
     updateCar(playerCar); // car.update()
@@ -87,5 +114,5 @@ function animate() {
 }
 animate();
 
-const Menu = () => <Options />;
-ReactDOM.render(<Menu />, document.getElementById("react"));
+const UI = () => <Menu />;
+ReactDOM.render(<UI />, document.getElementById("react"));
