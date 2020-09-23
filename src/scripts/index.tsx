@@ -45,8 +45,6 @@ function init() {
 init();
 
 function updateSceneAndCamera() {
-    // create an AudioListener and add it to the camera
-    // listener = playAudio();
     keyboardUpdate(keyboard, playerCar); // keyboard.update()
     updateCar(playerCar); // car.update()
     updateCar3dObject(car, playerCar); // world.update()
