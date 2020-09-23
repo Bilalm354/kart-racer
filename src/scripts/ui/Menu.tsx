@@ -3,21 +3,25 @@ import React from 'react';
 const play = () => { console.log('play'); };
 const pause = () => { console.log('pause'); };
 const selectTrack = () => { console.log('selectTrack'); };
-const showLeaderboard = () => { console.log('showLeaderboard')};
+const showLeaderboard = () => { console.log('showLeaderboard'); };
 const mute = () => { console.log('mute'); };
 
 const scores = [
-  {name: "bilal", time: "00:00:15"},
-  {name: "not bilal", time: "00:00:16"},
-]
+  { name: 'bilal', time: '00:00:15' },
+  { name: 'not bilal', time: '00:00:16' },
+];
 
-const Leaderboard = scores.map((score) => 
-  <h1 key ={score.name}>{score.name} : {score.time}</h1>
-);
+const Leaderboard = scores.map((score) => (
+  <h1 key={score.name}>
+    {score.name}
+    {' '}
+    :
+    {' '}
+    {score.time}
+  </h1>
+));
 
-
-
-export const Menu = () => (
+default export const Menu = () => (
   <div>
     <form>
       <button type="button" onClick={() => play()}>Play</button>
