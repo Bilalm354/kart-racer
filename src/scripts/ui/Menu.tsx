@@ -12,6 +12,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import { init, unInit } from '../index';
 
 interface Score {
   name: string,
@@ -45,19 +46,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Menu = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
-  const [play, setPlayOrPause] = useState(true);
   const [track, setTrack] = useState('small');
   const [mute, setMute] = useState(false);
 
   // TODO: change something in index.ts that makes the game pause and play 
-  useEffect(() => { console.log(`play: ${play}`) }, [play])
   useEffect(() => { console.log(`track: ${track}`) }, [track])
   useEffect(() => { console.log(`mute: ${mute}`) }, [mute])
   return (
     <div>
       <form>
-        <button type="button" onClick={() => setPlayOrPause(true)}>Play</button>
-        <button type="button" onClick={() => setPlayOrPause(false)}>Pause</button>
+        <button type="button" onClick={() => init()}>Play</button>
+        <button type="button" onClick={() => unInit()}>Pause</button>
         <button type="button" onClick={() => setTrack('small')}>Small Track</button>
         <button type="button" onClick={() => setTrack('large')}>Large Track</button>
         <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>

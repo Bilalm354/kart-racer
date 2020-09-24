@@ -35,13 +35,17 @@ scene.background = new THREE.Color(0xfad6a5);
 const objects: Object3D[] = [track, car, ambientLight, directionalLight];
 // could make it an array of objects with a id, 3d location and 3dobject.
 
-function init() {
+export function init() {
   car.position.set(0, 0, 3);
   directionalLight.position.set(1, 1, 0.5).normalize();
   scene.add(...objects);
   camera.up.set(0, 0, 1);
 }
 init();
+
+export function unInit() {
+  scene.remove(...objects);
+}
 
 // eslint-disable-next-line react/jsx-filename-extension
 
