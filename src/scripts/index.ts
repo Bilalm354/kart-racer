@@ -1,6 +1,6 @@
 import '../styles/index.scss';
 import * as THREE from 'three';
-import React, { createElement } from 'react';
+import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import { Object3D } from 'three';
 import { ambientLight } from './three/ambientLight';
@@ -45,6 +45,7 @@ init();
 
 export function unInit() {
   scene.remove(...objects);
+  // TODO: show paused text
 }
 
 // eslint-disable-next-line react/jsx-filename-extension
