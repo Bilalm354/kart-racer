@@ -2,18 +2,16 @@ import '~/styles/index.scss';
 import * as THREE from 'three';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import { Object3D } from 'three';
+import { Object3D, Vector3 } from 'three';
 import { ambientLight, directionalLight } from '~misc/lights.ts';
 import { track } from '~/tracks/squareTrack.ts';
-import { car } from '~/bodies/vehicles/car.ts';
 import { keyboardUpdate } from '~/functions/keyboardUpdate.ts';
 import { updateCar } from '~/functions/updateCar.ts';
-import { updateCar3dObject } from '~/functions/updateCar3dObject.ts';
-import { followCarWithCamera } from '~/functions/followCarWithCamera.ts';
 import { keyDownHandler } from '~/functions/keyDownHandler.ts';
 import { keyUpHandler } from '~/functions/keyUpHandler.ts';
 import { keyboard } from '~/data/keyboard.ts';
 import { Menu } from '~/ui/Menu.tsx';
+import { Car } from '~bodies/vehicles/Car';
 
 function touchHandler(e: TouchEvent) {
   if (e.touches) {
@@ -40,38 +38,22 @@ document.body.appendChild(renderer.domElement);
 
 camera.position.set(0, 100, 100);
 
-const objects: Object3D[] = [track, car, ambientLight, directionalLight];
+const car = new Car();
+
+const objects: Object3D[] = [track, car.geometry, ambientLight, directionalLight];
 
 export function init() {
-  car.position.set(0, 0, 3);
+  car.geometry.position.set(0, 0, 3);
   directionalLight.position.set(1, 1, 0.5).normalize();
   scene.add(...objects);
   camera.up.set(0, 0, 1);
 }
-init();
 
 export function unInit() {
   scene.remove(...objects);
+  console.log('paused');
   // TODO: show paused text
 }
-
-const playerCar = {
-  x: 0,
-  y: 0,
-  z: 0,
-  xVelocity: 0,
-  yVelocity: 0,
-  zVelocity: 0,
-  power: 0,
-  reverse: 0,
-  angle: 0,
-  angularVelocity: 0,
-  isThrottling: false,
-  isReversing: false,
-  isTurningLeft: false,
-  isTurningRight: false,
-  turbo: false,
-};
 
 type CameraView = 'top' | 'behindCar';
 
@@ -83,19 +65,19 @@ export function setCameraView(x: CameraView) {
 
 function setCameraPosition(view: CameraView) {
   if (view === 'top') {
-    // todo: should set position based on track in order to fit whole track in view.
+    // TODO: should set position based on track in order to fit whole track in view.
     camera.position.set(0, 0, 300);
     camera.lookAt(0, 0, 0);
     camera.up.set(0, 1, 0);
   } else if (view === 'behindCar') {
-    followCarWithCamera(camera, car, playerCar);
+    car.updateCamera(camera);
   }
 }
 
 function updateSceneAndCamera() {
-  keyboardUpdate(keyboard, playerCar); // keyboard.update()
-  updateCar(playerCar); // car.update()
-  updateCar3dObject(car, playerCar); // world.update()
+  keyboardUpdate(keyboard, car); // keyboard.update()
+  updateCar(car); // car.update()
+  car.updateGeometry();
   setCameraPosition(cameraView);
   renderer.render(scene, camera);
 }
@@ -106,7 +88,12 @@ function animate() {
   requestAnimationFrame(animate);
 }
 
-animate();
+function main() {
+  init();
+  animate();
+}
+
+main();
 
 console.log('\x1b[36m%s\x1b[0m', 'hi nerd, hope you like my game');
 

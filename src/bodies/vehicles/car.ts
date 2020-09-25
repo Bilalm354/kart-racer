@@ -1,45 +1,56 @@
-import * as THREE from 'three';
+import { Camera } from 'three';
+import { Body } from '~/Body';
+import { carGeometry } from '~/bodies/vehicles/carGeometry';
 
-const bodyGeometry = new THREE.BoxGeometry(8, 12, 4);
-const bodyMaterial = new THREE.MeshStandardMaterial({
-  color: 0x0000ff,
-  wireframe: false,
-});
-const carBody = new THREE.Mesh(bodyGeometry, bodyMaterial);
+export class Car extends Body {
+  angle: number;
+  power: number;
+  reverse: number;
+  angularVelocity: number;
+  isThrottling: boolean;
+  isReversing: boolean;
+  isTurningLeft: boolean;
+  isTurningRight: boolean;
+  turbo: boolean;
+  xVelocity: number;
+  yVelocity: number;
+  zVelocity: number;
+  x: number;
+  y: number;
+  z: number;
 
-const wheelGeometry = new THREE.CylinderGeometry(1, 1);
-const wheelMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+  constructor() {
+    super(carGeometry);
+    this.x = 0;
+    this.y = 0;
+    this.z = 0;
+    this.xVelocity = 0;
+    this.yVelocity = 0;
+    this.zVelocity = 0;
+    this.angle = 0;
+    this.power = 0;
+    this.reverse = 0;
+    this.angle = 0;
+    this.angularVelocity = 0;
+    this.isThrottling = false;
+    this.isReversing = false;
+    this.isTurningLeft = false;
+    this.isTurningRight = false;
+    this.turbo = false;
+  }
 
-const frontLeftWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
-const frontRightWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
-const backLeftWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
-const backRightWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
+  updateGeometry() {
+    this.geometry.position.x = this.x;
+    this.geometry.position.y = this.y;
+    this.geometry.rotation.z = -this.angle;
+  }
 
-frontLeftWheel.position.x = -4;
-frontLeftWheel.position.y = 6;
-frontLeftWheel.position.z = -2;
-frontLeftWheel.rotation.z = Math.PI / 2;
-
-frontRightWheel.position.x = 4;
-frontRightWheel.position.y = 6;
-frontRightWheel.position.z = -2;
-frontRightWheel.rotation.z = Math.PI / 2;
-
-backLeftWheel.position.x = -4;
-backLeftWheel.position.y = -6;
-backLeftWheel.position.z = -2;
-backLeftWheel.rotation.z = Math.PI / 2;
-
-backRightWheel.position.x = 4;
-backRightWheel.position.y = -6;
-backRightWheel.position.z = -2;
-backRightWheel.rotation.z = Math.PI / 2;
-
-const car = new THREE.Group();
-car.add(carBody);
-car.add(frontLeftWheel);
-car.add(frontRightWheel);
-car.add(backLeftWheel);
-car.add(backRightWheel);
-
-export { car };
+  updateCamera(camera: Camera) {
+    const x = this.x - 40 * Math.sin(this.angle);
+    const y = this.y - 40 * Math.cos(this.angle);
+    const z = this.z + 20;
+    camera.position.set(x, y, z);
+    camera.lookAt(this.x, this.y, this.z);
+    camera.up.set(0, 0, 1);
+  }
+}

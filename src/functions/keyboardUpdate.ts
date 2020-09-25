@@ -1,4 +1,6 @@
-export function keyboardUpdate(keyboard: any, playerCar: any) {
+import { Car } from '~bodies/vehicles/Car';
+
+export function keyboardUpdate(keyboard: any, playerCar: Car) {
   if (keyboard.up) {
     playerCar.isThrottling = true;
   } else {
