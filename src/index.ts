@@ -76,11 +76,18 @@ const playerCar = {
 
 type CameraView = 'top' | 'behindCar';
 
-export const cameraView: CameraView = 'behindCar';
+let cameraView: CameraView = 'behindCar';
+
+export function setCameraView(x: CameraView) {
+  cameraView = x;
+}
 
 function setCameraPosition(view: CameraView) {
   if (view === 'top') {
+    // todo: should set position based on track in order to fit whole track in view.
     camera.position.set(0, 0, 300);
+    camera.lookAt(0, 0, 0);
+    camera.up.set(0, 1, 0);
   } else if (view === 'behindCar') {
     followCarWithCamera(camera, car, playerCar);
   }

@@ -7,7 +7,7 @@ const selectTrack = () => { console.log('selectTrack'); };
 const mute = () => { console.log('mute'); };
 
 
-import { init, unInit } from '../index';
+import { init, setCameraView, unInit } from '../index';
 
 interface Score {
   name: string,
@@ -33,9 +33,9 @@ const Menu = () => {
   const [track, setTrack] = useState('small');
   const [mute, setMute] = useState(false);
 
-  // TODO: change something in index.ts that makes the game pause and play 
   useEffect(() => { console.log(`track: ${track}`) }, [track])
   useEffect(() => { console.log(`mute: ${mute}`) }, [mute])
+
   return (
     <div>
       <form>
@@ -45,7 +45,8 @@ const Menu = () => {
         <button type="button" onClick={() => setTrack('large')}>Large Track</button>
         <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
         <button type="button" onClick={() => setMute(!mute)}>Mute/ Unmute</button>
-        <button type="button" onClick={() => console.log('change camera')}>Change Camera</button>
+        <button type="button" onClick={() => setCameraView('top')}>Top Camera</button>
+        <button type="button" onClick={() => setCameraView('behindCar')}>Behind Car Camera</button>
       </form>
       {showLeaderboard ? <Leaderboard /> : null}
       <div id="tracks">
