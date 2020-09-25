@@ -2,6 +2,10 @@
 
 repo: https://github.com/Bilalm354/kart-racer
 
+issues: https://github.com/Bilalm354/kart-racer/issues
+
+project board: https://github.com/Bilalm354/kart-racer/projects/1
+
 Hello and welcome.
 
 ## Notes
