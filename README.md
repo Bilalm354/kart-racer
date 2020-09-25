@@ -10,13 +10,9 @@ x is left and right
 y is forward and back
 z is up and down
 
-## Idea
-
-Building a racing game in javascript with ThreeJS.
-
 ## Planning
 
-See the TODO.md file
+See issues and Github project board.
 
 ## Dev
 
