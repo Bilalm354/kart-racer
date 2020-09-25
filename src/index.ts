@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import { Object3D } from 'three';
-import { ambientLight } from '~/three/ambientLight.ts';
+import { ambientLight, directionalLight } from '~misc/lights.ts';
 import { track } from '~/tracks/squareTrack.ts';
 import { car } from '~/bodies/vehicles/car.ts';
 import { keyboardUpdate } from '~/functions/keyboardUpdate.ts';
@@ -13,8 +13,6 @@ import { followCarWithCamera } from '~/functions/followCarWithCamera.ts';
 import { keyDownHandler } from '~/functions/keyDownHandler.ts';
 import { keyUpHandler } from '~/functions/keyUpHandler.ts';
 import { keyboard } from '~/data/keyboard.ts';
-import { camera } from '~/three/camera.ts';
-import { directionalLight } from '~/three/directionalLight.ts';
 import { Menu } from '~/ui/Menu.tsx';
 
 function touchHandler(e: TouchEvent) {
@@ -28,9 +26,10 @@ document.addEventListener('keyup', (event) => keyUpHandler(event, keyboard));
 
 document.addEventListener('touchstart', touchHandler);
 document.addEventListener('touchmove', touchHandler);
-// document.addEventListener('touchend', handleEnd);
-// document.addEventListener('touchcancel', handleCancel);
 
+export const camera = new THREE.PerspectiveCamera(
+  75, window.innerWidth / window.innerHeight, 0.1, 1000,
+);
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0xfad6a5);
 const renderer = new THREE.WebGLRenderer();
