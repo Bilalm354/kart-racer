@@ -1,8 +1,12 @@
 # Kart Racing Game Built In TypeScript with Three JS
 
+## Hello and welcome.
+
 repo: https://github.com/Bilalm354/kart-racer
 
-Hello and welcome.
+issues: https://github.com/Bilalm354/kart-racer/issues
+
+project board: https://github.com/Bilalm354/kart-racer/projects/1
 
 ## Notes
 
