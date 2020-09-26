@@ -1,5 +1,5 @@
 import { Camera } from 'three';
-import { Body } from '~/Body';
+import { Body } from '~/bodies/Body';
 import { carGeometry } from '~/bodies/vehicles/carGeometry';
 
 export class Car extends Body {
@@ -37,6 +37,81 @@ export class Car extends Body {
     this.isTurningLeft = false;
     this.isTurningRight = false;
     this.turbo = false;
+  }
+
+  update() {
+    let maxPower = 0.175;
+    const maxReverse = 0.0375;
+    const powerFactor = 0.001;
+    const reverseFactor = 0.0005;
+
+    const drag = 0.95;
+    const angularDrag = 0.95;
+    const turnSpeed = 0.002;
+    if (this.isThrottling) {
+      this.power += powerFactor;
+    } else if (this.turbo) {
+      maxPower = 3;
+      this.power += 5 * powerFactor;
+    } else {
+      maxPower = 0.175;
+      this.power -= powerFactor;
+    }
+    if (this.isReversing) {
+      this.reverse += reverseFactor;
+    } else {
+      this.reverse -= reverseFactor;
+    }
+
+    this.power = Math.max(0, Math.min(maxPower, this.power));
+    this.reverse = Math.max(0, Math.min(maxReverse, this.reverse));
+
+    const direction = this.power > this.reverse ? 1 : -1;
+
+    if (this.isTurningLeft) {
+      this.angularVelocity -= direction * turnSpeed;
+    }
+    if (this.isTurningRight) {
+      this.angularVelocity += direction * turnSpeed;
+    }
+
+    this.xVelocity += Math.sin(this.angle) * (this.power - this.reverse);
+    this.yVelocity += Math.cos(this.angle) * (this.power - this.reverse);
+
+    this.x += this.xVelocity;
+    this.y += this.yVelocity;
+    this.xVelocity *= drag;
+    this.yVelocity *= drag;
+    this.angle += this.angularVelocity;
+    this.angularVelocity *= angularDrag;
+  }
+
+  updateKeyboard(keyboard: any) {
+    if (keyboard.up) {
+      this.isThrottling = true;
+    } else {
+      this.isThrottling = false;
+    }
+    if (keyboard.down) {
+      this.isReversing = true;
+    } else {
+      this.isReversing = false;
+    }
+    if (keyboard.right) {
+      this.isTurningRight = true;
+    } else {
+      this.isTurningRight = false;
+    }
+    if (keyboard.left) {
+      this.isTurningLeft = true;
+    } else {
+      this.isTurningLeft = false;
+    }
+    if (keyboard.space) {
+      this.turbo = true;
+    } else {
+      this.turbo = false;
+    }
   }
 
   updateGeometry() {

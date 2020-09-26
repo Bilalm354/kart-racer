@@ -1,79 +1,83 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 
 const track = new THREE.Group();
 const cubeLength = 10;
 
 function createGround(lengthOfSidesInCubes: number) {
-    const geometry = new THREE.PlaneGeometry(
-        lengthOfSidesInCubes * cubeLength,
-        lengthOfSidesInCubes * cubeLength
-    );
-    const material = new THREE.MeshStandardMaterial({
-        color: 'grey',
-        wireframe: false,
-    });
-    const ground = new THREE.Mesh(geometry, material);
-    track.add(ground);
-    return;
+  const geometry = new THREE.PlaneGeometry(
+    lengthOfSidesInCubes * cubeLength,
+    lengthOfSidesInCubes * cubeLength,
+  );
+  const material = new THREE.MeshStandardMaterial({
+    color: 'grey',
+    wireframe: false,
+  });
+  const ground = new THREE.Mesh(geometry, material);
+  track.add(ground);
 }
 
 function newCube() {
-    const cube = new THREE.Group();
-    const geometry = new THREE.BoxGeometry(cubeLength, cubeLength, cubeLength); // the 10s here seem random.
-    const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-    const box = new THREE.Mesh(geometry, material);
-    cube.add(box);
-    return cube;
+  const cube = new THREE.Group();
+  const geometry = new THREE.BoxGeometry(cubeLength, cubeLength, cubeLength);
+  const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
+  const box = new THREE.Mesh(geometry, material);
+  cube.add(box);
+  return cube;
 }
 
-type direction = 'x' | 'y';
+type Direction = 'x' | 'y';
 
-function createWall(xStart: number, yStart: number, wallLengthInCubes: number, direction: direction) {
-    for (let i = 0; i < wallLengthInCubes; i++) {
-        const cube = newCube();
-        if (direction == "x") {
-            cube.position.set(
-                xStart + i * cubeLength,
-                yStart,
-                cubeLength / 2, // to raise the box vertically so it sits on top of the plane
-            );
-        }
-        if (direction == "y") {
-            cube.position.set(
-                xStart,
-                yStart + i * cubeLength,
-                cubeLength / 2, // to raise the box vertically so it sits on top of the plane
-            );
-        }
-        track.add(cube);
+function createWall(
+  xStart:number,
+  yStart: number,
+  wallLengthInCubes: number,
+  direction: Direction,
+) {
+  for (let i = 0; i < wallLengthInCubes; i++) {
+    const cube = newCube();
+    if (direction === 'x') {
+      cube.position.set(
+        xStart + i * cubeLength,
+        yStart,
+        cubeLength / 2, // to raise the box vertically so it sits on top of the plane
+      );
     }
+    if (direction === 'y') {
+      cube.position.set(
+        xStart,
+        yStart + i * cubeLength,
+        cubeLength / 2, // to raise the box vertically so it sits on top of the plane
+      );
+    }
+    track.add(cube);
+  }
 }
 
 function createSquareOfWalls(wallLengthInCubes: number) {
-    createWall(
-        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
-        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
-        wallLengthInCubes,
-        "x"
-    );
-    createWall(
-        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
-        (wallLengthInCubes * cubeLength - cubeLength) / 2,
-        wallLengthInCubes,
-        "x"
-    );
-    createWall(
-        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
-        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
-        wallLengthInCubes,
-        "y"
-    );
-    createWall(
-        (wallLengthInCubes * cubeLength - cubeLength) / 2,
-        -(wallLengthInCubes * cubeLength - cubeLength) / 2,
-        wallLengthInCubes,
-        "y"
-    );
+  createWall(
+    -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+    -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+    wallLengthInCubes,
+    'x',
+  );
+  createWall(
+    -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+    (wallLengthInCubes * cubeLength - cubeLength) / 2,
+    wallLengthInCubes,
+    'x',
+  );
+  createWall(
+    -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+    -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+    wallLengthInCubes,
+    'y',
+  );
+  createWall(
+    (wallLengthInCubes * cubeLength - cubeLength) / 2,
+    -(wallLengthInCubes * cubeLength - cubeLength) / 2,
+    wallLengthInCubes,
+    'y',
+  );
 }
 
 createGround(40);
