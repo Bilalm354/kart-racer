@@ -22,6 +22,7 @@ module.exports = {
   plugins: [
     'react',
     '@typescript-eslint',
+    'jest',
   ],
   rules: {
     'import/prefer-default-export': 'off',
@@ -30,5 +31,6 @@ module.exports = {
     'no-console': 'off',
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
     'no-plusplus': 'off',
+    'react/jsx-filename-extension': 'off',
   },
 };
