@@ -1,13 +1,15 @@
 import '~/styles/index.scss';
+
 import * as THREE from 'three';
+import { Object3D } from 'three';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import { Object3D } from 'three';
-import { ambientLight, directionalLight } from '~misc/lights.ts';
+
+import { ambientLight, directionalLight } from '~/misc/lights';
 import { track } from '~/tracks/squareTrack.ts';
 import { Menu } from '~/ui/Menu.tsx';
-import { Car } from '~bodies/vehicles/Car';
-import { keyboard } from '~misc/Keyboard';
+import { Car } from '~/bodies/vehicles/Car';
+import { keyboard } from '~/misc/Keyboard';
 
 const car = new Car();
 const objects: Object3D[] = [track, car.geometry, ambientLight, directionalLight];
@@ -35,8 +37,8 @@ function handleCancel(e: TouchEvent) {
   }
 }
 
-function handleMove(e:TouchEvent) {
-  console.log('something');
+function handleMove(_e:TouchEvent) {
+  console.log('handleMove');
 }
 
 document.addEventListener('keydown', (event) => keyboard.keyDownHandler(event));

@@ -28,13 +28,11 @@ const Leaderboard = () => {
   )
 };
 
-const Menu = () => {
+export const Menu = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [track, setTrack] = useState('small');
-  // const [mute, setMute] = useState(false);
 
   useEffect(() => { console.log(`track: ${track}`) }, [track])
-  // useEffect(() => { console.log(`mute: ${mute}`) }, [mute])
 
   return (
     <div>
@@ -53,5 +51,3 @@ const Menu = () => {
     </div>
   )
 };
-
-default export { Menu }
