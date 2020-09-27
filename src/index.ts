@@ -75,7 +75,6 @@ export function setCameraView(view: CameraView) {
 
 function setCameraPosition(view: CameraView) {
   if (view === 'top') {
-    // TODO: should set position based on track in order to fit whole track in view.
     camera.position.set(0, 0, 300);
     camera.lookAt(0, 0, 0);
     camera.up.set(0, 1, 0);
