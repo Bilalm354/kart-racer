@@ -3,11 +3,11 @@ import * as THREE from 'three';
 import { Object3D } from 'three';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import { ambientLight, directionalLight } from '~/misc/lights.ts';
-import { track } from '~/tracks/squareTrack.ts';
-import { Menu } from '~/ui/Menu.tsx';
-import { Car } from '~/bodies/vehicles/Car.ts';
-import { keyboard } from '~/misc/Keyboard.ts';
+import { ambientLight, directionalLight } from '~misc/lights.ts';
+import { track } from '~tracks/squareTrack.ts';
+import { Menu } from '~ui/Menu.tsx';
+import { Car } from '~bodies/vehicles/Car.ts';
+import { keyboard } from '~misc/Keyboard.ts';
 
 const car = new Car();
 const objects: Object3D[] = [track, car.geometry, ambientLight, directionalLight];
