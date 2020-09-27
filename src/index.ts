@@ -1,21 +1,32 @@
-import '~/styles/index.scss';
+import '~/styles/index';
 import * as THREE from 'three';
 import { Object3D } from 'three';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import { ambientLight, directionalLight } from '~/misc/lights.ts';
-import { track } from '~/tracks/squareTrack.ts';
-import { Menu } from '~/ui/Menu.tsx';
-import { Car } from '~/bodies/vehicles/Car.ts';
-import { keyboard } from '~/misc/Keyboard.ts';
+import { ambientLight, directionalLight } from '~/misc/lights';
+import { smallTrack, bigTrack } from '~/tracks/squareTrack';
+import { Menu } from '~/ui/Menu';
+import { Car } from '~/bodies/vehicles/Car';
+import { keyboard } from '~/misc/Keyboard';
 
 const car = new Car();
-const objects: Object3D[] = [track, car.geometry, ambientLight, directionalLight];
+const objects: Object3D[] = [bigTrack, car.geometry, ambientLight, directionalLight];
 const camera = new THREE.PerspectiveCamera(
-  75, window.innerWidth / window.innerHeight, 0.1, 1000,
+  75, window.innerWidth / window.innerHeight, 0.1, 2000,
 );
 const scene = new THREE.Scene();
 const renderer = new THREE.WebGLRenderer();
+
+export function setSmallTrack(): void {
+  scene.remove(bigTrack);
+  scene.add(smallTrack);
+  console.log(scene);
+}
+
+export function setBigTrack(): void {
+  scene.remove(smallTrack);
+  scene.add(bigTrack);
+}
 
 function handleStart(e: TouchEvent) {
   if (e.touches) {
@@ -62,7 +73,6 @@ export function init() {
 export function unInit() {
   scene.remove(...objects);
   console.log('paused');
-  // TODO: show paused text
 }
 
 type CameraView = 'top' | 'behindCar';

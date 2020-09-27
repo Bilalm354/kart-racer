@@ -1,26 +1,29 @@
-import * as THREE from 'three';
+import {
+  BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry,
+} from 'three';
 
-const track = new THREE.Group();
+const smallTrack = new Group();
+const bigTrack = new Group();
 const cubeLength = 10;
 
 function createGround(lengthOfSidesInCubes: number) {
-  const geometry = new THREE.PlaneGeometry(
+  const geometry = new PlaneGeometry(
     lengthOfSidesInCubes * cubeLength,
     lengthOfSidesInCubes * cubeLength,
   );
-  const material = new THREE.MeshStandardMaterial({
+  const material = new MeshStandardMaterial({
     color: 'grey',
     wireframe: false,
   });
-  const ground = new THREE.Mesh(geometry, material);
-  track.add(ground);
+  const ground = new Mesh(geometry, material);
+  return ground;
 }
 
 function newCube() {
-  const cube = new THREE.Group();
-  const geometry = new THREE.BoxGeometry(cubeLength, cubeLength, cubeLength);
-  const material = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-  const box = new THREE.Mesh(geometry, material);
+  const cube = new Group();
+  const geometry = new BoxGeometry(cubeLength, cubeLength, cubeLength);
+  const material = new MeshStandardMaterial({ color: 0xff0000 });
+  const box = new Mesh(geometry, material);
   cube.add(box);
   return cube;
 }
@@ -33,6 +36,7 @@ function createWall(
   wallLengthInCubes: number,
   direction: Direction,
 ) {
+  const wall = new Group();
   for (let i = 0; i < wallLengthInCubes; i++) {
     const cube = newCube();
     if (direction === 'x') {
@@ -49,39 +53,46 @@ function createWall(
         cubeLength / 2, // to raise the box vertically so it sits on top of the plane
       );
     }
-    track.add(cube);
+    wall.add(cube);
   }
+  return wall;
 }
 
 function createSquareOfWalls(wallLengthInCubes: number) {
-  createWall(
+  const square = new Group();
+  square.add(createWall(
     -(wallLengthInCubes * cubeLength - cubeLength) / 2,
     -(wallLengthInCubes * cubeLength - cubeLength) / 2,
     wallLengthInCubes,
     'x',
-  );
-  createWall(
+  ));
+  square.add(createWall(
     -(wallLengthInCubes * cubeLength - cubeLength) / 2,
     (wallLengthInCubes * cubeLength - cubeLength) / 2,
     wallLengthInCubes,
     'x',
-  );
-  createWall(
+  ));
+  square.add(createWall(
     -(wallLengthInCubes * cubeLength - cubeLength) / 2,
     -(wallLengthInCubes * cubeLength - cubeLength) / 2,
     wallLengthInCubes,
     'y',
-  );
-  createWall(
+  ));
+  square.add(createWall(
     (wallLengthInCubes * cubeLength - cubeLength) / 2,
     -(wallLengthInCubes * cubeLength - cubeLength) / 2,
     wallLengthInCubes,
     'y',
-  );
+  ));
+  return square;
 }
 
-createGround(40);
-createSquareOfWalls(20); // inner square
-createSquareOfWalls(40); // outer square
+smallTrack.add(createGround(40));
+smallTrack.add(createSquareOfWalls(20));
+smallTrack.add(createSquareOfWalls(40));
 
-export { track };
+bigTrack.add(createGround(160));
+bigTrack.add(createSquareOfWalls(80));
+bigTrack.add(createSquareOfWalls(160));
+
+export { smallTrack, bigTrack };

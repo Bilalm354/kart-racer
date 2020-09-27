@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { scores } from '~data/scores';
 
-import { init, setCameraView, unInit } from '../index';
+import {
+  init, setBigTrack, setCameraView, setSmallTrack, unInit,
+} from '../index';
 
 const Leaderboard = () => (
   <div>
@@ -21,18 +23,14 @@ const Leaderboard = () => (
 
 export const Menu = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
-  const [track, setTrack] = useState('small');
   const audioElement = document.getElementById('aliensExist')! as HTMLAudioElement;
-
-  useEffect(() => { console.log(`track: ${track}`); }, [track]);
-
   return (
     <div>
       <form>
         <button type="button" onClick={() => init()}>Play</button>
         <button type="button" onClick={() => unInit()}>Pause</button>
-        <button type="button" onClick={() => setTrack('small')}>Small Track</button>
-        <button type="button" onClick={() => setTrack('large')}>Large Track</button>
+        <button type="button" onClick={() => setSmallTrack()}>Small Track</button>
+        <button type="button" onClick={() => setBigTrack()}>Large Track</button>
         <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
         <button
           type="button"
