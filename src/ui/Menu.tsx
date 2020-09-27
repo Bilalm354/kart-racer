@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-// import 'scores' from './scores';
+import React, { AudioHTMLAttributes, useEffect, useState } from 'react';
+import { scores } from '~data/scores';
 
 const play = () => { console.log('play'); };
 const pause = () => { console.log('pause'); };
@@ -9,15 +9,15 @@ const mute = () => { console.log('mute'); };
 
 import { init, setCameraView, unInit } from '../index';
 
-interface Score {
-  name: string,
-  time: string
+const x: HTMLAudioElement = document.getElementById("aliensExist")!;
+
+function playAudio() {
+  x.play();
 }
 
-const scores: Score[] = [
-  { name: 'bilal', time: '00:00:15' },
-  { name: 'not bilal', time: '00:00:16' },
-];
+function pauseAudio() {
+  x.pause();
+}
 
 const Leaderboard = () => {
   return (
@@ -31,10 +31,10 @@ const Leaderboard = () => {
 const Menu = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [track, setTrack] = useState('small');
-  const [mute, setMute] = useState(false);
+  // const [mute, setMute] = useState(false);
 
   useEffect(() => { console.log(`track: ${track}`) }, [track])
-  useEffect(() => { console.log(`mute: ${mute}`) }, [mute])
+  // useEffect(() => { console.log(`mute: ${mute}`) }, [mute])
 
   return (
     <div>
@@ -44,14 +44,12 @@ const Menu = () => {
         <button type="button" onClick={() => setTrack('small')}>Small Track</button>
         <button type="button" onClick={() => setTrack('large')}>Large Track</button>
         <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
-        <button type="button" onClick={() => setMute(!mute)}>Mute/ Unmute</button>
+        <button type="button" onClick={() => playAudio()}>Play Music</button>
+        <button type="button" onClick={() => pauseAudio()}>Pause Music</button>
         <button type="button" onClick={() => setCameraView('top')}>Top Camera</button>
         <button type="button" onClick={() => setCameraView('behindCar')}>Behind Car Camera</button>
       </form>
       {showLeaderboard ? <Leaderboard /> : null}
-      <div id="tracks">
-
-      </div>
     </div>
   )
 };

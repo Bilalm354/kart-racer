@@ -7,9 +7,8 @@ import { ambientLight, directionalLight } from '~misc/lights.ts';
 import { track } from '~/tracks/squareTrack.ts';
 import { Menu } from '~/ui/Menu.tsx';
 import { Car } from '~bodies/vehicles/Car';
-import { Keyboard } from '~/Keyboard';
+import { keyboard } from '~misc/Keyboard';
 
-const keyboard = new Keyboard();
 const car = new Car();
 const objects: Object3D[] = [track, car.geometry, ambientLight, directionalLight];
 const camera = new THREE.PerspectiveCamera(
@@ -36,12 +35,16 @@ function handleCancel(e: TouchEvent) {
   }
 }
 
+function handleMove(e:TouchEvent) {
+  console.log('something');
+}
+
 document.addEventListener('keydown', (event) => keyboard.keyDownHandler(event));
 document.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
 document.addEventListener('touchstart', handleStart, false);
 document.addEventListener('touchend', handleEnd, false);
 document.addEventListener('touchcancel', handleCancel, false);
-// document.addEventListener('touchmove', handleMove, false);
+document.addEventListener('touchmove', handleMove, false);
 
 scene.background = new THREE.Color(0xfad6a5);
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -102,5 +105,3 @@ function main() {
 main();
 
 console.log('\x1b[36m%s\x1b[0m', 'hi nerd, hope you like my game');
-
-// https://www.youtube.com/watch?v=VllseHmQzds this song is perfect.
