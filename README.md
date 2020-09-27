@@ -2,6 +2,8 @@
 
 ## Hello and welcome.
 
+liveApp: https://kart-racer.netlify.com
+
 repo: https://github.com/Bilalm354/kart-racer
 
 issues: https://github.com/Bilalm354/kart-racer/issues
