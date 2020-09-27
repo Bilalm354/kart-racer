@@ -4,7 +4,7 @@
   "description": "A sick game.",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html",
+    "build": "parcel build src/index.html --public-url ./",
     "lint": "eslint '**/*.js' --ignore-pattern node_modules/",
     "test": "jest --watch"
   },
@@ -30,8 +30,11 @@
   "dependencies": {
     "@babel/preset-typescript": "^7.10.4",
     "eslint-plugin-jest": "^24.0.2",
+    "misc": "^1.0.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "three": "^0.114.0"
+    "three": "^0.114.0",
+    "tracks": "^0.5.8",
+    "ui": "^0.2.4"
   }
 }
