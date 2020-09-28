@@ -23,6 +23,7 @@ module.exports = {
     'react',
     '@typescript-eslint',
     'jest',
+    'sort-class-members',
   ],
   rules: {
     'import/prefer-default-export': 'off',
@@ -32,5 +33,6 @@ module.exports = {
     'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
     'no-plusplus': 'off',
     'react/jsx-filename-extension': 'off',
+    'import/no-absolute-path': 'off',
   },
 };

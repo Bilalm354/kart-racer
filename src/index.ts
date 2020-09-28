@@ -1,32 +1,22 @@
-import '~/styles/index';
-import * as THREE from 'three';
-import { Object3D } from 'three';
+import '/styles/index';
+import {
+  Color, PerspectiveCamera, Scene, WebGLRenderer,
+} from 'three';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import { ambientLight, directionalLight } from '~/misc/lights';
-import { smallTrack, bigTrack } from '~/tracks/squareTrack';
-import { Menu } from '~/ui/Menu';
-import { Car } from '~/bodies/vehicles/Car';
-import { keyboard } from '~/misc/Keyboard';
+import { Menu } from '/ui/Menu';
+import { keyboard } from '/misc/Keyboard';
+import { World } from '/engine/World';
 
-const car = new Car();
-const objects: Object3D[] = [bigTrack, car.geometry, ambientLight, directionalLight];
-const camera = new THREE.PerspectiveCamera(
+const camera = new PerspectiveCamera(
   75, window.innerWidth / window.innerHeight, 0.1, 2000,
 );
-const scene = new THREE.Scene();
-const renderer = new THREE.WebGLRenderer();
-
-export function setSmallTrack(): void {
-  scene.remove(bigTrack);
-  scene.add(smallTrack);
-  console.log(scene);
-}
-
-export function setBigTrack(): void {
-  scene.remove(smallTrack);
-  scene.add(bigTrack);
-}
+const scene = new Scene();
+const renderer = new WebGLRenderer();
+scene.background = new Color(0xfad6a5);
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+document.body.appendChild(renderer.domElement);
 
 function handleStart(e: TouchEvent) {
   if (e.touches) {
@@ -58,57 +48,16 @@ document.addEventListener('touchend', handleEnd, false);
 document.addEventListener('touchcancel', handleCancel, false);
 document.addEventListener('touchmove', handleMove, false);
 
-scene.background = new THREE.Color(0xfad6a5);
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.shadowMap.enabled = true;
-document.body.appendChild(renderer.domElement);
-
-export function init() {
-  car.geometry.position.set(0, 0, 3);
-  directionalLight.position.set(1, 1, 0.5).normalize();
-  scene.add(...objects);
-  camera.up.set(0, 0, 1);
-}
-
-export function unInit() {
-  scene.remove(...objects);
-  console.log('paused');
-}
-
-type CameraView = 'top' | 'behindCar';
-
-let cameraView: CameraView = 'behindCar';
-
-export function setCameraView(view: CameraView) {
-  cameraView = view;
-}
-
-function setCameraPosition(view: CameraView) {
-  if (view === 'top') {
-    camera.position.set(0, 0, 300);
-    camera.lookAt(0, 0, 0);
-    camera.up.set(0, 1, 0);
-  } else if (view === 'behindCar') {
-    car.updateCamera(camera);
-  }
-}
-
-function updateSceneAndCamera() {
-  car.updateKeyboard(keyboard);
-  car.update();
-  car.updateGeometry();
-  setCameraPosition(cameraView);
-  renderer.render(scene, camera);
-}
+export const world = new World(scene, camera, renderer);
 
 function animate() {
   ReactDOM.render(createElement(Menu), document.getElementById('react'));
-  updateSceneAndCamera();
+  world.updateSceneAndCamera();
   requestAnimationFrame(animate);
 }
 
 function main() {
-  init();
+  world.init();
   animate();
 }
 

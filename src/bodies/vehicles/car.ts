@@ -1,6 +1,6 @@
 import { Camera } from 'three';
-import { Body } from '~/bodies/Body';
-import { carGeometry } from '~/bodies/vehicles/carGeometry';
+import { Body } from '/bodies/Body';
+import { carGeometry } from '/bodies/vehicles/carGeometry';
 
 export class Car extends Body {
   angle: number;
@@ -114,10 +114,10 @@ export class Car extends Body {
     }
   }
 
-  updateGeometry() {
-    this.geometry.position.x = this.x;
-    this.geometry.position.y = this.y;
-    this.geometry.rotation.z = -this.angle;
+  updateObject3d() {
+    this.object3d.position.x = this.x;
+    this.object3d.position.y = this.y;
+    this.object3d.rotation.z = -this.angle;
   }
 
   updateCamera(camera: Camera) {

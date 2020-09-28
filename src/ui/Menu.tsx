@@ -1,10 +1,8 @@
 /* eslint-disable no-use-before-define */
-import React, { useEffect, useState } from 'react';
-import { scores } from '~data/scores';
+import React, { useState } from 'react';
+import { scores } from '/data/scores';
 
-import {
-  init, setBigTrack, setCameraView, setSmallTrack, unInit,
-} from '../index';
+import { world } from '../index';
 
 const Leaderboard = () => (
   <div>
@@ -12,9 +10,7 @@ const Leaderboard = () => (
     {scores.map(({ name, time }) => (
       <h2 key={name}>
         {name}
-        {' '}
         :
-        {' '}
         {time}
       </h2>
     ))}
@@ -27,10 +23,10 @@ export const Menu = () => {
   return (
     <div>
       <form>
-        <button type="button" onClick={() => init()}>Play</button>
-        <button type="button" onClick={() => unInit()}>Pause</button>
-        <button type="button" onClick={() => setSmallTrack()}>Small Track</button>
-        <button type="button" onClick={() => setBigTrack()}>Large Track</button>
+        <button type="button" onClick={() => world.init()}>Play</button>
+        <button type="button" onClick={() => world.uninit()}>Pause</button>
+        <button type="button" onClick={() => world.setSmallTrack()}>Small Track</button>
+        <button type="button" onClick={() => world.setBigTrack()}>Large Track</button>
         <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
         <button
           type="button"
@@ -39,8 +35,8 @@ export const Menu = () => {
           Play Music
         </button>
         <button type="button" onClick={() => audioElement.pause()}>Pause Music</button>
-        <button type="button" onClick={() => setCameraView('top')}>Top Camera</button>
-        <button type="button" onClick={() => setCameraView('behindCar')}>Behind Car Camera</button>
+        <button type="button" onClick={() => world.setCameraView('top')}>Top Camera</button>
+        <button type="button" onClick={() => world.setCameraView('behindCar')}>Behind Car Camera</button>
       </form>
       {showLeaderboard ? <Leaderboard /> : null}
     </div>
