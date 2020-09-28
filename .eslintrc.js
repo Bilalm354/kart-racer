@@ -34,5 +34,18 @@ module.exports = {
     'no-plusplus': 'off',
     'react/jsx-filename-extension': 'off',
     'import/no-absolute-path': 'off',
+    'sort-class-members/sort-class-members': [2, {
+      order: [
+        '[static-properties]',
+        '[static-methods]',
+        '[properties]',
+        '[conventional-private-properties]',
+        'constructor',
+        '[methods]',
+        '[conventional-private-methods]',
+      ],
+      groups: [{ type: 'method', sort: 'alphabetical' }],
+      accessorPairPositioning: 'getThenSet',
+    }],
   },
 };
