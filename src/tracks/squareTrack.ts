@@ -6,6 +6,8 @@ const smallTrack = new Group();
 const bigTrack = new Group();
 const cubeLength = 10;
 
+// class trackCreator { }
+
 function createGround(lengthOfSidesInCubes: number) {
   const geometry = new PlaneGeometry(
     lengthOfSidesInCubes * cubeLength,
@@ -19,13 +21,11 @@ function createGround(lengthOfSidesInCubes: number) {
   return ground;
 }
 
-function newCube() {
-  const cube = new Group();
+export function newCube(): Mesh {
   const geometry = new BoxGeometry(cubeLength, cubeLength, cubeLength);
   const material = new MeshStandardMaterial({ color: 0xff0000 });
   const box = new Mesh(geometry, material);
-  cube.add(box);
-  return cube;
+  return box;
 }
 
 type Direction = 'x' | 'y';

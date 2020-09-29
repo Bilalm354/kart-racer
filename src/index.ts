@@ -36,6 +36,7 @@ document.addEventListener('touchstart', handleStart, false);
 document.addEventListener('touchend', handleEnd, false);
 document.addEventListener('touchcancel', handleCancel, false);
 document.addEventListener('touchmove', handleMove, false);
+window.addEventListener('resize', () => world.onWindowResize());
 
 function animate() {
   ReactDOM.render(createElement(Menu), document.getElementById('react'));
