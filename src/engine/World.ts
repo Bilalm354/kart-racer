@@ -2,10 +2,10 @@ import {
   Group, Scene, Object3D, Light, Camera, Color, WebGLRenderer,
   PerspectiveCamera, Mesh, BoxHelper,
 } from 'three';
-import { Car } from '/bodies/vehicles/Car.ts';
-import { ambientLight, directionalLight } from '/misc/lights.ts';
-import { bigTrack, newCube, smallTrack } from '/tracks/squareTrack.ts';
-import { keyboard } from '/misc/Keyboard.ts';
+import { Car } from '~/bodies/vehicles/Car.ts';
+import { ambientLight, directionalLight } from '~/misc/lights.ts';
+import { bigTrack, newCube, smallTrack } from '~/tracks/squareTrack.ts';
+import { keyboard } from '~/misc/Keyboard.ts';
 
 type CameraView = 'top' | 'behindCar';
 

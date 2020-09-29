@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
-import { scores } from '/data/scores.ts';
-import { world } from '/index.ts';
+import { scores } from '~/data/scores.ts';
+import { world } from '~/index.ts';
 
 const Leaderboard = () => (
   <div>

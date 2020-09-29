@@ -1,9 +1,9 @@
-import '/styles/index';
+import '~/styles/index';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import { Menu } from '/ui/Menu.tsx';
-import { keyboard } from '/misc/Keyboard.ts';
-import { World } from '/engine/World.ts';
+import { Menu } from '~/ui/Menu.tsx';
+import { keyboard } from '~/misc/Keyboard.ts';
+import { World } from '~/engine/World.ts';
 
 export const world = new World();
 

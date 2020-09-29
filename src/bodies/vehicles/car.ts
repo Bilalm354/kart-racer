@@ -1,6 +1,6 @@
 import { Camera } from 'three';
-import { Body } from '/bodies/Body.ts';
-import { carGeometry } from '/bodies/vehicles/carGeometry.ts';
+import { Body } from '~/bodies/Body.ts';
+import { carGeometry } from '~/bodies/vehicles/carGeometry.ts';
 
 export class Car extends Body {
   angle: number;
