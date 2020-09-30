@@ -2,12 +2,15 @@ import {
   Group, Scene, Object3D, Light, Camera, Color, WebGLRenderer,
   PerspectiveCamera, Mesh, Box3,
 } from 'three';
-import { Car } from '~bodies/vehicles/Car.ts';
-import { ambientLight, directionalLight } from '~/misc/lights.ts';
-import { bigTrack, newCube, smallTrack } from '~/tracks/squareTrack.ts';
-import { keyboard } from '~/misc/Keyboard.ts';
+import { Car } from '../bodies/vehicles/Car';
+import { ambientLight, directionalLight } from '../misc/lights';
+import { bigTrack, newCube, smallTrack } from '../tracks/squareTrack';
+import { keyboard } from '../misc/Keyboard';
 
 type CameraView = 'top' | 'behindCar';
+
+// TODO: Separate this file as it is getting too big.
+// TODO: Separate collision related things to Collision
 
 export class World {
   private track: Group;

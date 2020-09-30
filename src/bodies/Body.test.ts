@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import { Object3D, Vector3 } from 'three';
-import { Body } from '~/bodies/Body';
+import { Body } from './Body';
 
 test('starting velocity of a new body should be 0', () => {
   const body = new Body(new Object3D());
