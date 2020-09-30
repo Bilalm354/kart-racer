@@ -4,11 +4,15 @@
 
 liveApp: https://kart-racer.netlify.com
 
+repo: https://github.com/Bilalm354/kart-racer
+
+
+## Planning
+
 project board: https://github.com/Bilalm354/kart-racer/projects/1
 
 issues: https://github.com/Bilalm354/kart-racer/issues
 
-repo: https://github.com/Bilalm354/kart-racer
 
 ## Notes
 
@@ -19,9 +23,6 @@ y is forward and back.
 z is up and down. 
 
 
-## Planning
-
-See issues and Github project board.
 
 ## Dev
 
