@@ -1,0 +1,7 @@
+{
+    "extends": "stylelint-config-sass-guidelines",
+    "rules": {
+        "indentation": "tab",
+        "selector-max-id": [1]
+    }
+}
