@@ -66,7 +66,7 @@ export class Car extends Body {
     this.power = Math.max(0, Math.min(maxPower, this.power));
     this.reverse = Math.max(0, Math.min(maxReverse, this.reverse));
 
-    const direction = this.power > this.reverse ? 1 : -1;
+    const direction = this.power >= this.reverse ? 1 : -1;
 
     if (this.isTurningLeft) {
       this.angularVelocity -= direction * turnSpeed;
