@@ -2,16 +2,16 @@
 
 ## Hello and welcome.
 
-liveApp: https://kart-racer.netlify.com
+LiveApp: https://kart-racer.netlify.com
 
-repo: https://github.com/Bilalm354/kart-racer
+Repo: https://github.com/Bilalm354/kart-racer
 
 
 ## Planning
 
-project board: https://github.com/Bilalm354/kart-racer/projects/1
+Project board: https://github.com/Bilalm354/kart-racer/projects/1
 
-issues: https://github.com/Bilalm354/kart-racer/issues
+Issues: https://github.com/Bilalm354/kart-racer/issues
 
 
 ## Notes
