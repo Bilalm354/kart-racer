@@ -12,9 +12,12 @@ repo: https://github.com/Bilalm354/kart-racer
 
 ## Notes
 
-x is left and right /n
-y is forward and back, /n
-z is up and down 
+x is left and right.  
+
+y is forward and back.  
+
+z is up and down. 
+
 
 ## Planning
 
