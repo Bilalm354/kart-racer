@@ -2,7 +2,7 @@
 
 ## Hello and welcome.
 
-liveApp: https://kart-racer.netlify.com (currently not up to date as recent deploys have failed.)
+liveApp: https://kart-racer.netlify.com
 
 repo: https://github.com/Bilalm354/kart-racer
 
