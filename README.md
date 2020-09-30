@@ -4,11 +4,11 @@
 
 liveApp: https://kart-racer.netlify.com
 
-repo: https://github.com/Bilalm354/kart-racer
+project board: https://github.com/Bilalm354/kart-racer/projects/1
 
 issues: https://github.com/Bilalm354/kart-racer/issues
 
-project board: https://github.com/Bilalm354/kart-racer/projects/1
+repo: https://github.com/Bilalm354/kart-racer
 
 ## Notes
 
