@@ -1,8 +1,8 @@
 import {
   Group, Scene, Object3D, Light, Camera, Color, WebGLRenderer,
-  PerspectiveCamera, Mesh, BoxHelper,
+  PerspectiveCamera, Mesh, BoxHelper, Box3,
 } from 'three';
-import { Car } from '~/bodies/vehicles/Car.ts';
+import { Car } from '~bodies/vehicles/Car.ts';
 import { ambientLight, directionalLight } from '~/misc/lights.ts';
 import { bigTrack, newCube, smallTrack } from '~/tracks/squareTrack.ts';
 import { keyboard } from '~/misc/Keyboard.ts';
@@ -10,18 +10,19 @@ import { keyboard } from '~/misc/Keyboard.ts';
 type CameraView = 'top' | 'behindCar';
 
 export class World {
-  track: Group;
-  ambientLight: Light;
-  directionalLight: Light;
-  car: Car;
-  otherObjects: Object3D[] = [];
-  scene: Scene;
-  camera: Camera;
-  cameraView: CameraView;
-  renderer: WebGLRenderer
-  newCube: Mesh;
-  bbox: BoxHelper
-
+  private track: Group;
+  private ambientLight: Light;
+  private directionalLight: Light;
+  private car: Car;
+  private otherObjects: Object3D[] = [];
+  private scene: Scene;
+  private camera: Camera;
+  private cameraView: CameraView;
+  private renderer: WebGLRenderer
+  private newCube: Mesh;
+  private carBoundingBoxHelper: BoxHelper
+  private carBoundingBox: Box3;
+  private newCubeBoundingBox: Box3;
   constructor() {
     this.scene = new Scene();
     this.camera = new PerspectiveCamera(
@@ -35,7 +36,20 @@ export class World {
     this.otherObjects = [];
     this.cameraView = 'behindCar';
     this.newCube = newCube();
-    this.bbox = new BoxHelper(this.car.object3d, 'white');
+    this.carBoundingBoxHelper = new BoxHelper(this.car.object3d, 'white');
+    this.carBoundingBox = new Box3().setFromObject(this.car.object3d);
+    this.newCubeBoundingBox = new Box3().setFromObject(this.newCube);
+  }
+
+  resolveCollision(a:Box3, b:Box3) {
+    console.log(`resolve collision between ${a} and ${b}`);
+  }
+
+  collisionCheck(a: Box3, b:Box3) {
+    if ((a.intersectsBox(b))) {
+      console.log('colliding');
+      this.resolveCollision(a, b);
+    }
   }
 
   onWindowResize() {
@@ -62,7 +76,7 @@ export class World {
     this.car.object3d.position.set(0, 0, 3);
     directionalLight.position.set(1, 1, 0.5).normalize();
     this.scene.add(this.track, this.ambientLight, this.directionalLight,
-      this.car.object3d, this.newCube, this.bbox);
+      this.car.object3d, this.newCube, this.carBoundingBoxHelper);
     this.camera.up.set(0, 0, 1);
     this.newCube.position.set(0, 50, 5);
   }
@@ -79,12 +93,14 @@ export class World {
   }
 
   updateSceneAndCamera() {
+    this.setCameraPosition(this.cameraView);
     this.car.updateKeyboard(keyboard);
     this.car.update();
     this.car.updateObject3d();
-    this.setCameraPosition(this.cameraView);
-    this.checkIfCubeAndCarColliding();
-    this.bbox.update();
+    this.carBoundingBoxHelper.update();
+    this.carBoundingBox = new Box3().setFromObject(this.car.object3d);
+    this.newCubeBoundingBox = new Box3().setFromObject(this.newCube);
+    this.collisionCheck(this.carBoundingBox, this.newCubeBoundingBox);
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -110,11 +126,5 @@ export class World {
   setBigTrack(): void {
     this.scene.remove(smallTrack);
     this.scene.add(bigTrack);
-  }
-
-  checkIfCubeAndCarColliding() {
-
-    // if cube and car colliding
-    // console.log('colliding')
   }
 }
