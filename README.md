@@ -32,16 +32,6 @@ Start a local server with
 Produce a production build by running
 `npm run build`
 
-## Helpful Resources
-
-Mario Kart Drifting Mix and Jam
-https://www.youtube.com/watch?v=Ki-tWT50cEQ
-
-Making my own Karting game in Unity
-https://www.youtube.com/watch?v=pYI-O-Q9AJk
-
-Minecraft scene
-https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_minecraft.html
 
 ## Contact
 
