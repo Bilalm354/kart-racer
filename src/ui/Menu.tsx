@@ -1,5 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
+import { Container } from 'react-bootstrap';
+import ProgressBar from 'react-bootstrap/esm/ProgressBar';
 import { scores } from '../data/scores';
 import { world } from '../index';
 
@@ -20,7 +22,7 @@ export const Menu = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const audioElement = document.getElementById('aliensExist')! as HTMLAudioElement;
   return (
-    <div>
+    <Container>
       <form>
         <button type="button" onClick={() => world.init()}>Play</button>
         <button type="button" onClick={() => world.uninit()}>Pause</button>
@@ -37,7 +39,10 @@ export const Menu = () => {
         <button type="button" onClick={() => world.setCameraView('top')}>Top Camera</button>
         <button type="button" onClick={() => world.setCameraView('behindCar')}>Behind Car Camera</button>
       </form>
+      <ProgressBar variant="danger" now={world.car.health} label={`Player Health: ${world.car.health}`} />
+      <ProgressBar variant="info" now={world.car.turbo} label={`Player Turbo: ${world.car.turbo}`} />
+      {world.collision ? 'Collision!' : null}
       {showLeaderboard ? <Leaderboard /> : null}
-    </div>
+    </Container>
   );
 };

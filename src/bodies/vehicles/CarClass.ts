@@ -11,13 +11,15 @@ export class Car extends Body {
   isReversing: boolean;
   isTurningLeft: boolean;
   isTurningRight: boolean;
-  turbo: boolean;
+  isTurbo: boolean;
   xVelocity: number;
   yVelocity: number;
   zVelocity: number;
   x: number;
   y: number;
   z: number;
+  health: number;
+  turbo: number;
 
   constructor() {
     super(carGeometry);
@@ -36,7 +38,9 @@ export class Car extends Body {
     this.isReversing = false;
     this.isTurningLeft = false;
     this.isTurningRight = false;
-    this.turbo = false;
+    this.isTurbo = false;
+    this.health = 100;
+    this.turbo = 100;
   }
 
   update() {
@@ -50,9 +54,11 @@ export class Car extends Body {
     const turnSpeed = 0.002;
     if (this.isThrottling) {
       this.power += powerFactor;
-    } else if (this.turbo) {
+    } else if (this.isTurbo
+    ) {
       maxPower = 3;
       this.power += 5 * powerFactor;
+      this.turbo = Math.max(0, this.turbo - 1);
     } else {
       maxPower = 0.175;
       this.power -= powerFactor;
@@ -107,10 +113,10 @@ export class Car extends Body {
     } else {
       this.isTurningLeft = false;
     }
-    if (keyboard.space) {
-      this.turbo = true;
+    if (keyboard.space && this.turbo > 0) {
+      this.isTurbo = true;
     } else {
-      this.turbo = false;
+      this.isTurbo = false;
     }
   }
 

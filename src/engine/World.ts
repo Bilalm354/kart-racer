@@ -16,7 +16,7 @@ export class World {
   private track: Group;
   private ambientLight: Light;
   private directionalLight: Light;
-  private car: Car;
+  public car: Car;
   private otherObjects: Object3D[] = [];
   private scene: Scene;
   private camera: Camera;
@@ -26,6 +26,7 @@ export class World {
   private carBoundingBox: Box3;
   private newCubeBoundingBox: Box3;
   private collidableBoundingBoxes: Box3[];
+  public collision: boolean;
 
   constructor() {
     this.scene = new Scene();
@@ -43,6 +44,7 @@ export class World {
     this.carBoundingBox = new Box3().setFromObject(this.car.object3d);
     this.newCubeBoundingBox = new Box3().setFromObject(this.newCube);
     this.collidableBoundingBoxes = [this.newCubeBoundingBox];
+    this.collision = false;
   }
 
   private resolveCollision(box: Box3) {
@@ -52,8 +54,11 @@ export class World {
   private collisionCheck(collidableBoxes: Box3[]) {
     collidableBoxes.forEach((collidableBox) => {
       if ((this.carBoundingBox.intersectsBox(collidableBox))) {
-        console.log('colliding');
+        this.collision = true;
         this.resolveCollision(collidableBox);
+        this.car.health = Math.max(0, this.car.health - 1);
+      } else {
+        this.collision = false;
       }
     });
   }
