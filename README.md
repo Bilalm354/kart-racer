@@ -2,23 +2,27 @@
 
 ## Hello and welcome.
 
-liveApp: https://kart-racer.netlify.com (currently not up to date as recent deploys have failed.)
+LiveApp: https://kart-racer.netlify.com
 
-repo: https://github.com/Bilalm354/kart-racer
+Repo: https://github.com/Bilalm354/kart-racer
 
-issues: https://github.com/Bilalm354/kart-racer/issues
-
-project board: https://github.com/Bilalm354/kart-racer/projects/1
-
-## Notes
-
-x is left and right
-y is forward and back
-z is up and down
 
 ## Planning
 
-See issues and Github project board.
+Project board: https://github.com/Bilalm354/kart-racer/projects/1
+
+Issues: https://github.com/Bilalm354/kart-racer/issues
+
+
+## Notes
+
+x is left and right.  
+
+y is forward and back.  
+
+z is up and down. 
+
+
 
 ## Dev
 
@@ -28,16 +32,6 @@ Start a local server with
 Produce a production build by running
 `npm run build`
 
-## Helpful Resources
-
-Mario Kart Drifting Mix and Jam
-https://www.youtube.com/watch?v=Ki-tWT50cEQ
-
-Making my own Karting game in Unity
-https://www.youtube.com/watch?v=pYI-O-Q9AJk
-
-Minecraft scene
-https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_minecraft.html
 
 ## Contact
 
