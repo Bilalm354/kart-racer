@@ -38,10 +38,12 @@ export const Menu = () => {
         <button type="button" onClick={() => audioElement.pause()}>Pause Music</button>
         <button type="button" onClick={() => world.setCameraView('top')}>Top Camera</button>
         <button type="button" onClick={() => world.setCameraView('behindCar')}>Behind Car Camera</button>
+        <button type="button" onClick={() => world.car.setColor('red')}>Red Car</button>
+        <button type="button" onClick={() => world.car.setColor('green')}>Green Car</button>
+        <button type="button" onClick={() => world.car.setColor('blue')}>Blue Car</button>
       </form>
-      <ProgressBar variant="danger" now={world.car.health} label={`Player Health: ${world.car.health}`} />
-      <ProgressBar variant="info" now={world.car.turbo} label={`Player Turbo: ${world.car.turbo}`} />
-      {world.collision ? 'Collision!' : null}
+      <ProgressBar variant="danger" now={world.car.health} label="Health" />
+      <ProgressBar variant="info" now={world.car.turbo} label="Turbo" />
       {showLeaderboard ? <Leaderboard /> : null}
     </Container>
   );

@@ -1,8 +1,8 @@
-import { Camera } from 'three';
-import { Body } from '../Body';
-import { carGeometry } from './carGeometry';
+import { Camera, Group } from 'three';
+import { world } from '~index';
+import { createCarObject3d } from './createCarObject3d';
 
-export class Car extends Body {
+export class Car {
   angle: number;
   power: number;
   reverse: number;
@@ -20,9 +20,10 @@ export class Car extends Body {
   z: number;
   health: number;
   turbo: number;
+  object3d: Group;
+  color: string
 
   constructor() {
-    super(carGeometry);
     this.x = 0;
     this.y = 0;
     this.z = 0;
@@ -41,6 +42,16 @@ export class Car extends Body {
     this.isTurbo = false;
     this.health = 100;
     this.turbo = 100;
+    this.color = 'blue';
+    this.object3d = createCarObject3d(this.color);
+  }
+
+  setColor(color: string):void {
+    console.log('still here');
+    this.color = color;
+    world.uninit();
+    this.object3d = createCarObject3d(color);
+    world.init();
   }
 
   update() {
@@ -90,6 +101,8 @@ export class Car extends Body {
     this.yVelocity *= drag;
     this.angle += this.angularVelocity;
     this.angularVelocity *= angularDrag;
+    this.health = Math.min(this.health + 0.1, 100);
+    this.turbo = Math.min(this.turbo + 0.1, 100);
   }
 
   updateKeyboard(keyboard: any) {
@@ -113,7 +126,7 @@ export class Car extends Body {
     } else {
       this.isTurningLeft = false;
     }
-    if (keyboard.space && this.turbo > 0) {
+    if (keyboard.space && this.turbo > 1) {
       this.isTurbo = true;
     } else {
       this.isTurbo = false;
