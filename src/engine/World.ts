@@ -18,7 +18,7 @@ export class World {
   private directionalLight: Light;
   public car: Car;
   private otherObjects: Object3D[] = [];
-  private scene: Scene;
+  public scene: Scene;
   private camera: Camera;
   private cameraView: CameraView;
   private renderer: WebGLRenderer
