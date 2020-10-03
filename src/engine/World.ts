@@ -13,12 +13,14 @@ type CameraView = 'top' | 'behindCar';
 // TODO: Separate collision related things to Collision
 
 export class World {
+  public car: Car;
+  public scene: Scene;
+  public collision: boolean;
+
   private track: Group;
   private ambientLight: Light;
   private directionalLight: Light;
-  public car: Car;
   private otherObjects: Object3D[] = [];
-  public scene: Scene;
   private camera: Camera;
   private cameraView: CameraView;
   private renderer: WebGLRenderer
@@ -26,7 +28,6 @@ export class World {
   private carBoundingBox: Box3;
   private newCubeBoundingBox: Box3;
   private collidableBoundingBoxes: Box3[];
-  public collision: boolean;
 
   constructor() {
     this.scene = new Scene();
@@ -47,9 +48,7 @@ export class World {
     this.collision = false;
   }
 
-  private resolveCollision(box: Box3) {
-    console.log(`resolve collision between ${this.car} and ${box}`);
-  }
+  private resolveCollision(box: Box3) { }
 
   private collisionCheck(collidableBoxes: Box3[]) {
     collidableBoxes.forEach((collidableBox) => {

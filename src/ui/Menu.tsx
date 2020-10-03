@@ -22,7 +22,7 @@ export const Menu = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const audioElement = document.getElementById('aliensExist')! as HTMLAudioElement;
   return (
-    <Container>
+    <Container fluid className="p-0">
       <form>
         <button type="button" onClick={() => world.init()}>Play</button>
         <button type="button" onClick={() => world.uninit()}>Pause</button>
@@ -42,9 +42,11 @@ export const Menu = () => {
         <button type="button" onClick={() => world.car.setColor('green')}>Green Car</button>
         <button type="button" onClick={() => world.car.setColor('blue')}>Blue Car</button>
       </form>
-      <ProgressBar variant="danger" now={world.car.health} label="Health" />
-      <ProgressBar variant="info" now={world.car.turbo} label="Turbo" />
       {showLeaderboard ? <Leaderboard /> : null}
+      <Container className="fixed-bottom">
+        <ProgressBar variant="danger" now={world.car.health} label="Health" />
+        <ProgressBar variant="info" now={world.car.turbo} label="Turbo" />
+      </Container>
     </Container>
   );
 };

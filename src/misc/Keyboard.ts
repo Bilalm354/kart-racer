@@ -13,38 +13,40 @@ export class Keyboard {
       this.space = false;
     }
 
-    keyDownHandler(event: KeyboardEvent) {
-      if (event.keyCode === 39) {
+    // TODO: see if there's  a type for keys.
+
+    keyDownHandler(key: string) {
+      if (key === 'ArrowRight') {
         this.right = true;
       }
-      if (event.keyCode === 37) {
+      if (key === 'ArrowLeft') {
         this.left = true;
       }
-      if (event.keyCode === 40) {
+      if (key === 'ArrowDown') {
         this.down = true;
       }
-      if (event.keyCode === 38) {
+      if (key === 'ArrowUp') {
         this.up = true;
       }
-      if (event.keyCode === 32) {
+      if (key === ' ') {
         this.space = true;
       }
     }
 
     keyUpHandler(event: KeyboardEvent) {
-      if (event.keyCode === 39) {
+      if (event.key === 'ArrowRight') {
         this.right = false;
       }
-      if (event.keyCode === 37) {
+      if (event.key === 'ArrowLeft') {
         this.left = false;
       }
-      if (event.keyCode === 40) {
+      if (event.key === 'ArrowDown') {
         this.down = false;
       }
-      if (event.keyCode === 38) {
+      if (event.key === 'ArrowUp') {
         this.up = false;
       }
-      if (event.keyCode === 32) {
+      if (event.key === ' ') {
         this.space = false;
       }
     }

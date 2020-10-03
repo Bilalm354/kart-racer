@@ -47,7 +47,6 @@ export class Car {
   }
 
   setColor(color: string):void {
-    console.log('still here');
     this.color = color;
     world.uninit();
     this.object3d = createCarObject3d(color);
@@ -63,17 +62,22 @@ export class Car {
     const drag = 0.95;
     const angularDrag = 0.95;
     const turnSpeed = 0.002;
+
     if (this.isThrottling) {
       this.power += powerFactor;
-    } else if (this.isTurbo
-    ) {
+    }
+
+    if (this.isTurbo) {
       maxPower = 3;
       this.power += 5 * powerFactor;
       this.turbo = Math.max(0, this.turbo - 1);
-    } else {
+    }
+
+    if (!this.isThrottling && !this.isTurbo) {
       maxPower = 0.175;
       this.power -= powerFactor;
     }
+
     if (this.isReversing) {
       this.reverse += reverseFactor;
     } else {

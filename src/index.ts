@@ -30,7 +30,7 @@ function handleMove(e:TouchEvent) {
   console.log('handleMove');
 }
 
-document.addEventListener('keydown', (event) => keyboard.keyDownHandler(event));
+document.addEventListener('keydown', (event) => keyboard.keyDownHandler(event.key));
 document.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
 document.addEventListener('touchstart', handleStart, false);
 document.addEventListener('touchend', handleEnd, false);
