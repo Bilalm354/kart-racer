@@ -1,8 +1,14 @@
 import {
+  Box3,
   BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry,
 } from 'three';
 
 type Direction = 'x' | 'y';
+
+interface CollidableObject {
+  mesh: Mesh,
+  boundingBox: Box3
+}
 
 export class TrackCreator {
  private cubeLength: number;
@@ -27,15 +33,11 @@ export class TrackCreator {
      wireframe: false,
    });
    const ground = new Mesh(geometry, material);
+   // TODO: Add to collidable
    return ground;
  }
 
- createWall(
-   xStart:number,
-   yStart: number,
-   wallLengthInCubes: number,
-   direction: Direction,
- ) {
+ createWall(xStart:number, yStart: number, wallLengthInCubes: number, direction: Direction) {
    const wall = new Group();
    for (let i = 0; i < wallLengthInCubes; i++) {
      const cube = this.newCube();
@@ -55,6 +57,7 @@ export class TrackCreator {
      }
      wall.add(cube);
    }
+   // TODO: add wall to collidable
    return wall;
  }
 
@@ -102,4 +105,11 @@ export class TrackCreator {
    bigTrack.add(this.createSquareOfWalls(160));
    return bigTrack;
  }
+
+  //  createTrackFromPlan() {
+
+//  }
 }
+
+// I want the track to be constructed from cubes in the final stage
+// so that bounding boxes can be constructed.
