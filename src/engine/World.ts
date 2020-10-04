@@ -4,13 +4,10 @@ import {
 } from 'three';
 import { Car } from '../bodies/vehicles/CarClass';
 import { ambientLight, directionalLight } from '../misc/lights';
-import { bigTrack, newCube, smallTrack } from '../tracks/squareTrack';
+import { TrackCreator } from '../tracks/TrackCreator';
 import { keyboard } from '../misc/Keyboard';
 
 type CameraView = 'top' | 'behindCar';
-
-// TODO: Separate this file as it is getting too big.
-// TODO: Separate collision related things to Collision
 
 export class World {
   public car: Car;
@@ -28,27 +25,31 @@ export class World {
   private carBoundingBox: Box3;
   private newCubeBoundingBox: Box3;
   private collidableBoundingBoxes: Box3[];
+  private trackBoundingBox: Box3;
+  private trackCreator: TrackCreator;
 
   constructor() {
     this.scene = new Scene();
     this.camera = new PerspectiveCamera(
       75, window.innerWidth / window.innerHeight, 0.1, 2000,
     );
+    this.trackCreator = new TrackCreator();
     this.renderer = new WebGLRenderer();
-    this.track = bigTrack;
+    this.track = this.trackCreator.createSmallTrack();
     this.ambientLight = ambientLight;
     this.directionalLight = directionalLight;
     this.car = new Car();
     this.otherObjects = [];
     this.cameraView = 'behindCar';
-    this.newCube = newCube();
+    this.newCube = this.trackCreator.newCube();
     this.carBoundingBox = new Box3().setFromObject(this.car.object3d);
     this.newCubeBoundingBox = new Box3().setFromObject(this.newCube);
+    this.trackBoundingBox = new Box3().setFromObject(this.track);
     this.collidableBoundingBoxes = [this.newCubeBoundingBox];
     this.collision = false;
   }
 
-  private resolveCollision(box: Box3) { }
+  private resolveCollision(box: Box3) {}
 
   private collisionCheck(collidableBoxes: Box3[]) {
     collidableBoxes.forEach((collidableBox) => {
@@ -105,7 +106,8 @@ export class World {
   public updateBoundingBoxes() {
     this.carBoundingBox = new Box3().setFromObject(this.car.object3d);
     this.newCubeBoundingBox = new Box3().setFromObject(this.newCube);
-    this.collidableBoundingBoxes = [this.newCubeBoundingBox];
+    this.trackBoundingBox = new Box3().setFromObject(this.track);
+    this.collidableBoundingBoxes = [this.newCubeBoundingBox, this.trackBoundingBox];
   }
 
   public updateSceneAndCamera() {
@@ -133,12 +135,14 @@ export class World {
   }
 
   public setSmallTrack(): void {
-    this.scene.remove(bigTrack);
-    this.scene.add(smallTrack);
+    this.scene.remove(this.track);
+    this.track = this.trackCreator.createSmallTrack();
+    this.scene.add(this.track);
   }
 
   public setBigTrack(): void {
-    this.scene.remove(smallTrack);
-    this.scene.add(bigTrack);
+    this.scene.remove(this.track);
+    this.track = this.trackCreator.createBigTrack();
+    this.scene.add(this.track);
   }
 }
