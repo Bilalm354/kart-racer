@@ -10,6 +10,12 @@ interface CollidableObject {
   boundingBox: Box3
 }
 
+interface Track {
+  ground: Mesh,
+  cubes: Mesh[],
+  boundingBoxes: Box3[]
+}
+
 export class TrackCreator {
  private cubeLength: number;
  constructor() {
@@ -23,7 +29,7 @@ export class TrackCreator {
    return box;
  }
 
- createGround(lengthOfSidesInCubes: number) {
+ createGround(lengthOfSidesInCubes: number): Mesh {
    const geometry = new PlaneGeometry(
      lengthOfSidesInCubes * this.cubeLength,
      lengthOfSidesInCubes * this.cubeLength,
@@ -39,8 +45,10 @@ export class TrackCreator {
 
  createWall(xStart:number, yStart: number, wallLengthInCubes: number, direction: Direction) {
    const wall = new Group();
+
    for (let i = 0; i < wallLengthInCubes; i++) {
      const cube = this.newCube();
+
      if (direction === 'x') {
        cube.position.set(
          xStart + i * this.cubeLength,
@@ -48,6 +56,7 @@ export class TrackCreator {
          this.cubeLength / 2, // to raise the box vertically so it sits on top of the plane
        );
      }
+
      if (direction === 'y') {
        cube.position.set(
          xStart,
@@ -63,24 +72,28 @@ export class TrackCreator {
 
  createSquareOfWalls(wallLengthInCubes: number) {
    const square = new Group();
+
    square.add(this.createWall(
      -(wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
      -(wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
      wallLengthInCubes,
      'x',
    ));
+
    square.add(this.createWall(
      -(wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
      (wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
      wallLengthInCubes,
      'x',
    ));
+
    square.add(this.createWall(
      -(wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
      -(wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
      wallLengthInCubes,
      'y',
    ));
+
    square.add(this.createWall(
      (wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
      -(wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,

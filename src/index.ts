@@ -4,38 +4,18 @@ import ReactDOM from 'react-dom';
 import { Menu } from './ui/Menu';
 import { keyboard } from './misc/Keyboard';
 import { World } from './engine/World';
+import {
+  handleStart, handleEnd, handleCancel, handleMove,
+} from '~misc/touchHandler';
 
 export const world = new World();
 
-function handleStart(e: TouchEvent) {
-  if (e.touches) {
-    keyboard.up = true;
-  }
-}
-
-function handleEnd(e: TouchEvent) {
-  if (e.touches) {
-    keyboard.up = false;
-  }
-}
-
-function handleCancel(e: TouchEvent) {
-  if (e.touches) {
-    keyboard.up = false;
-  }
-}
-
-function handleMove(e:TouchEvent) {
-  console.log(e);
-  console.log('handleMove');
-}
-
 document.addEventListener('keydown', (event) => keyboard.keyDownHandler(event.key));
 document.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
-document.addEventListener('touchstart', handleStart, false);
-document.addEventListener('touchend', handleEnd, false);
-document.addEventListener('touchcancel', handleCancel, false);
-document.addEventListener('touchmove', handleMove, false);
+document.addEventListener('touchstart', (event) => handleStart(event));
+document.addEventListener('touchend', (event) => handleEnd(event));
+document.addEventListener('touchcancel', (event) => handleCancel(event));
+document.addEventListener('touchmove', (event) => handleMove(event));
 window.addEventListener('resize', () => world.onWindowResize());
 
 function animate() {

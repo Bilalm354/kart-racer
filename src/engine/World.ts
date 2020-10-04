@@ -25,7 +25,6 @@ export class World {
   private carBoundingBox: Box3;
   private newCubeBoundingBox: Box3;
   private collidableBoundingBoxes: Box3[];
-  private trackBoundingBox: Box3;
   private trackCreator: TrackCreator;
 
   constructor() {
@@ -44,18 +43,14 @@ export class World {
     this.newCube = this.trackCreator.newCube();
     this.carBoundingBox = new Box3().setFromObject(this.car.object3d);
     this.newCubeBoundingBox = new Box3().setFromObject(this.newCube);
-    this.trackBoundingBox = new Box3().setFromObject(this.track);
     this.collidableBoundingBoxes = [this.newCubeBoundingBox];
     this.collision = false;
   }
-
-  private resolveCollision(box: Box3) {}
 
   private collisionCheck(collidableBoxes: Box3[]) {
     collidableBoxes.forEach((collidableBox) => {
       if ((this.carBoundingBox.intersectsBox(collidableBox))) {
         this.collision = true;
-        this.resolveCollision(collidableBox);
         this.car.health = Math.max(0, this.car.health - 1);
       } else {
         this.collision = false;
@@ -106,8 +101,7 @@ export class World {
   public updateBoundingBoxes() {
     this.carBoundingBox = new Box3().setFromObject(this.car.object3d);
     this.newCubeBoundingBox = new Box3().setFromObject(this.newCube);
-    this.trackBoundingBox = new Box3().setFromObject(this.track);
-    this.collidableBoundingBoxes = [this.newCubeBoundingBox, this.trackBoundingBox];
+    this.collidableBoundingBoxes = [this.newCubeBoundingBox];
   }
 
   public updateSceneAndCamera() {
