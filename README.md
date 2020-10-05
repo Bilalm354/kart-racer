@@ -4,7 +4,7 @@ Note: I started building this project on a React/ Three/ Webpack boilerplate (bu
 
 ## Hello and welcome.
 
-LiveApp: https://kart-racer.netlify.com
+Live app: https://kart-racer.netlify.com
 
 Repo: https://github.com/Bilalm354/kart-racer
 
