@@ -1,5 +1,7 @@
 # Kart Racing Game Built In TypeScript with Three JS
 
+Note: I started building this project on a React/ Three/ Webpack or something boilerplate and that it is why Github shows other contributors. 
+
 ## Hello and welcome.
 
 LiveApp: https://kart-racer.netlify.com
