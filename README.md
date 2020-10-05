@@ -15,6 +15,13 @@ Project board: https://github.com/Bilalm354/kart-racer/projects/1
 
 Issues: https://github.com/Bilalm354/kart-racer/issues
 
+## Tech Stack 
+- TypeScript
+- React 
+- Node 
+- Express 
+- ThreeJs
+- WebGL
 
 ## Notes
 
