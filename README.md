@@ -54,6 +54,10 @@ Builds: `Active`
 
 I plan to deploy a backend to Digital Ocean. This will be responsible for Leaderboards, personal best times, custom tracks or vehicles etc. 
 
+## Documentation
+
+Checkout the master branch and run `npm run docs` to generate docs using typedoc.
+
 ## Contact
 
 -   Discord: bilzone97#2770
