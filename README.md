@@ -33,6 +33,24 @@ Produce a production build by running
 `cd client`
 `npm run build`
 
+## Deployment 
+
+### Client
+
+The client side is deployed on Netlify with continuous deploymemt from the Github repo. 
+
+#### Build Settings
+
+Repository: github.com/Bilalm354/kart-racer
+Base directory: `./client`
+Build command: `npm run build`
+Publish directory: `./client/dist`
+Deploy log visibility: `Logs are public`
+Builds: `Active`
+
+### Server
+
+I plan to deploy a backend to Digital Ocean. This will be responsible for Leaderboards, personal best times, custom tracks or vehicles etc. 
 
 ## Contact
 
