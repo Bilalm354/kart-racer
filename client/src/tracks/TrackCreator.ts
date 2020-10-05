@@ -1,20 +1,20 @@
 import {
-  Box3,
+  // Box3,
   BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry,
 } from 'three';
 
 type Direction = 'x' | 'y';
 
-interface CollidableObject {
-  mesh: Mesh,
-  boundingBox: Box3
-}
+// interface CollidableObject {
+//   mesh: Mesh,
+//   boundingBox: Box3
+// }
 
-interface Track {
-  ground: Mesh,
-  cubes: Mesh[],
-  boundingBoxes: Box3[]
-}
+// interface Track {
+//   ground: Mesh,
+//   cubes: Mesh[],
+//   boundingBoxes: Box3[]
+// }
 
 export class TrackCreator {
  private cubeLength: number;
