@@ -1,6 +1,6 @@
 # Kart Racing Game Built In TypeScript with Three JS
 
-Note: I started building this project on a React/ Three/ Webpack or something boilerplate and that it is why Github shows other contributors. 
+Note: I started building this project on a React/ Three/ Webpack boilerplate (but don't use any of it I think) and that it is why Github shows other contributors. 
 
 ## Hello and welcome.
 
