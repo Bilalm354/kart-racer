@@ -23,13 +23,14 @@ y is forward and back.
 z is up and down. 
 
 
-
 ## Dev
 
-Start a local server with
+Run locally with
+`cd client`
 `npm run start`
 
 Produce a production build by running
+`cd client`
 `npm run build`
 
 
