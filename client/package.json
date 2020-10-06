@@ -12,6 +12,10 @@
     "docs": "npx typedoc"
   },
   "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.5",
     "@types/jest": "^26.0.14",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
@@ -46,5 +50,12 @@
     "react-dom": "^16.13.1",
     "stats.js": "^0.17.0",
     "three": "^0.114.0"
-  }
+  },
+  "main": ".eslintrc.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
