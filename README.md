@@ -8,7 +8,6 @@ Live app: https://kart-racer.netlify.com
 
 Repo: https://github.com/Bilalm354/kart-racer
 
-
 ## Planning
 
 Project board: https://github.com/Bilalm354/kart-racer/projects/1
@@ -31,16 +30,35 @@ y is forward and back.
 
 z is up and down. 
 
+## Structure 
+
+The app is split into client and server directories. 
+
+### Client
+
+The client side is written in Typescript and uses React, Threejs and Bootstrap. 
+
+### Server
+
+The server side uses Node, Express, Apollo, GraphQl, Mongoose and MongoDB.
 
 ## Dev
 
-Run locally with
-`cd client`
-`npm run start`
+### Client
 
+Run locally with
+ `cd client`
+ `npm run start`
 Produce a production build by running
-`cd client`
-`npm run build`
+ `cd client`
+ `npm run build`
+
+### Server
+
+cd into server directory 
+ `cd server`
+Run locally with 
+ `npm start`
 
 ## Deployment 
 
@@ -67,5 +85,6 @@ Checkout the master branch and run `npm run docs` to generate docs using typedoc
 
 ## Contact
 
--   Discord: bilzone97#2770
--   Email: bilalm354@gmail.com
+*   Discord: bilzone97#2770
+*   Email: bilalm354@gmail.com
+*   Github: github.com/bilalm354
