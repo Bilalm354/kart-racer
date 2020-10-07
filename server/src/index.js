@@ -1,45 +1,25 @@
-const { ApolloServer, gql } = require('apollo-server');
+import { ApolloServer } from 'apollo-server-express';
+import express from 'express';
 import mongoose from 'mongoose';
+import { resolvers } from './resolvers'
+import { typeDefs } from './typeDefs'
 
 
-mongoose.connect('mongodb://localhost:27017/test', {useNewUrlParser: true, useUnifiedTopology: true});
+const startServer = async () => {
+    const app = express();
 
-const Cat = mongoose.model('Cat', { name: String });
+    const server = new ApolloServer({ typeDefs, resolvers });
 
-const kitty = new Cat({ name: 'Zildjian' });
-kitty.save().then(() => console.log('meow'));
+    server.applyMiddleware({ app })
 
-const typeDefs = gql`
-  type Score {
-    name: String
-    time: String
-  }
+    await mongoose.connect('mongodb://localhost:27017/test', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
 
-  type Query {
-    scores: [Score]
-  }
-
-#   type Mutation {
-#       addScore(name: String, time: String): Score
-#   } 
-`;
-
-const scores = [
-    { name: 'bilal', time: '00:00:15' },
-    { name: 'not bilal', time: '00:00:16' },
-];
-
-const resolvers = {
-    Query: {
-        scores: () => scores,
-    },
-    // Mutation: {
-    //     addScore: () => addScore,
-    // }
-};
-
-const server = new ApolloServer({ typeDefs, resolvers });
-
-server.listen().then(({ url }) => {
-    console.log(`🚀  Server ready at ${url}`);
+    app.listen({ port: 4000 }, () => {
+    console.log(`🚀  Server ready at http://localhost:4000${server.graphqlPath}`);
 });
+}
+
+startServer();
