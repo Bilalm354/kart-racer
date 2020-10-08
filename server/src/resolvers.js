@@ -1,12 +1,14 @@
+import { Score } from "./models/Score";
+
 export const resolvers = {
     Query: {
-        hello: () => "hi",
+        scores: () => Score.find()
     },
     Mutation: {
-        createCat: (_, { name }) => {
-            const kitty = new Cat({ name });
-            kitty.save();
+        addScore: async (_, { name, time }) => {
+            const newScore = new Score({ name, time });
+            await newScore.save();
+            return newScore;
         }
     }
 };
-

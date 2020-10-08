@@ -10,12 +10,7 @@ type Query {
   scores: [Score]
 }
 
-type Cat {
-  id: ID!
-  name: String!
-}
-
 type Mutation {
-  createCat(name: String!): Cat!
+  addScore(name: String!, time: String!): Score!
 }
 `;
