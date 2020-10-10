@@ -23,6 +23,4 @@ export function handleCancel(e: TouchEvent) {
 
 export function handleMove(e:TouchEvent) {
   e.preventDefault();
-  console.log(e);
-  console.log('handleMove');
 }

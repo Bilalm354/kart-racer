@@ -1,18 +1,17 @@
 import {
   Group, Scene, Object3D, Light, Camera, Color, WebGLRenderer,
-  PerspectiveCamera, Mesh, Box3,
+  PerspectiveCamera, Mesh, Box3, Vector3,
 } from 'three';
-import { Car } from '../bodies/vehicles/CarClass';
-import { ambientLight, directionalLight } from '../misc/lights';
-import { TrackCreator } from '../tracks/TrackCreator';
-import { keyboard } from '../misc/Keyboard';
+import { Car } from './bodies/vehicles/CarClass';
+import { ambientLight, directionalLight } from './misc/lights';
+import { TrackCreator } from './tracks/TrackCreator';
+import { keyboard } from './misc/Keyboard';
 
 type CameraView = 'top' | 'behindCar';
 
 export class World {
   public car: Car;
   public scene: Scene;
-  public collision: boolean;
 
   private track: Group;
   private ambientLight: Light;
@@ -26,6 +25,7 @@ export class World {
   private newCubeBoundingBox: Box3;
   private collidableBoundingBoxes: Box3[];
   private trackCreator: TrackCreator;
+  private carPositionBeforeColliding: Vector3 | undefined;
 
   constructor() {
     this.scene = new Scene();
@@ -44,16 +44,19 @@ export class World {
     this.carBoundingBox = new Box3().setFromObject(this.car.object3d);
     this.newCubeBoundingBox = new Box3().setFromObject(this.newCube);
     this.collidableBoundingBoxes = [this.newCubeBoundingBox];
-    this.collision = false;
   }
+
+  // save position before colliding became true and keep resetting to that if isColliding is true. 
+  // delete when isColliding is false. 
 
   private collisionCheck(collidableBoxes: Box3[]) {
     collidableBoxes.forEach((collidableBox) => {
       if ((this.carBoundingBox.intersectsBox(collidableBox))) {
-        this.collision = true;
-        this.car.health = Math.max(0, this.car.health - 1);
-      } else {
-        this.collision = false;
+        this.car.collision();
+        [this.car.x, this.car.y, this.car.z] = [this.carPositionBeforeColliding!.x, this.carPositionBeforeColliding!.y, this.carPositionBeforeColliding!.z]
+      } 
+      else {
+        this.carPositionBeforeColliding = new Vector3(this.car.x, this.car.y, this.car.z)
       }
     });
   }
@@ -79,12 +82,10 @@ export class World {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
     this.renderer.shadowMap.enabled = true;
-    this.car.object3d.position.set(0, 0, 3);
     directionalLight.position.set(1, 1, 0.5).normalize();
-    this.scene.add(this.track, this.ambientLight, this.directionalLight,
-      this.car.object3d, this.newCube);
     this.camera.up.set(0, 0, 1);
     this.newCube.position.set(0, 50, 5);
+    this.scene.add(this.track, this.ambientLight, this.directionalLight,this.car.object3d, this.newCube);
   }
 
   public uninit() {

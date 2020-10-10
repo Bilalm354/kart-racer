@@ -24,9 +24,9 @@ export class Car {
   color: string
 
   constructor() {
-    this.x = 0;
+    this.x = -150; // Makes car spawn outside of 
     this.y = 0;
-    this.z = 0;
+    this.z = 3; // makes car sit on top of track
     this.xVelocity = 0;
     this.yVelocity = 0;
     this.zVelocity = 0;
@@ -46,6 +46,16 @@ export class Car {
     this.object3d = createCarObject3d(this.color);
   }
 
+  collision():void {
+    this.health = Math.max(0, this.health - this.power*200);
+    this.xVelocity = 0
+    this.zVelocity = 0
+    this.zVelocity = 0
+    this.angularVelocity = 0
+    this.power = 0;
+    this.isThrottling = false;
+  }
+
   setColor(color: string):void {
     this.color = color;
     world.uninit();
@@ -53,7 +63,7 @@ export class Car {
     world.init();
   }
 
-  update() {
+  update(): void {
     let maxPower = 0.175;
     const maxReverse = 0.0375;
     const powerFactor = 0.001;
@@ -140,6 +150,7 @@ export class Car {
   updateObject3d() {
     this.object3d.position.x = this.x;
     this.object3d.position.y = this.y;
+    this.object3d.position.z = this.z;
     this.object3d.rotation.z = -this.angle;
   }
 

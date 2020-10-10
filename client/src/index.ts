@@ -3,7 +3,7 @@ import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import { Menu } from './ui/Menu';
 import { keyboard } from './misc/Keyboard';
-import { World } from './engine/World';
+import { World } from './World';
 import {
   handleStart, handleEnd, handleCancel, handleMove,
 } from '~misc/touchHandler';
