@@ -16,6 +16,7 @@ const client = new ApolloClient({
 
 export const Menu = () => {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [showAddScore, setShowAddScore] = useState(false);
   const audioElement = document.getElementById('aliensExist')! as HTMLAudioElement;
   return (
     <ApolloProvider client={client}>
@@ -26,6 +27,7 @@ export const Menu = () => {
           <button type="button" onClick={() => world.setSmallTrack()}>Small Track</button>
           <button type="button" onClick={() => world.setBigTrack()}>Large Track</button>
           <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
+          <button type="button" onClick={() => setShowAddScore(!showAddScore)}>Add Score</button>
           <button
             type="button"
             onClick={() => audioElement.play()}
@@ -39,8 +41,8 @@ export const Menu = () => {
           <button type="button" onClick={() => world.car.setColor('green')}>Green Car</button>
           <button type="button" onClick={() => world.car.setColor('blue')}>Blue Car</button>
         </form>
-        <AddScore />
         {showLeaderboard ? <Leaderboard /> : null}
+        {showAddScore ? <AddScore /> : null}
         <Container className="fixed-bottom">
           <ProgressBar variant="danger" now={world.car.health} label="Health" />
           <ProgressBar variant="info" now={world.car.turbo} label="Turbo" />
