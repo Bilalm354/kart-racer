@@ -7,6 +7,7 @@ import {
 } from '@apollo/client';
 import { world } from '../index';
 import { Leaderboard } from './Leaderboard';
+import { AddScore } from './AddScore';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -38,6 +39,7 @@ export const Menu = () => {
           <button type="button" onClick={() => world.car.setColor('green')}>Green Car</button>
           <button type="button" onClick={() => world.car.setColor('blue')}>Blue Car</button>
         </form>
+        <AddScore />
         {showLeaderboard ? <Leaderboard /> : null}
         <Container className="fixed-bottom">
           <ProgressBar variant="danger" now={world.car.health} label="Health" />

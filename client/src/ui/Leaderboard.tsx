@@ -2,12 +2,12 @@
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 
-interface Score {
+export interface Score {
   name: string
   time: string
 }
 
-interface ScoreData {
+export interface ScoreData {
   scores: Score[]
 }
 
