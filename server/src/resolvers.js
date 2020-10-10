@@ -4,6 +4,7 @@ export const resolvers = {
     Query: {
         scores: () => Score.find()
     },
+    
     Mutation: {
         addScore: async (_, { name, time }) => {
             const newScore = new Score({ name, time });
