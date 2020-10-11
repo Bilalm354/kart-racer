@@ -1,11 +1,12 @@
 import {
-  Scene, Object3D, Light, Camera, Color, WebGLRenderer,
-  PerspectiveCamera, Mesh, Box3,
+  Scene, Light, Camera, Color, WebGLRenderer,
+  PerspectiveCamera, Box3,
 } from 'three';
 import { Car } from './bodies/vehicles/CarClass';
 import { ambientLight, directionalLight } from './misc/lights';
 import { Track, TrackCreator } from './tracks/TrackCreator';
 import { keyboard } from './misc/Keyboard';
+import { handleStart, handleEnd, handleCancel, handleMove } from '~misc/touchHandler';
 
 type CameraView = 'top' | 'behindCar';
 
@@ -16,12 +17,9 @@ export class World {
   private track: Track;
   private ambientLight: Light;
   private directionalLight: Light;
-  private otherObjects: Object3D[] = [];
   private camera: Camera;
   private cameraView: CameraView;
   private renderer: WebGLRenderer
-  private newCube: Mesh;
-  private newCubeBoundingBox: Box3;
   private collidableBoundingBoxes: Box3[];
   private trackCreator: TrackCreator;
 
@@ -32,39 +30,12 @@ export class World {
     );
     this.trackCreator = new TrackCreator();
     this.renderer = new WebGLRenderer();
-    this.track = this.trackCreator.createSmallTrack();
+    this.track = this.trackCreator.createBigTrack();
     this.ambientLight = ambientLight;
     this.directionalLight = directionalLight;
     this.car = new Car();
-    this.otherObjects = [];
     this.cameraView = 'behindCar';
-    this.newCube = this.trackCreator.newCube();
-    this.newCubeBoundingBox = new Box3().setFromObject(this.newCube);
-    this.collidableBoundingBoxes = [this.newCubeBoundingBox];
-  }
-
-  private trackBuilder() {
-    this.track.walls.map((wall) => {
-      this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
-      this.scene.add(wall)
-    })
-    this.scene.add(this.track.ground[0])
-  }
-
-  // private trackRemover() {
-  //   this.track.walls.map((wall) => {
-  //     this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
-  //     this.scene.add(wall)
-  //   })
-  //   this.scene.add(this.track.ground[0])
-  // }
-
-  private resolveCollision() {
-    this.collidableBoundingBoxes.forEach((collidableBox) => {
-      if ((this.car.boundingBox.intersectsBox(collidableBox))) {
-        this.car.collision();
-      }
-    });
+    this.collidableBoundingBoxes = [];
   }
 
   public onWindowResize() {
@@ -74,15 +45,6 @@ export class World {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  public addBox(object: Object3D) {
-    this.otherObjects.push(object);
-  }
-
-  public addCar() {
-    this.otherObjects.push(new Car().object3d);
-    this.updateSceneContents();
-  }
-
   public init() {
     this.scene.background = new Color(0xfad6a5);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -90,20 +52,45 @@ export class World {
     this.renderer.shadowMap.enabled = true;
     directionalLight.position.set(1, 1, 0.5).normalize();
     this.camera.up.set(0, 0, 1);
-    this.newCube.position.set(0, 50, 5);
-    this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d, this.newCube);
-    this.trackBuilder();
+    this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d );
+    this.buildTrack();
+    this.addCanvasEventListeners()
+  }
+
+  private buildTrack() {
+    this.track.walls.map((wall) => {
+      this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
+      this.scene.add(wall)
+    })
+    this.scene.add(this.track.ground[0])
+  }
+
+  private removeTrack() {
+    this.track.walls.map((wall) => {
+      this.collidableBoundingBoxes = [];
+      this.scene.remove(wall);
+    })
+    this.scene.remove(this.track.ground[0]);
+  }
+
+  private resolveCollision() {
+    this.collidableBoundingBoxes.forEach((collidableBox) => {
+      if ((this.car.boundingBox.intersectsBox(collidableBox))) {
+        this.car.collision();
+      }
+    });
+  }
+
+  private addCanvasEventListeners() { 
+    const canvas = document.querySelector('canvas')!;
+    canvas.addEventListener('touchstart', (event) => handleStart(event));
+    canvas.addEventListener('touchend', (event) => handleEnd(event));
+    canvas.addEventListener('touchcancel', (event) => handleCancel(event));
+    canvas.addEventListener('touchmove', (event) => handleMove(event));
   }
 
   public removeCar() {
     this.scene.remove(this.car.object3d);
-  }
-
-  public updateSceneContents() {
-    this.scene.remove(this.car.object3d,
-      ...this.otherObjects, this.ambientLight, this.directionalLight);
-    this.scene.add(this.car.object3d,
-      ...this.otherObjects, this.ambientLight, this.directionalLight);
   }
 
   public updateSceneAndCamera() {
@@ -130,21 +117,15 @@ export class World {
     this.cameraView = view;
   }
 
-  // TODO: reimplement setSmallTrack() and setBigTrack()
-  // loop through each thing and remove from scene then 
-  // this.track = create ...
-  // call trackBuilder()
+  public setSmallTrack(): void {
+    this.removeTrack()
+    this.track = this.trackCreator.createSmallTrack();
+    this.buildTrack();
+  }
 
-  // public setSmallTrack(): void {
-  //   this.scene.remove(this.track);
-  //   this.track = this.trackCreator.createSmallTrack();
-  //   this.scene.add(this.track);
-  // }
-
-  // public setBigTrack(): void {
-  //   this.track = this.trackCreator.createBigTrack();
-  //   this.scene.remove(this.track);
-  //   this.track = this.trackCreator.createBigTrack();
-  //   this.scene.add(this.track);
-  // }
+  public setBigTrack(): void {
+    this.removeTrack()
+    this.track = this.trackCreator.createBigTrack();
+    this.buildTrack();
+  }
 }

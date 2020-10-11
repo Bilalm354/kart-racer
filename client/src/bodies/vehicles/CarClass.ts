@@ -1,6 +1,8 @@
 import { Box3, Camera, Group, Vector3 } from 'three';
-import { world } from '~index';
+import { world } from '~/index';
 import { createCarObject3d } from './createCarObject3d';
+
+// TODO: make car extend THREE Group so that I don't need to do .object3d.shit 
 
 export class Car {
   angle: number;
@@ -13,7 +15,6 @@ export class Car {
   isTurningRight: boolean;
   isTurbo: boolean;
   velocity: Vector3;
-  // TODO: make velocities a Vector3
   x: number;
   y: number;
   z: number;
@@ -45,6 +46,10 @@ export class Car {
     this.boundingBox = new Box3().setFromObject(this.object3d)
   }
 
+  collisionApproachAngle() {
+    // TODO: find approach angle and correct angle to bounce of wall at. 
+  }
+
   collision(): void {
     this.health = Math.max(0, this.health - this.power * 200);
     this.velocity = this.velocity.multiplyScalar(-1)
@@ -59,13 +64,14 @@ export class Car {
   }
 
   setColor(color: string): void {
+    world.scene.remove(this.object3d)
     this.color = color;
-    world.removeCar();
     this.object3d = createCarObject3d(color);
-    world.init();
+    world.scene.add(this.object3d)
   }
 
   updateBoundingBox(): void {
+    // this should probable go in the main car update. And shouldn't have to be called in world. 
     this.boundingBox = new Box3().setFromObject(this.object3d)
   }
 
@@ -94,11 +100,7 @@ export class Car {
       this.power -= powerFactor;
     }
 
-    if (this.isReversing) {
-      this.reverse += reverseFactor;
-    } else {
-      this.reverse -= reverseFactor;
-    }
+    this.isReversing ? this.reverse += reverseFactor : this.reverse -= reverseFactor
 
     this.power = Math.max(0, Math.min(maxPower, this.power));
     this.reverse = Math.max(0, Math.min(maxReverse, this.reverse));
@@ -117,7 +119,7 @@ export class Car {
 
     this.x += this.velocity.x;
     this.y += this.velocity.y;
-    this.velocity.x*= drag;
+    this.velocity.x *= drag;
     this.velocity.y *= drag;
     this.angle += this.angularVelocity;
     this.angularVelocity *= angularDrag;
@@ -126,34 +128,16 @@ export class Car {
   }
 
   updateKeyboard(keyboard: any) {
-    if (keyboard.up) {
-      this.isThrottling = true;
-    } else {
-      this.isThrottling = false;
-    }
-    if (keyboard.down) {
-      this.isReversing = true;
-    } else {
-      this.isReversing = false;
-    }
-    if (keyboard.right) {
-      this.isTurningRight = true;
-    } else {
-      this.isTurningRight = false;
-    }
-    if (keyboard.left) {
-      this.isTurningLeft = true;
-    } else {
-      this.isTurningLeft = false;
-    }
-    if (keyboard.space && this.turbo > 1) {
-      this.isTurbo = true;
-    } else {
-      this.isTurbo = false;
-    }
+    keyboard.up ? this.isThrottling = true : this.isThrottling = false;
+    keyboard.down ? this.isReversing = true : this.isReversing = false;
+    keyboard.right ? this.isTurningRight = true : this.isTurningRight = false;
+    keyboard.left ? this.isTurningLeft = true : this.isTurningLeft = false;
+    keyboard.space && this.turbo > 1 ? this.isTurbo = true: this.isTurbo = false
   }
 
   updateObject3d() {
+    // TODO: replace this with directly changing the object3d in other places
+    // TODO: rename object3d to body 
     this.object3d.position.x = this.x;
     this.object3d.position.y = this.y;
     this.object3d.position.z = this.z;

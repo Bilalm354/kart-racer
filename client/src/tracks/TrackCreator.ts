@@ -1,5 +1,4 @@
 import {
-  // Box3,
   BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry,
 } from 'three';
 
@@ -9,8 +8,6 @@ export interface Track {
   ground: Mesh[],
   walls: Group[],
 }
-
-// TODO: make walls arrays of cubes instead of Three Groups
 
 export class TrackCreator {
   private cubeLength: number;
@@ -105,10 +102,4 @@ export class TrackCreator {
     return this.track
   }
 
-  //  createTrackFromPlan() {
-
-  //  }
 }
-
-// I want the track to be constructed from cubes in the final stage
-// so that bounding boxes can be constructed.
