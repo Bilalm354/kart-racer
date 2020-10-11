@@ -1,4 +1,4 @@
-import { Camera, Group } from 'three';
+import { Box3, Camera, Group } from 'three';
 import { world } from '~index';
 import { createCarObject3d } from './createCarObject3d';
 
@@ -22,6 +22,7 @@ export class Car {
   turbo: number;
   object3d: Group;
   color: string
+  boundingBox: Box3;
 
   constructor() {
     this.x = -150; // Makes car spawn outside of 
@@ -44,16 +45,22 @@ export class Car {
     this.turbo = 100;
     this.color = 'blue';
     this.object3d = createCarObject3d(this.color);
+    this.boundingBox = new Box3().setFromObject(this.object3d)
   }
 
   collision():void {
     this.health = Math.max(0, this.health - this.power*200);
-    this.xVelocity = 0
-    this.zVelocity = 0
-    this.zVelocity = 0
-    this.angularVelocity = 0
+    this.xVelocity = 0;
+    this.yVelocity = 0;
+    this.zVelocity = 0;
     this.power = 0;
+    this.reverse = 0;
+    this.angularVelocity = 0;
     this.isThrottling = false;
+    this.isReversing = false;
+    this.isTurningLeft = false;
+    this.isTurningRight = false;
+    this.isTurbo = false;
   }
 
   setColor(color: string):void {
@@ -61,6 +68,10 @@ export class Car {
     world.uninit();
     this.object3d = createCarObject3d(color);
     world.init();
+  }
+
+  updateBoundingBox():void {
+    this.boundingBox = new Box3().setFromObject(this.object3d)
   }
 
   update(): void {
