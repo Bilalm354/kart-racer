@@ -1,6 +1,6 @@
 import {
   Scene, Object3D, Light, Camera, Color, WebGLRenderer,
-  PerspectiveCamera, Mesh, Box3, Vector3,
+  PerspectiveCamera, Mesh, Box3,
 } from 'three';
 import { Car } from './bodies/vehicles/CarClass';
 import { ambientLight, directionalLight } from './misc/lights';
@@ -24,7 +24,6 @@ export class World {
   private newCubeBoundingBox: Box3;
   private collidableBoundingBoxes: Box3[];
   private trackCreator: TrackCreator;
-  private carPositionBeforeColliding: Vector3 | undefined;
 
   constructor() {
     this.scene = new Scene();
@@ -49,18 +48,21 @@ export class World {
       this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
       this.scene.add(wall)
     })
-    // this.collidableBoundingBoxes.push(new Box3().setFromObject(this.track.ground[0]))  -- this causes the car to constantly collide and get damaged but the floor 
     this.scene.add(this.track.ground[0])
   }
+
+  // private trackRemover() {
+  //   this.track.walls.map((wall) => {
+  //     this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
+  //     this.scene.add(wall)
+  //   })
+  //   this.scene.add(this.track.ground[0])
+  // }
 
   private resolveCollision() {
     this.collidableBoundingBoxes.forEach((collidableBox) => {
       if ((this.car.boundingBox.intersectsBox(collidableBox))) {
         this.car.collision();
-        [this.car.x, this.car.y, this.car.z] = [this.carPositionBeforeColliding!.x, this.carPositionBeforeColliding!.y, this.carPositionBeforeColliding!.z]
-      }
-      else {
-        this.carPositionBeforeColliding = new Vector3(this.car.x, this.car.y, this.car.z)
       }
     });
   }
@@ -82,7 +84,6 @@ export class World {
   }
 
   public init() {
-    this.carPositionBeforeColliding = new Vector3(this.car.x, this.car.y, this.car.z)
     this.scene.background = new Color(0xfad6a5);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(this.renderer.domElement);
@@ -94,7 +95,7 @@ export class World {
     this.trackBuilder();
   }
 
-  public uninit() {
+  public removeCar() {
     this.scene.remove(this.car.object3d);
   }
 
@@ -106,11 +107,11 @@ export class World {
   }
 
   public updateSceneAndCamera() {
+    this.car.updateKeyboard(keyboard);
     this.car.update();
-    this.resolveCollision();
     this.car.updateObject3d();
     this.car.updateBoundingBox()
-    this.car.updateKeyboard(keyboard);
+    this.resolveCollision();
     this.setCameraPosition(this.cameraView);
     this.renderer.render(this.scene, this.camera);
   }
@@ -141,6 +142,7 @@ export class World {
   // }
 
   // public setBigTrack(): void {
+  //   this.track = this.trackCreator.createBigTrack();
   //   this.scene.remove(this.track);
   //   this.track = this.trackCreator.createBigTrack();
   //   this.scene.add(this.track);

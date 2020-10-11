@@ -1,4 +1,4 @@
-import { Box3, Camera, Group } from 'three';
+import { Box3, Camera, Group, Vector3 } from 'three';
 import { world } from '~index';
 import { createCarObject3d } from './createCarObject3d';
 
@@ -12,9 +12,8 @@ export class Car {
   isTurningLeft: boolean;
   isTurningRight: boolean;
   isTurbo: boolean;
-  xVelocity: number;
-  yVelocity: number;
-  zVelocity: number;
+  velocity: Vector3;
+  // TODO: make velocities a Vector3
   x: number;
   y: number;
   z: number;
@@ -25,12 +24,10 @@ export class Car {
   boundingBox: Box3;
 
   constructor() {
-    this.x = -150; // Makes car spawn outside of 
+    this.x = -150;
     this.y = 0;
     this.z = 3; // makes car sit on top of track
-    this.xVelocity = 0;
-    this.yVelocity = 0;
-    this.zVelocity = 0;
+    this.velocity = new Vector3(0, 0, 0);
     this.angle = 0;
     this.power = 0;
     this.reverse = 0;
@@ -48,11 +45,9 @@ export class Car {
     this.boundingBox = new Box3().setFromObject(this.object3d)
   }
 
-  collision():void {
-    this.health = Math.max(0, this.health - this.power*200);
-    this.xVelocity = 0;
-    this.yVelocity = 0;
-    this.zVelocity = 0;
+  collision(): void {
+    this.health = Math.max(0, this.health - this.power * 200);
+    this.velocity = this.velocity.multiplyScalar(-1)
     this.power = 0;
     this.reverse = 0;
     this.angularVelocity = 0;
@@ -63,14 +58,14 @@ export class Car {
     this.isTurbo = false;
   }
 
-  setColor(color: string):void {
+  setColor(color: string): void {
     this.color = color;
-    world.uninit();
+    world.removeCar();
     this.object3d = createCarObject3d(color);
     world.init();
   }
 
-  updateBoundingBox():void {
+  updateBoundingBox(): void {
     this.boundingBox = new Box3().setFromObject(this.object3d)
   }
 
@@ -117,13 +112,13 @@ export class Car {
       this.angularVelocity += direction * turnSpeed;
     }
 
-    this.xVelocity += Math.sin(this.angle) * (this.power - this.reverse);
-    this.yVelocity += Math.cos(this.angle) * (this.power - this.reverse);
+    this.velocity.x += Math.sin(this.angle) * (this.power - this.reverse);
+    this.velocity.y += Math.cos(this.angle) * (this.power - this.reverse);
 
-    this.x += this.xVelocity;
-    this.y += this.yVelocity;
-    this.xVelocity *= drag;
-    this.yVelocity *= drag;
+    this.x += this.velocity.x;
+    this.y += this.velocity.y;
+    this.velocity.x*= drag;
+    this.velocity.y *= drag;
     this.angle += this.angularVelocity;
     this.angularVelocity *= angularDrag;
     this.health = Math.min(this.health + 0.1, 100);

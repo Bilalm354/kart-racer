@@ -23,7 +23,7 @@ export const Menu = () => {
       <Container fluid className="p-0">
         <form>
           <button type="button" onClick={() => world.init()}>Play</button>
-          <button type="button" onClick={() => world.uninit()}>Pause</button>
+          <button type="button" onClick={() => world.removeCar()}>Pause</button>
           <button type="button" onClick={() => world.setSmallTrack()}>Small Track</button>
           <button type="button" onClick={() => world.setBigTrack()}>Large Track</button>
           <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
