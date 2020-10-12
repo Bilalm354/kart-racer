@@ -101,5 +101,4 @@ export class TrackCreator {
     this.createSquareOfWalls(160);
     return this.track
   }
-
 }

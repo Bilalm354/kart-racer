@@ -2,7 +2,7 @@ import {
   Scene, Light, Camera, Color, WebGLRenderer,
   PerspectiveCamera, Box3,
 } from 'three';
-import { Car } from './bodies/vehicles/CarClass';
+import { Car } from './bodies/vehicles/Car';
 import { ambientLight, directionalLight } from './misc/lights';
 import { Track, TrackCreator } from './tracks/TrackCreator';
 import { keyboard } from './misc/Keyboard';
