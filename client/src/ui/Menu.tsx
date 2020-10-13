@@ -7,7 +7,7 @@ import {
 } from '@apollo/client';
 import { world } from '../index';
 import { Leaderboard } from './components/Leaderboard';
-import { AddScore } from './AddScore';
+import { AddScore } from './components/AddScore';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',

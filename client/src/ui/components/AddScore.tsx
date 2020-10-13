@@ -3,6 +3,7 @@ import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { Score } from './Leaderboard';
 
+
 const ADD_SCORE = gql`
   mutation addScore($name:String!, $time:String!){
     addScore(name: $name, time: $time){
@@ -11,7 +12,6 @@ const ADD_SCORE = gql`
     }
   }
 `;
-
 export function AddScore() {
   const [name, setName] = useState('');
   const [time, setTime] = useState('');
