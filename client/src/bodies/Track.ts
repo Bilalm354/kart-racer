@@ -10,3 +10,5 @@ export class Track {
         this.startingPosition = new Vector3();
 }
 }
+
+// TODO: remove track creator. 

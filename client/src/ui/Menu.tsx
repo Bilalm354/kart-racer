@@ -6,7 +6,7 @@ import {
   ApolloClient, InMemoryCache, ApolloProvider,
 } from '@apollo/client';
 import { world } from '../index';
-import { Leaderboard } from './Leaderboard';
+import { Leaderboard } from './components/Leaderboard';
 import { AddScore } from './AddScore';
 
 const client = new ApolloClient({
