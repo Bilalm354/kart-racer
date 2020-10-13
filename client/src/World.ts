@@ -1,6 +1,6 @@
 import {
   Scene, Light, Camera, Color, WebGLRenderer,
-  PerspectiveCamera, Box3,
+  PerspectiveCamera, Box3, Object3D,
 } from 'three';
 import { Car } from './bodies/vehicles/Car';
 import { ambientLight, directionalLight } from './misc/lights';
@@ -67,9 +67,9 @@ export class World {
 
   private removeTrack() {
     this.track.walls.map((wall) => {
-      this.collidableBoundingBoxes = [];
-      this.scene.remove(wall);
+      this.scene.remove(this.scene.getObjectById(wall.id)!);
     })
+    this.collidableBoundingBoxes = [];
     this.scene.remove(this.track.ground[0]);
   }
 
@@ -117,8 +117,8 @@ export class World {
     this.cameraView = view;
   }
 
-  public setSmallTrack(): void {
-    this.removeTrack()
+  public setSmallTrack(): void{
+    this.removeTrack();
     this.track = this.trackCreator.createSmallTrack();
     this.buildTrack();
   }

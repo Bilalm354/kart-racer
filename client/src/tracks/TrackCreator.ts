@@ -15,6 +15,11 @@ export class TrackCreator {
   constructor() {
     this.cubeLength = 10;
     this.track = {ground: [], walls: []}
+    // TODO: add starting position 
+    // Add lap number 
+    // Make this class so that you say 
+    // track = new Track() to instantiate it and can call methods on it. 
+    // the Track.setTrack('trackname') to change tracks. 
   }
 
   newCube(): Mesh {
@@ -59,7 +64,6 @@ export class TrackCreator {
       }
       wall.add(cube);
     }
-    // TODO: add wall to collidable
     return wall;
   }
 
@@ -89,6 +93,7 @@ export class TrackCreator {
   }
 
   createSmallTrack(): Track {
+    this.track = {ground: [], walls: []}
     this.createGround(40)
     this.createSquareOfWalls(20)
     this.createSquareOfWalls(40)
@@ -96,6 +101,7 @@ export class TrackCreator {
   }
 
   createBigTrack(): Track {
+    this.track = {ground: [], walls: []}
     this.createGround(160);
     this.createSquareOfWalls(80);
     this.createSquareOfWalls(160);
