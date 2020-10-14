@@ -1,7 +1,4 @@
-import {
-  Scene, Light, Camera, Color, WebGLRenderer,
-  PerspectiveCamera, Box3, Object3D,
-} from 'three';
+import { Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3 } from 'three';
 import { Car } from './bodies/Car';
 import { ambientLight, directionalLight } from './misc/lights';
 import { Track, TrackCreator } from './tracks/TrackCreator';
@@ -30,7 +27,7 @@ export class World {
     );
     this.trackCreator = new TrackCreator();
     this.renderer = new WebGLRenderer();
-    this.track = this.trackCreator.createBigTrack();
+    this.track = this.trackCreator.smallTrack();
     this.ambientLight = ambientLight;
     this.directionalLight = directionalLight;
     this.car = new Car();
@@ -52,7 +49,7 @@ export class World {
     this.renderer.shadowMap.enabled = true;
     directionalLight.position.set(1, 1, 0.5).normalize();
     this.camera.up.set(0, 0, 1);
-    this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d );
+    this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
     this.buildTrack();
     this.addCanvasEventListeners()
   }
@@ -73,18 +70,16 @@ export class World {
     this.scene.remove(this.track.ground[0]);
   }
 
-  private resolveCollision() {
+  private resolveCollisionsBetweenCarsAndTrackWalls() {
     this.collidableBoundingBoxes.forEach((collidableBox) => {
       if ((this.car.boundingBox.intersectsBox(collidableBox))) {
-        this.car.collision();
+        this.car.handleCollision();
+        // add cars and their handle collisions here 
       }
-      // add other cars here ? 
-
-      // but also need to check cars against eachother 
     });
   }
 
-  private addCanvasEventListeners() { 
+  private addCanvasEventListeners() {
     const canvas = document.querySelector('canvas')!;
     canvas.addEventListener('touchstart', (event) => handleStart(event));
     canvas.addEventListener('touchend', (event) => handleEnd(event));
@@ -101,7 +96,7 @@ export class World {
     this.car.update();
     this.car.updateObject3d();
     this.car.updateBoundingBox()
-    this.resolveCollision();
+    this.resolveCollisionsBetweenCarsAndTrackWalls();
     this.setCameraPosition(this.cameraView);
     this.renderer.render(this.scene, this.camera);
   }
@@ -120,15 +115,15 @@ export class World {
     this.cameraView = view;
   }
 
-  public setSmallTrack(): void{
+  public setSmallTrack(): void {
     this.removeTrack();
-    this.track = this.trackCreator.createSmallTrack();
+    this.track = this.trackCreator.smallTrack();
     this.buildTrack();
   }
 
   public setBigTrack(): void {
     this.removeTrack()
-    this.track = this.trackCreator.createBigTrack();
+    this.track = this.trackCreator.bigTrack();
     this.buildTrack();
   }
 }

@@ -1,5 +1,5 @@
 import {
-  BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry,
+  BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Vector3,
 } from 'three';
 
 type Direction = 'x' | 'y';
@@ -28,6 +28,14 @@ export class TrackCreator {
     const box = new Mesh(geometry, material);
     return box;
   }
+
+  // createTrack(positions: Vector3[], startingPosition: Vector3, laps:number, scene: Scene) {
+  //   positions.forEach((position => {
+  //     const cube = this.newCube()
+  //     cube.position.set(position.x, position.y, position.z)
+  //     scene.add(cube)
+  //   })
+  // }
 
   createGround(lengthOfSidesInCubes: number): void {
     const geometry = new PlaneGeometry(
@@ -92,7 +100,7 @@ export class TrackCreator {
     )
   }
 
-  createSmallTrack(): Track {
+  smallTrack(): Track {
     this.track = {ground: [], walls: []}
     this.createGround(40)
     this.createSquareOfWalls(20)
@@ -100,7 +108,7 @@ export class TrackCreator {
     return this.track
   }
 
-  createBigTrack(): Track {
+  bigTrack(): Track {
     this.track = {ground: [], walls: []}
     this.createGround(160);
     this.createSquareOfWalls(80);

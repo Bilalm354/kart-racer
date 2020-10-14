@@ -46,21 +46,10 @@ export class Car {
     this.boundingBox = new Box3().setFromObject(this.object3d)
   }
 
-  collisionApproachAngle() {
-    // TODO: find approach angle and correct angle to bounce of wall at. 
-  }
-
-  collision(): void {
+  handleCollision(): void {
     this.health = Math.max(0, this.health - this.power * 200);
-    this.velocity = this.velocity.multiplyScalar(-1)
-    this.power = 0;
-    this.reverse = 0;
-    this.angularVelocity = 0;
-    this.isThrottling = false;
-    this.isReversing = false;
-    this.isTurningLeft = false;
-    this.isTurningRight = false;
-    this.isTurbo = false;
+    this.velocity = this.velocity.multiplyScalar(-1);
+    this.power *= 0.5;
   }
 
   setColor(color: string): void {
@@ -124,7 +113,7 @@ export class Car {
     this.angle += this.angularVelocity;
     this.angularVelocity *= angularDrag;
     this.health = Math.min(this.health + 0.1, 100);
-    this.turbo = Math.min(this.turbo + 0.1, 100);
+    this.turbo = Math.min(this.turbo + 0.3, 100);
   }
 
   updateKeyboard(keyboard: any) {
