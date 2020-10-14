@@ -2,7 +2,7 @@ import {
   Scene, Light, Camera, Color, WebGLRenderer,
   PerspectiveCamera, Box3, Object3D,
 } from 'three';
-import { Car } from './bodies/vehicles/Car';
+import { Car } from './bodies/Car';
 import { ambientLight, directionalLight } from './misc/lights';
 import { Track, TrackCreator } from './tracks/TrackCreator';
 import { keyboard } from './misc/Keyboard';
@@ -78,6 +78,9 @@ export class World {
       if ((this.car.boundingBox.intersectsBox(collidableBox))) {
         this.car.collision();
       }
+      // add other cars here ? 
+
+      // but also need to check cars against eachother 
     });
   }
 
