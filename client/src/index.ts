@@ -7,7 +7,7 @@ import { World } from './World';
 
 export const world = new World();
 
-
+// document.addEventListener("orientationchange", console.log(orientation));
 document.addEventListener('keydown', (event) => keyboard.keyDownHandler(event.key));
 document.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
 window.addEventListener('resize', () => world.onWindowResize());

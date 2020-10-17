@@ -3,6 +3,7 @@ import { Car } from './bodies/Car';
 import { ambientLight, directionalLight } from './misc/lights';
 import { Track, TrackCreator } from './tracks/TrackCreator';
 import { keyboard } from './misc/Keyboard';
+import { trackCreatorMode } from './trackCreatorMode';
 
 type CameraView = 'top' | 'behindCar';
 

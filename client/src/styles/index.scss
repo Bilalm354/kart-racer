@@ -20,9 +20,26 @@ canvas {
 }
 
 .controls {
-	height: 100px;
+	border: 0.2em;
+	border-style: solid;
+	color: black;
+	display: inline-block;
+	font-size: smaller;
+	font-weight: 900;
+	height: 70px;
+	line-height: 70px;
+	text-align: center;
 	touch-action: none;
-	width: 100px;
+	width: 70px;
+}
+
+.unselectable {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 #go {
@@ -38,9 +55,9 @@ canvas {
 }
 
 #right {
-	background-color: rgb(255, 255, 255);
+	background-color: gray;
 }
 
 #left {
-	background-color: rgb(255, 255, 255);
+	background-color: gray;
 }

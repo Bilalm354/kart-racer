@@ -31,5 +31,5 @@ export const Leaderboard = () => {
         {`${name} : ${time}`}
       </p>
     </div>
-  ));
+  ))
 };
