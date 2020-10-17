@@ -3,7 +3,7 @@ import { Car } from './bodies/Car';
 import { ambientLight, directionalLight } from './misc/lights';
 import { Track, TrackCreator } from './tracks/TrackCreator';
 import { keyboard } from './misc/Keyboard';
-import { handleStart, handleEnd, handleCancel, handleMove } from '~misc/touchHandler';
+import { handleGoStart, handleGoEnd, handleCancel, handleMove } from '~/misc/touchHandler';
 
 type CameraView = 'top' | 'behindCar';
 
@@ -51,7 +51,7 @@ export class World {
     this.camera.up.set(0, 0, 1);
     this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
     this.buildTrack();
-    this.addCanvasEventListeners()
+    this.addTouchEventListeners()
   }
 
   private buildTrack() {
@@ -79,12 +79,12 @@ export class World {
     });
   }
 
-  private addCanvasEventListeners() {
+  private addTouchEventListeners() {
     const canvas = document.querySelector('canvas')!;
-    canvas.addEventListener('touchstart', (event) => handleStart(event));
-    canvas.addEventListener('touchend', (event) => handleEnd(event));
-    canvas.addEventListener('touchcancel', (event) => handleCancel(event));
-    canvas.addEventListener('touchmove', (event) => handleMove(event));
+    canvas.addEventListener('touchstart', (event) => handleGoStart(event), { passive: false });
+    canvas.addEventListener('touchend', (event) => handleGoEnd(event), { passive: false });
+    canvas.addEventListener('touchcancel', (event) => handleCancel(event), { passive: false });
+    canvas.addEventListener('touchmove', (event) => handleMove(event), { passive: false });
   }
 
   public removeCar() {

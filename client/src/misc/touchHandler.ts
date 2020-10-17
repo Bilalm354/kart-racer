@@ -1,24 +1,21 @@
-import { keyboard } from './Keyboard';
+// import { keyboard } from './Keyboard';
 
-export function handleStart(e: TouchEvent) {
+export function handleGoStart(e: TouchEvent) {
   if (e.touches) {
     e.preventDefault();
-    keyboard.up = true;
+    // keyboard.up = true;
   }
 }
 
-export function handleEnd(e: TouchEvent) {
+export function handleGoEnd(e: TouchEvent) {
   if (e.touches) {
     e.preventDefault();
-    keyboard.up = false;
+    // keyboard.up = false;
   }
 }
 
 export function handleCancel(e: TouchEvent) {
-  if (e.touches) {
     e.preventDefault();
-    keyboard.up = false;
-  }
 }
 
 export function handleMove(e:TouchEvent) {

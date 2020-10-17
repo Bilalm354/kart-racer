@@ -18,3 +18,29 @@ canvas {
 	position: absolute;
 	width: 100%;
 }
+
+.controls {
+	height: 100px;
+	touch-action: none;
+	width: 100px;
+}
+
+#go {
+	background-color: green;
+}
+
+#stop {
+	background-color: red;
+}
+
+#turbo {
+	background-color: blue;
+}
+
+#right {
+	background-color: white;
+}
+
+#left {
+	background-color: white;
+}

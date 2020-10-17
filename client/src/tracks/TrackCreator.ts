@@ -15,11 +15,6 @@ export class TrackCreator {
   constructor() {
     this.cubeLength = 10;
     this.track = {ground: [], walls: []}
-    // TODO: add starting position 
-    // Add lap number 
-    // Make this class so that you say 
-    // track = new Track() to instantiate it and can call methods on it. 
-    // the Track.setTrack('trackname') to change tracks. 
   }
 
   newCube(): Mesh {
