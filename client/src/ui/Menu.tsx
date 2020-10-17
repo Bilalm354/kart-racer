@@ -8,7 +8,7 @@ import {
 import { world } from '../index';
 import { Leaderboard } from './components/Leaderboard';
 import { AddScore } from './components/AddScore';
-import { keyboard } from '~/misc/Keyboard';
+import { Touchpad } from './components/TouchPad';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -16,9 +16,13 @@ const client = new ApolloClient({
 });
 
 export const Menu = () => {
+  const audioElement = document.getElementById('aliensExist')! as HTMLAudioElement;
+
+  const isMobile = true;
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showAddScore, setShowAddScore] = useState(false);
-  const audioElement = document.getElementById('aliensExist')! as HTMLAudioElement;
+  const [showTouchpad, setShowTouchpad] = useState(isMobile);  
+
   return (
     <ApolloProvider client={client}>
       <Container fluid className="p-0">
@@ -29,6 +33,7 @@ export const Menu = () => {
           <button type="button" onClick={() => world.setBigTrack()}>Large Track</button>
           <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
           <button type="button" onClick={() => setShowAddScore(!showAddScore)}>Add Score</button>
+          <button type="button" onClick={() => setShowTouchpad(!showTouchpad)}>Show Touchpad</button>
           <button
             type="button"
             onClick={() => audioElement.play()}
@@ -49,11 +54,7 @@ export const Menu = () => {
           <ProgressBar variant="info" now={world.car.turbo} label="Turbo" />
         </Container>
       </Container>
-      <div className="controls" id="go" onTouchStart={() => keyboard.up = true} onTouchEnd={() => keyboard.up = false}></div>
-      <div className="controls" id="stop" onTouchStart={() => keyboard.down = true} onTouchEnd={() => keyboard.down = false}></div>
-      <div className="controls" id="turbo" onTouchStart={() => keyboard.space = true} onTouchEnd={() => keyboard.space = false}></div>
-      <div className="controls" id="left" onTouchStart={() => keyboard.left = true} onTouchEnd={() => keyboard.left = false}></div>
-      <div className="controls" id="right" onTouchStart={() => keyboard.right = true} onTouchEnd={() => keyboard.right = false}></div>
+      {showTouchpad ? <Touchpad /> : undefined}
     </ApolloProvider>
   );
 };
