@@ -1,6 +1,7 @@
-import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, Vector3, GridHelper,
+import THREE, {
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, Vector3, GridHelper, Raycaster, Vector2, Mesh,
 } from 'three';
+import { render } from 'react-dom';
 import { Car } from './bodies/Car';
 import { ambientLight, directionalLight } from './misc/lights';
 import {
@@ -17,6 +18,60 @@ function addTouchEventListenerPreventDefaults(): void {
   canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
 }
 
+function onDocumentMouseMove(event: MouseEvent) {
+  event.preventDefault();
+
+  mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+
+  raycaster.setFromCamera(mouse, camera);
+
+  const intersects = raycaster.intersectObjects(objects);
+
+  if (intersects.length > 0) {
+    const intersect = intersects[0];
+
+    rollOverMesh.position.copy(intersect.point).add(intersect.face.normal);
+    rollOverMesh.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+  }
+
+  render();
+}
+
+function onDocumentMouseDown(event: MouseEvent) {
+  event.preventDefault();
+
+  mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+
+  raycaster.setFromCamera(mouse, camera);
+
+  const intersects = raycaster.intersectObjects(objects);
+
+  if (intersects.length > 0) {
+    const intersect = intersects[0];
+
+    // delete cube
+
+    if (isShiftDown) {
+      if (intersect.object !== plane) {
+        scene.remove(intersect.object);
+
+        objects.splice(objects.indexOf(intersect.object), 1);
+      }
+
+      // create cube
+    } else {
+      const voxel = new Mesh(cubeGeo, cubeMaterial);
+      voxel.position.copy(intersect.point).add(intersect.face.normal);
+      voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+      scene.add(voxel);
+
+      objects.push(voxel);
+    }
+
+    render();
+  }
+}
+
 export class World {
   public car: Car;
   public scene: Scene;
@@ -30,6 +85,8 @@ export class World {
   private collidableBoundingBoxes: Box3[];
 
   constructor() {
+    document.addEventListener('mousemove', onDocumentMouseMove, false);
+    document.addEventListener('mousedown', onDocumentMouseDown, false);
     this.scene = new Scene();
     this.camera = new PerspectiveCamera(
       75, window.innerWidth / window.innerHeight, 0.1, 2000,
@@ -41,6 +98,8 @@ export class World {
     this.car = new Car();
     this.cameraView = 'behindCar';
     this.collidableBoundingBoxes = [];
+    this.raycaster = new Raycaster();
+    this.mouse = new Vector2();
   }
 
   public onWindowResize() {
