@@ -13,23 +13,24 @@ export class Keyboard {
       this.space = false;
     }
 
-    // TODO: see if there's  a type for keys.
-
-    keyDownHandler(key: string) {
-      if (key === 'ArrowRight') {
-        this.right = true;
-      }
-      if (key === 'ArrowLeft') {
-        this.left = true;
-      }
-      if (key === 'ArrowDown') {
-        this.down = true;
-      }
-      if (key === 'ArrowUp') {
-        this.up = true;
-      }
-      if (key === ' ') {
-        this.space = true;
+    keyDownHandler(key: string): void {
+      switch (key) {
+        case 'ArrowRight':
+          this.right = true;
+          break;
+        case 'ArrowLeft':
+          this.left = true;
+          break;
+        case 'ArrowDown':
+          this.down = true;
+          break;
+        case 'ArrowUp':
+          this.up = true;
+          break;
+        case ' ':
+          this.space = true;
+          break;
+        default:
       }
     }
 

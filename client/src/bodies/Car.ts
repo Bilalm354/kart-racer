@@ -1,8 +1,9 @@
-import { Box3, Camera, Group, Vector3 } from 'three';
+import {
+  Box3, Camera, Group, Vector3,
+} from 'three';
 import { world } from '~/index';
-import { createCarObject3d } from './createCarObject3d';
-
-// TODO: make car extend THREE Group so that I don't need to do .object3d.shit 
+import { keyboard } from '~/misc/Keyboard';
+import { createCarObject3d } from '~/bodies/createCarObject3d';
 
 export class Car {
   angle: number;
@@ -25,9 +26,14 @@ export class Car {
   boundingBox: Box3;
 
   constructor() {
-    this.x = -150;
-    this.y = 0;
-    this.z = 3; // makes car sit on top of track
+    document.addEventListener('keydown', (event) => keyboard.keyDownHandler(event.key));
+    document.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
+    this.color = 'blue';
+    this.object3d = createCarObject3d(this.color);
+    this.boundingBox = new Box3().setFromObject(this.object3d);
+    this.x = 0;
+    this.y = -50;
+    this.z = this.boundingBox.max.z / 2;
     this.velocity = new Vector3(0, 0, 0);
     this.angle = 0;
     this.power = 0;
@@ -41,30 +47,38 @@ export class Car {
     this.isTurbo = false;
     this.health = 100;
     this.turbo = 100;
-    this.color = 'blue';
-    this.object3d = createCarObject3d(this.color);
-    this.boundingBox = new Box3().setFromObject(this.object3d)
   }
 
-  handleCollision(): void {
+  public handleCollision(): void {
     this.health = Math.max(0, this.health - this.power * 200);
     this.velocity = this.velocity.multiplyScalar(-1);
     this.power *= 0.5;
   }
 
-  setColor(color: string): void {
-    world.scene.remove(this.object3d)
+  public setColor(color: string): void {
+    world.scene.remove(this.object3d);
     this.color = color;
     this.object3d = createCarObject3d(color);
-    world.scene.add(this.object3d)
+    world.scene.add(this.object3d);
   }
 
-  updateBoundingBox(): void {
-    // this should probable go in the main car update. And shouldn't have to be called in world. 
-    this.boundingBox = new Box3().setFromObject(this.object3d)
+  public update() {
+    this.updateProperties();
+    this.updateObject3d();
+    this.updateBoundingBox();
   }
 
-  update(): void {
+  public updateBoundingBox(): void {
+    this.boundingBox = new Box3().setFromObject(this.object3d);
+  }
+
+  public updateProperties(): void {
+    this.isThrottling = keyboard.up;
+    this.isReversing = keyboard.down;
+    this.isTurningRight = keyboard.right;
+    this.isTurningLeft = keyboard.left;
+    this.isTurbo = keyboard.space;
+
     let maxPower = 0.175;
     const maxReverse = 0.0375;
     const powerFactor = 0.001;
@@ -89,8 +103,7 @@ export class Car {
       this.power -= powerFactor;
     }
 
-    this.isReversing ? this.reverse += reverseFactor : this.reverse -= reverseFactor
-
+    this.reverse = this.isReversing ? this.reverse + reverseFactor : this.reverse - reverseFactor;
     this.power = Math.max(0, Math.min(maxPower, this.power));
     this.reverse = Math.max(0, Math.min(maxReverse, this.reverse));
 
@@ -99,6 +112,7 @@ export class Car {
     if (this.isTurningLeft) {
       this.angularVelocity -= direction * turnSpeed;
     }
+
     if (this.isTurningRight) {
       this.angularVelocity += direction * turnSpeed;
     }
@@ -116,24 +130,14 @@ export class Car {
     this.turbo = Math.min(this.turbo + 0.3, 100);
   }
 
-  updateKeyboard(keyboard: any) {
-    keyboard.up ? this.isThrottling = true : this.isThrottling = false;
-    keyboard.down ? this.isReversing = true : this.isReversing = false;
-    keyboard.right ? this.isTurningRight = true : this.isTurningRight = false;
-    keyboard.left ? this.isTurningLeft = true : this.isTurningLeft = false;
-    keyboard.space && this.turbo > 1 ? this.isTurbo = true: this.isTurbo = false
-  }
-
-  updateObject3d() {
-    // TODO: replace this with directly changing the object3d in other places
-    // TODO: rename object3d to body 
+  updateObject3d(): void {
     this.object3d.position.x = this.x;
     this.object3d.position.y = this.y;
     this.object3d.position.z = this.z;
     this.object3d.rotation.z = -this.angle;
   }
 
-  updateCamera(camera: Camera) {
+  updateBehindCarCameraPosition(camera: Camera): void {
     const x = this.x - 40 * Math.sin(this.angle);
     const y = this.y - 40 * Math.cos(this.angle);
     const z = this.z + 20;

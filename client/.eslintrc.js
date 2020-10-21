@@ -26,15 +26,6 @@ module.exports = {
     'sort-class-members',
   ],
   rules: {
-    'import/prefer-default-export': 'off',
-    'max-len': 'on',
-    'import/no-unresolved': 'off',
-    'import/extensions': 'off',
-    'no-console': 'off',
-    'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
-    'no-plusplus': 'off',
-    'react/jsx-filename-extension': 'off',
-    'import/no-absolute-path': 'off',
     'sort-class-members/sort-class-members': [2, {
       order: [
         '[static-properties]',
@@ -48,5 +39,14 @@ module.exports = {
       groups: [{ type: 'method', sort: 'alphabetical' }],
       accessorPairPositioning: 'getThenSet',
     }],
+    'import/prefer-default-export': 'off',
+    'max-len': 1,
+    'import/no-unresolved': 'off',
+    'import/extensions': 'off',
+    'no-console': 'off',
+    'lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
+    'no-plusplus': 'off',
+    'react/jsx-filename-extension': 'off',
+    'import/no-absolute-path': 'off',
   },
 };

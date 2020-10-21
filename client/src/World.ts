@@ -1,11 +1,21 @@
-import { Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3 } from 'three';
+import {
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, Vector3, GridHelper,
+} from 'three';
 import { Car } from './bodies/Car';
 import { ambientLight, directionalLight } from './misc/lights';
-import { Track, TrackCreator } from './tracks/TrackCreator';
-import { keyboard } from './misc/Keyboard';
-import { trackCreatorMode } from './trackCreatorMode';
+import {
+  bigTrack, smallTrack, track, createCube, Track,
+} from './bodies/tracks';
 
 type CameraView = 'top' | 'behindCar';
+
+function addTouchEventListenerPreventDefaults(): void {
+  const canvas = document.querySelector('canvas')!;
+  canvas.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
+  canvas.addEventListener('touchend', (e) => e.preventDefault(), { passive: false });
+  canvas.addEventListener('touchcancel', (e) => e.preventDefault(), { passive: false });
+  canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+}
 
 export class World {
   public car: Car;
@@ -18,16 +28,14 @@ export class World {
   private cameraView: CameraView;
   private renderer: WebGLRenderer
   private collidableBoundingBoxes: Box3[];
-  private trackCreator: TrackCreator;
 
   constructor() {
     this.scene = new Scene();
     this.camera = new PerspectiveCamera(
       75, window.innerWidth / window.innerHeight, 0.1, 2000,
     );
-    this.trackCreator = new TrackCreator();
     this.renderer = new WebGLRenderer();
-    this.track = this.trackCreator.smallTrack();
+    this.track = track;
     this.ambientLight = ambientLight;
     this.directionalLight = directionalLight;
     this.car = new Car();
@@ -51,40 +59,39 @@ export class World {
     this.camera.up.set(0, 0, 1);
     this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
     this.buildTrack();
-    this.addTouchEventListenerPreventDefaults()
+    addTouchEventListenerPreventDefaults();
   }
 
   private buildTrack() {
-    this.track.walls.map((wall) => {
-      this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
-      this.scene.add(wall)
-    })
-    this.scene.add(this.track.ground[0])
+    this.track.forEach((boxPosition: Vector3) => {
+      const { x, y, z } = boxPosition;
+      const box = createCube();
+      box.position.set(x, y, z);
+      this.collidableBoundingBoxes.push(new Box3().setFromObject(box));
+      this.scene.add(box);
+    });
+
+    // grid
+    const gridHelper = new GridHelper(1000, 100);
+    gridHelper.rotateX(-Math.PI / 2);
+    this.scene.add(gridHelper);
   }
 
-  private removeTrack() {
-    this.track.walls.map((wall) => {
-      this.scene.remove(this.scene.getObjectById(wall.id)!);
-    })
-    this.collidableBoundingBoxes = [];
-    this.scene.remove(this.track.ground[0]);
-  }
+  // private removeTrack() {
+  //   // this.track.forEach((boxPosition) => {
+  //   //   this.scene.remove(this.scene.getObjectByName(!);
+  //   // });
+  //   this.collidableBoundingBoxes = [];
+  //   this.scene.remove(this.track.ground[0]);
+  // }
 
   private resolveCollisionsBetweenCarsAndTrackWalls() {
     this.collidableBoundingBoxes.forEach((collidableBox) => {
       if ((this.car.boundingBox.intersectsBox(collidableBox))) {
         this.car.handleCollision();
-        // add cars and their handle collisions here 
+        // add cars and their handle collisions here
       }
     });
-  }
-
-  private addTouchEventListenerPreventDefaults() {
-    const canvas = document.querySelector('canvas')!;
-    canvas.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
-    canvas.addEventListener('touchend', (e) => e.preventDefault(), { passive: false });
-    canvas.addEventListener('touchcancel', (e) => e.preventDefault(), { passive: false });
-    canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
   }
 
   public removeCar() {
@@ -92,10 +99,7 @@ export class World {
   }
 
   public updateSceneAndCamera() {
-    this.car.updateKeyboard(keyboard);
     this.car.update();
-    this.car.updateObject3d();
-    this.car.updateBoundingBox()
     this.resolveCollisionsBetweenCarsAndTrackWalls();
     this.setCameraPosition(this.cameraView);
     this.renderer.render(this.scene, this.camera);
@@ -107,7 +111,7 @@ export class World {
       this.camera.lookAt(0, 0, 0);
       this.camera.up.set(0, 1, 0);
     } else if (view === 'behindCar') {
-      this.car.updateCamera(this.camera);
+      this.car.updateBehindCarCameraPosition(this.camera);
     }
   }
 
@@ -117,13 +121,28 @@ export class World {
 
   public setSmallTrack(): void {
     this.removeTrack();
-    this.track = this.trackCreator.smallTrack();
+    this.track = smallTrack();
     this.buildTrack();
   }
 
   public setBigTrack(): void {
-    this.removeTrack()
-    this.track = this.trackCreator.bigTrack();
+    this.removeTrack();
+    this.track = bigTrack();
     this.buildTrack();
   }
+
+  // The ground should be created automatically where it needs to be. For now it should be
+  // the furtherest points sized plane.
+
+  // public createGround(lengthOfSidesInCubes: number): Mesh {
+  //   const geometry = new PlaneGeometry(
+  //     lengthOfSidesInCubes * cubeLength,
+  //     lengthOfSidesInCubes * cubeLength,
+  //   );
+  //   const material = new MeshStandardMaterial({
+  //     color: 'grey',
+  //     wireframe: false,
+  //   });
+  //   return new Mesh(geometry, material);
+  // }
 }

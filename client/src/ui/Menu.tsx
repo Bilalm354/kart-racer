@@ -2,9 +2,7 @@
 import React, { useState } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/esm/ProgressBar';
-import {
-  ApolloClient, InMemoryCache, ApolloProvider,
-} from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { world } from '../index';
 import { Leaderboard } from './components/Leaderboard';
 import { AddScore } from './components/AddScore';
@@ -18,7 +16,6 @@ const client = new ApolloClient({
 
 export const Menu = () => {
   const audioElement = document.getElementById('aliensExist')! as HTMLAudioElement;
-
   const isMobile = true;
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showAddScore, setShowAddScore] = useState(false);
@@ -52,7 +49,11 @@ export const Menu = () => {
         {showLeaderboard ? <Leaderboard /> : undefined}
         {showAddScore ? <AddScore /> : undefined}
         <Container fluid className="fixed-bottom text-center">
-          <Row> {showTouchpad ? <Touchpad /> : undefined} </Row>
+          <Row>
+            {' '}
+            {showTouchpad ? <Touchpad /> : undefined}
+            {' '}
+          </Row>
           <ProgressBar variant="danger" now={world.car.health} label="Health" />
           <ProgressBar variant="info" now={world.car.turbo} label="Turbo" />
         </Container>

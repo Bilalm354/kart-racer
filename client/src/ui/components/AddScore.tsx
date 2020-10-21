@@ -1,8 +1,7 @@
-import { gql, useMutation } from '@apollo/client';
 // eslint-disable-next-line no-use-before-define
 import React, { useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
 import { Score } from './Leaderboard';
-
 
 const ADD_SCORE = gql`
   mutation addScore($name:String!, $time:String!){
@@ -12,10 +11,12 @@ const ADD_SCORE = gql`
     }
   }
 `;
+
 export function AddScore() {
   const [name, setName] = useState('');
   const [time, setTime] = useState('');
-  const [addScore, { error, data }] = useMutation<{ addScore: Score }, { name: string, time: string }>(ADD_SCORE, { variables: { name, time } });
+  const [addScore, { error, data }] = useMutation<{ addScore: Score },
+  { name: string, time: string }>(ADD_SCORE, { variables: { name, time } });
 
   return (
     <div>
@@ -30,7 +31,7 @@ export function AddScore() {
       {data && data.addScore ? <p>Saved!</p> : null}
       <form>
         <p>
-          <label htmlFor="name">Name</label>
+          <label>Name</label>
           <input
             name="name"
             id="name"
