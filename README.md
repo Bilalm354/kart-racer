@@ -69,10 +69,15 @@ The client side is deployed on Netlify with continuous deploymemt from the Githu
 #### Build Settings
 
 Repository: github.com/Bilalm354/kart-racer
+
 Base directory: `./client`
+
 Build command: `npm run build`
+
 Publish directory: `./client/dist`
+
 Deploy log visibility: `Logs are public`
+
 Builds: `Active`
 
 ### Server
