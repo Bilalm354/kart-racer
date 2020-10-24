@@ -7,7 +7,6 @@ import { world } from '../index';
 import { Leaderboard } from './components/Leaderboard';
 import { AddScore } from './components/AddScore';
 import { Touchpad } from './components/TouchPad';
-import { trackCreatorMode } from '~/trackCreatorMode';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -32,7 +31,7 @@ export const Menu = () => {
           <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
           <button type="button" onClick={() => setShowAddScore(!showAddScore)}>Add Score</button>
           <button type="button" onClick={() => setShowTouchpad(!showTouchpad)}>Show Touchpad</button>
-          <button type="button" onClick={() => trackCreatorMode()}>Track Creator</button>
+          <button type="button" onClick={() => alert('track creator mode would go here')}>Track Creator</button>
           <button
             type="button"
             onClick={() => audioElement.play()}

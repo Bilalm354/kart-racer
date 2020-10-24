@@ -6,10 +6,6 @@ import {
 
 export type Track = Vector3[];
 
-export const track = [new Vector3(0, 0, 5), new Vector3(10, 0, 5)];
-
-track.length = 20;
-
 const cubeLength = 10;
 
 export function createCube(): Mesh {
@@ -18,17 +14,18 @@ export function createCube(): Mesh {
   return new Mesh(geometry, material);
 }
 
-// export function smallTrack(): Track {
-//   const track: Track = [];
-//   track.push(...createSquareOfWalls(20));
-//   track.push(...createSquareOfWalls(40));
-//   return track;
-// }
+export const track: Track = [new Vector3(0, 0, 5), new Vector3(10, 0, 5)];
 
-// export function bigTrack(): Track {
-//   const track: Track = { ground: [], walls: [] };
-//   track.ground.push(createGround(160));
-//   track.walls.push(...createSquareOfWalls(80));
-//   track.walls.push(...createSquareOfWalls(160));
-//   return track;
-// }
+export function createSmallTrack(): Track {
+  const smallTrack: Track = [];
+  smallTrack.push(...createSquareOfWalls(20));
+  smallTrack.push(...createSquareOfWalls(40));
+  return smallTrack;
+}
+
+export function createBigTrack(): Track {
+  const bigTrack: Track = [];
+  bigTrack.push(...createSquareOfWalls(80));
+  bigTrack.push(...createSquareOfWalls(160));
+  return bigTrack;
+}

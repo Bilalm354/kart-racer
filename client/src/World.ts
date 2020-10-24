@@ -1,11 +1,11 @@
-import THREE, {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, Vector3, GridHelper, Raycaster, Vector2, Mesh,
+import {
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera,
+  Box3, Vector3, GridHelper,
 } from 'three';
-import { render } from 'react-dom';
 import { Car } from './bodies/Car';
 import { ambientLight, directionalLight } from './misc/lights';
 import {
-  bigTrack, smallTrack, track, createCube, Track,
+  createBigTrack, createSmallTrack, track, createCube, Track,
 } from './bodies/tracks';
 
 type CameraView = 'top' | 'behindCar';
@@ -16,60 +16,6 @@ function addTouchEventListenerPreventDefaults(): void {
   canvas.addEventListener('touchend', (e) => e.preventDefault(), { passive: false });
   canvas.addEventListener('touchcancel', (e) => e.preventDefault(), { passive: false });
   canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
-}
-
-function onDocumentMouseMove(event: MouseEvent) {
-  event.preventDefault();
-
-  mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
-
-  raycaster.setFromCamera(mouse, camera);
-
-  const intersects = raycaster.intersectObjects(objects);
-
-  if (intersects.length > 0) {
-    const intersect = intersects[0];
-
-    rollOverMesh.position.copy(intersect.point).add(intersect.face.normal);
-    rollOverMesh.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
-  }
-
-  render();
-}
-
-function onDocumentMouseDown(event: MouseEvent) {
-  event.preventDefault();
-
-  mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
-
-  raycaster.setFromCamera(mouse, camera);
-
-  const intersects = raycaster.intersectObjects(objects);
-
-  if (intersects.length > 0) {
-    const intersect = intersects[0];
-
-    // delete cube
-
-    if (isShiftDown) {
-      if (intersect.object !== plane) {
-        scene.remove(intersect.object);
-
-        objects.splice(objects.indexOf(intersect.object), 1);
-      }
-
-      // create cube
-    } else {
-      const voxel = new Mesh(cubeGeo, cubeMaterial);
-      voxel.position.copy(intersect.point).add(intersect.face.normal);
-      voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
-      scene.add(voxel);
-
-      objects.push(voxel);
-    }
-
-    render();
-  }
 }
 
 export class World {
@@ -85,8 +31,6 @@ export class World {
   private collidableBoundingBoxes: Box3[];
 
   constructor() {
-    document.addEventListener('mousemove', onDocumentMouseMove, false);
-    document.addEventListener('mousedown', onDocumentMouseDown, false);
     this.scene = new Scene();
     this.camera = new PerspectiveCamera(
       75, window.innerWidth / window.innerHeight, 0.1, 2000,
@@ -98,8 +42,6 @@ export class World {
     this.car = new Car();
     this.cameraView = 'behindCar';
     this.collidableBoundingBoxes = [];
-    this.raycaster = new Raycaster();
-    this.mouse = new Vector2();
   }
 
   public onWindowResize() {
@@ -136,13 +78,13 @@ export class World {
     this.scene.add(gridHelper);
   }
 
-  // private removeTrack() {
-  //   // this.track.forEach((boxPosition) => {
-  //   //   this.scene.remove(this.scene.getObjectByName(!);
-  //   // });
-  //   this.collidableBoundingBoxes = [];
-  //   this.scene.remove(this.track.ground[0]);
-  // }
+  private removeTrack() {
+    // this.track.forEach((boxPosition) => {
+    //   this.scene.remove(this.scene.getObjectByName(!);
+    // });
+    // this.collidableBoundingBoxes = [];
+    // this.scene.remove(this.track.ground[0]);
+  }
 
   private resolveCollisionsBetweenCarsAndTrackWalls() {
     this.collidableBoundingBoxes.forEach((collidableBox) => {
@@ -180,13 +122,13 @@ export class World {
 
   public setSmallTrack(): void {
     this.removeTrack();
-    this.track = smallTrack();
+    this.track = createSmallTrack();
     this.buildTrack();
   }
 
   public setBigTrack(): void {
     this.removeTrack();
-    this.track = bigTrack();
+    this.track = createBigTrack();
     this.buildTrack();
   }
 

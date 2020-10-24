@@ -1,4 +1,4 @@
-import './styles/index';
+import '~/styles/index';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import { Menu } from './ui/Menu';
