@@ -2,6 +2,8 @@
 
 Note: I started building this project on a React/ Three/ Webpack boilerplate (but don't use any of it I think) and that it is why Github shows other contributors. 
 
+Update: the track is created by adding meshes of cubes and asigning them to a constant then adding that to the scene. I am working on instead saving tracks as coordinates and creating and adding to the scene as late as possible. This will also making it possible to save to json files and make it possible to create tracks and directly save to json. This makes sense dw about it. 
+
 ## Hello and welcome.
 
 [Live app](https://kart-racer.netlify.com)
