@@ -12,10 +12,10 @@ export function createCarObject3d(color: string): THREE.Group {
   const wheelMaterial = new THREE.MeshBasicMaterial({ color: 'black' });
 
   const frontLeftWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
-  frontLeftWheel.position.set(-4, 6, -2)
+  frontLeftWheel.position.set(-4, 6, -2);
 
   const frontRightWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
-  frontRightWheel.position.set(4, 6, -2)
+  frontRightWheel.position.set(4, 6, -2);
 
   const backLeftWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
   backLeftWheel.position.set(-4, -6, -2);
@@ -23,7 +23,9 @@ export function createCarObject3d(color: string): THREE.Group {
   const backRightWheel = new THREE.Mesh(wheelGeometry, wheelMaterial);
   backRightWheel.position.set(4, -6, -2);
 
-  [frontLeftWheel, frontRightWheel, backLeftWheel, backRightWheel].forEach(wheel => wheel.rotation.z = Math.PI / 2)
+  [frontLeftWheel, frontRightWheel, backLeftWheel, backRightWheel]
+    .forEach((wheel) => { wheel.rotation.set(0, 0, Math.PI / 2); });
 
-  return new THREE.Group().add(body, frontLeftWheel, frontRightWheel, backLeftWheel, backRightWheel);
+  return new THREE.Group()
+    .add(body, frontLeftWheel, frontRightWheel, backLeftWheel, backRightWheel);
 }

@@ -1,12 +1,14 @@
 import {
   Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera,
-  Box3, Vector3, GridHelper,
+  Box3, Vector3, GridHelper, Plane, PlaneGeometry, MeshBasicMaterial, DoubleSide, Mesh,
 } from 'three';
-import { Car } from './bodies/Car';
-import { ambientLight, directionalLight } from './misc/lights';
+import { Car } from '~/bodies/Car';
+import { ambientLight, directionalLight } from '~/scene/lights';
 import {
   createBigTrack, createSmallTrack, track, createCube, Track,
-} from './bodies/tracks';
+} from '~/tracks/newTrackSystem';
+
+// TODO: implement old tracks so that I can merge to master
 
 type CameraView = 'top' | 'behindCar';
 
@@ -21,7 +23,6 @@ function addTouchEventListenerPreventDefaults(): void {
 export class World {
   public car: Car;
   public scene: Scene;
-
   private track: Track;
   private ambientLight: Light;
   private directionalLight: Light;
@@ -29,6 +30,7 @@ export class World {
   private cameraView: CameraView;
   private renderer: WebGLRenderer
   private collidableBoundingBoxes: Box3[];
+  // private gridHelper: GridHelper;
 
   constructor() {
     this.scene = new Scene();
@@ -42,6 +44,7 @@ export class World {
     this.car = new Car();
     this.cameraView = 'behindCar';
     this.collidableBoundingBoxes = [];
+    // this.gridHelper = new GridHelper();
   }
 
   public onWindowResize() {
@@ -59,11 +62,11 @@ export class World {
     directionalLight.position.set(1, 1, 0.5).normalize();
     this.camera.up.set(0, 0, 1);
     this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
-    this.buildTrack();
+    this.buildTrackFromPositions();
     addTouchEventListenerPreventDefaults();
   }
 
-  private buildTrack() {
+  private buildTrackFromPositions() {
     this.track.forEach((boxPosition: Vector3) => {
       const { x, y, z } = boxPosition;
       const box = createCube();
@@ -71,11 +74,52 @@ export class World {
       this.collidableBoundingBoxes.push(new Box3().setFromObject(box));
       this.scene.add(box);
     });
+    const ground = this.createGroundForTrack();
+    ground.position.setZ(-5);
+    this.scene.add(ground);
+  }
 
-    // grid
+  // eslint-disable-next-line class-methods-use-this
+  private createGroundForTrack() {
+    // can probs use reduce or somehting in this
+    let minX = Infinity;
+    let minZ = Infinity;
+    let maxX = -Infinity;
+    let maxZ = -Infinity;
+    this.track.forEach((position) => {
+      if (position.x < minX) {
+        minX = position.x;
+      }
+      if (position.x > maxX) {
+        maxX = position.x;
+      }
+      if (position.z < minZ) {
+        minZ = position.z;
+      }
+      if (position.z > maxZ) {
+        maxZ = position.z;
+      }
+
+      // TODO: find centre and set position of ground
+    });
+
+    const groundGeometry = new PlaneGeometry(10 + maxX - minX, 10 + maxZ - minZ);
+    // the 10 is becuase these mins are the centres of the cubes reather than the corners
+    const groundMaterial = new MeshBasicMaterial({ color: 0xffff00, side: DoubleSide });
+    return new Mesh(groundGeometry, groundMaterial);
+  }
+
+  public addGridHelper() {
     const gridHelper = new GridHelper(1000, 100);
     gridHelper.rotateX(-Math.PI / 2);
     this.scene.add(gridHelper);
+  }
+
+  public removeGridHelper() { // doesn't work!
+    const gridHelper = this.scene.getObjectByName('gridHelper');
+    if (gridHelper) {
+      this.scene.remove(gridHelper);
+    }
   }
 
   private removeTrack() {
@@ -123,13 +167,13 @@ export class World {
   public setSmallTrack(): void {
     this.removeTrack();
     this.track = createSmallTrack();
-    this.buildTrack();
+    this.buildTrackFromPositions();
   }
 
   public setBigTrack(): void {
     this.removeTrack();
     this.track = createBigTrack();
-    this.buildTrack();
+    this.buildTrackFromPositions();
   }
 
   // The ground should be created automatically where it needs to be. For now it should be

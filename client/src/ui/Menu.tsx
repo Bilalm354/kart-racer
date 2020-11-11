@@ -44,6 +44,8 @@ export const Menu = () => {
           <button type="button" onClick={() => world.car.setColor('red')}>Red Car</button>
           <button type="button" onClick={() => world.car.setColor('green')}>Green Car</button>
           <button type="button" onClick={() => world.car.setColor('blue')}>Blue Car</button>
+          <button type="button" onClick={() => world.addGridHelper()}>Add Grid Helper</button>
+          <button type="button" onClick={() => world.removeGridHelper()}>Remove Grid Helper</button>
         </form>
         {showLeaderboard ? <Leaderboard /> : undefined}
         {showAddScore ? <AddScore /> : undefined}

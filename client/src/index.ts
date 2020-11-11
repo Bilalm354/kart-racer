@@ -1,8 +1,8 @@
 import '~/styles/index';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import { Menu } from './ui/Menu';
-import { World } from './World';
+import { Menu } from '~/ui/Menu';
+import { World } from '~/World';
 
 export const world = new World();
 
