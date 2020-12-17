@@ -3,7 +3,6 @@ import { Car } from './bodies/Car';
 import { ambientLight, directionalLight } from './misc/lights';
 import { Track, TrackCreator } from './tracks/TrackCreator';
 import { keyboard } from './misc/Keyboard';
-import { trackCreatorMode } from './trackCreatorMode';
 
 type CameraView = 'top' | 'behindCar';
 
@@ -92,10 +91,8 @@ export class World {
   }
 
   public updateSceneAndCamera() {
-    this.car.updateKeyboard(keyboard);
+    this.car.updateFromKeyboard(keyboard);
     this.car.update();
-    this.car.updateObject3d();
-    this.car.updateBoundingBox()
     this.resolveCollisionsBetweenCarsAndTrackWalls();
     this.setCameraPosition(this.cameraView);
     this.renderer.render(this.scene, this.camera);

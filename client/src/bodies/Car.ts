@@ -59,11 +59,6 @@ export class Car {
     world.scene.add(this.object3d)
   }
 
-  updateBoundingBox(): void {
-    // this should probable go in the main car update. And shouldn't have to be called in world. 
-    this.boundingBox = new Box3().setFromObject(this.object3d)
-  }
-
   update(): void {
     let maxPower = 0.175;
     const maxReverse = 0.0375;
@@ -114,9 +109,12 @@ export class Car {
     this.angularVelocity *= angularDrag;
     this.health = Math.min(this.health + 0.1, 100);
     this.turbo = Math.min(this.turbo + 0.3, 100);
+    this.updateObject3d()
+    this.boundingBox.setFromObject(this.object3d)
+    // this.boundingBox = new Box3().setFromObject(this.object3d)
   }
 
-  updateKeyboard(keyboard: any) {
+  updateFromKeyboard(keyboard: any): void {
     keyboard.up ? this.isThrottling = true : this.isThrottling = false;
     keyboard.down ? this.isReversing = true : this.isReversing = false;
     keyboard.right ? this.isTurningRight = true : this.isTurningRight = false;
@@ -124,16 +122,14 @@ export class Car {
     keyboard.space && this.turbo > 1 ? this.isTurbo = true: this.isTurbo = false
   }
 
-  updateObject3d() {
-    // TODO: replace this with directly changing the object3d in other places
-    // TODO: rename object3d to body 
+  updateObject3d(): void {
     this.object3d.position.x = this.x;
     this.object3d.position.y = this.y;
     this.object3d.position.z = this.z;
     this.object3d.rotation.z = -this.angle;
   }
 
-  updateCamera(camera: Camera) {
+  updateCamera(camera: Camera): void {
     const x = this.x - 40 * Math.sin(this.angle);
     const y = this.y - 40 * Math.cos(this.angle);
     const z = this.z + 20;
