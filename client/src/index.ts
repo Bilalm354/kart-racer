@@ -27,4 +27,4 @@ main();
 
 requestAnimationFrame(animate);
 
-console.log('\x1b[36m%s\x1b[0m', 'hi nerd, hope you like my game');
+console.log('\x1b[36m%s\x1b[0m', 'nerd');
