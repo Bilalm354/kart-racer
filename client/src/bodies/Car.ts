@@ -1,6 +1,6 @@
 import { Box3, Camera, Group, Vector3 } from 'three';
 import { world } from '~/index';
-import { createCarObject3d } from './createCarObject3d';
+import { createCarObject3d } from '~/bodies/createCarObject3d';
 
 // TODO: make car extend THREE Group so that I don't need to do .object3d.shit 
 

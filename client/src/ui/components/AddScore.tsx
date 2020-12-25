@@ -1,7 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 // eslint-disable-next-line no-use-before-define
 import React, { useState } from 'react';
-import { Score } from './Leaderboard';
+import { Score } from '~/ui/components/Leaderboard';
 
 
 const ADD_SCORE = gql`
