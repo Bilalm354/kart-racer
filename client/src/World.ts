@@ -1,8 +1,8 @@
 import { Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3 } from 'three';
-import { Car } from './bodies/Car';
-import { ambientLight, directionalLight } from './misc/lights';
-import { Track, TrackCreator } from './tracks/TrackCreator';
-import { keyboard } from './misc/Keyboard';
+import { Car } from '~/bodies/Car';
+import { ambientLight, directionalLight } from '~/misc/lights';
+import { Track, TrackCreator } from '~/tracks/TrackCreator';
+import { keyboard } from '~/misc/Keyboard';
 
 type CameraView = 'top' | 'behindCar';
 

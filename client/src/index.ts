@@ -1,9 +1,11 @@
-import './styles/index';
+import '~/styles/index';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import { Menu } from './ui/Menu';
+import { Menu } from '~/ui/Menu';
 import { keyboard } from './misc/Keyboard';
-import { World } from './World';
+import { World } from '~/World';
+
+
 
 export const world = new World();
 

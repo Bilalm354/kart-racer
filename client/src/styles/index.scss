@@ -1,19 +1,21 @@
 @import '~bootstrap/scss/bootstrap';
 
-body {
-	background-color: black;
-	margin: 0;
-	overflow: hidden;
-
-}
-
-canvas {
-	display: block;
+* {
 	-moz-user-select: none;
 	-khtml-user-select: none;
 	-webkit-user-select: none;
 	-o-user-select: none;
 	user-select: none;
+}
+
+body {
+	background-color: #000;
+	margin: 0;
+	overflow: hidden;
+}
+
+canvas {
+	display: block;
 }
 
 #react {
@@ -24,7 +26,7 @@ canvas {
 .controls {
 	border: 0.2em;
 	border-style: solid;
-	color: black;
+	color: #000;
 	display: inline-block;
 	font-size: smaller;
 	font-weight: 900;
@@ -57,9 +59,9 @@ canvas {
 }
 
 #right {
-	background-color: gray;
+	background-color: rgb(128, 128, 128);
 }
 
 #left {
-	background-color: gray;
+	background-color: rgb(128, 128, 128);
 }
