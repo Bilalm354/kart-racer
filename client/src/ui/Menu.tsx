@@ -34,12 +34,7 @@ export const Menu = () => {
           <button type="button" onClick={() => setShowAddScore(!showAddScore)}>Add Score</button>
           <button type="button" onClick={() => setShowTouchpad(!showTouchpad)}>Show Touchpad</button>
           <button type="button" onClick={() => trackCreatorMode()}>Track Creator</button>
-          <button
-            type="button"
-            onClick={() => audioElement.play()}
-          >
-            Play Music
-          </button>
+          <button type="button" onClick={() => audioElement.play()}>Play Music</button>
           <button type="button" onClick={() => audioElement.pause()}>Pause Music</button>
           <button type="button" onClick={() => world.setCameraView('top')}>Top Camera</button>
           <button type="button" onClick={() => world.setCameraView('behindCar')}>Behind Car Camera</button>
