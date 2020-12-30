@@ -25,11 +25,15 @@ export const Leaderboard = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
 
-  return data?.scores.map(({ name, time }) => (
-    <div key={name}>
-      <p>
-        {`${name} : ${time}`}
-      </p>
-    </div>
-  ))
-};
+  return (
+  <div id="leaderboard">
+    {data?.scores.map(({ name, time }) => (
+      <div key={name}>
+        <p>
+          {`${name} : ${time}`}
+        </p>
+      </div>
+    ))}
+  </div>
+  )
+} ;
