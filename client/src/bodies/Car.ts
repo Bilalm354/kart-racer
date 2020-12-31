@@ -1,28 +1,28 @@
-import { Box3, Camera, Group, Vector3 } from 'three';
+import {
+  Box3, Camera, Group, Vector3,
+} from 'three';
 import { world } from '~/index';
 import { createCarObject3d } from '~/bodies/createCarObject3d';
 
-// TODO: make car extend THREE Group so that I don't need to do .object3d.shit 
-
 export class Car {
-  angle: number;
-  power: number;
-  reverse: number;
-  angularVelocity: number;
-  isThrottling: boolean;
-  isReversing: boolean;
-  isTurningLeft: boolean;
-  isTurningRight: boolean;
-  isTurbo: boolean;
-  velocity: Vector3;
-  x: number;
-  y: number;
-  z: number;
-  health: number;
-  turbo: number;
-  object3d: Group;
-  color: string
-  boundingBox: Box3;
+  public angle: number;
+  public power: number;
+  public reverse: number;
+  public angularVelocity: number;
+  public isThrottling: boolean;
+  public isReversing: boolean;
+  public isTurningLeft: boolean;
+  public isTurningRight: boolean;
+  public isTurbo: boolean;
+  public velocity: Vector3;
+  public x: number;
+  public y: number;
+  public z: number;
+  public health: number;
+  public turbo: number;
+  public object3d: Group;
+  public color: string
+  public boundingBox: Box3;
 
   constructor() {
     this.x = -150;
@@ -43,7 +43,7 @@ export class Car {
     this.turbo = 100;
     this.color = 'blue';
     this.object3d = createCarObject3d(this.color);
-    this.boundingBox = new Box3().setFromObject(this.object3d)
+    this.boundingBox = new Box3().setFromObject(this.object3d);
   }
 
   handleCollision(): void {
@@ -53,10 +53,10 @@ export class Car {
   }
 
   setColor(color: string): void {
-    world.scene.remove(this.object3d)
+    world.scene.remove(this.object3d);
     this.color = color;
     this.object3d = createCarObject3d(color);
-    world.scene.add(this.object3d)
+    world.scene.add(this.object3d);
   }
 
   update(): void {
@@ -64,7 +64,6 @@ export class Car {
     const maxReverse = 0.0375;
     const powerFactor = 0.001;
     const reverseFactor = 0.0005;
-
     const drag = 0.95;
     const angularDrag = 0.95;
     const turnSpeed = 0.002;
@@ -84,11 +83,9 @@ export class Car {
       this.power -= powerFactor;
     }
 
-    this.isReversing ? this.reverse += reverseFactor : this.reverse -= reverseFactor
-
+    this.reverse = this.isReversing ? this.reverse + reverseFactor : this.reverse - reverseFactor;
     this.power = Math.max(0, Math.min(maxPower, this.power));
     this.reverse = Math.max(0, Math.min(maxReverse, this.reverse));
-
     const direction = this.power >= this.reverse ? 1 : -1;
 
     if (this.isTurningLeft) {
@@ -109,17 +106,16 @@ export class Car {
     this.angularVelocity *= angularDrag;
     this.health = Math.min(this.health + 0.1, 100);
     this.turbo = Math.min(this.turbo + 0.3, 100);
-    this.updateObject3d()
-    this.boundingBox.setFromObject(this.object3d)
-    // this.boundingBox = new Box3().setFromObject(this.object3d)
+    this.updateObject3d();
+    this.boundingBox.setFromObject(this.object3d);
   }
 
   updateFromKeyboard(keyboard: any): void {
-    keyboard.up ? this.isThrottling = true : this.isThrottling = false;
-    keyboard.down ? this.isReversing = true : this.isReversing = false;
-    keyboard.right ? this.isTurningRight = true : this.isTurningRight = false;
-    keyboard.left ? this.isTurningLeft = true : this.isTurningLeft = false;
-    keyboard.space && this.turbo > 1 ? this.isTurbo = true: this.isTurbo = false
+    this.isThrottling = keyboard.up;
+    this.isReversing = keyboard.down;
+    this.isTurningRight = keyboard.right;
+    this.isTurningLeft = keyboard.left;
+    this.isTurbo = keyboard.space && this.turbo > 1;
   }
 
   updateObject3d(): void {
@@ -130,8 +126,10 @@ export class Car {
   }
 
   updateCamera(camera: Camera): void {
-    const x = this.x - 40 * Math.sin(this.angle);
-    const y = this.y - 40 * Math.cos(this.angle);
+    const turboFactor = this.isTurbo ? 1.1 : 1;
+    const distanceBehindCamera = 40;
+    const x = this.x - turboFactor * distanceBehindCamera * Math.sin(this.angle);
+    const y = this.y - turboFactor * distanceBehindCamera * Math.cos(this.angle);
     const z = this.z + 20;
     camera.position.set(x, y, z);
     camera.lookAt(this.x, this.y, this.z);

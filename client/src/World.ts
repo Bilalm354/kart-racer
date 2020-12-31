@@ -1,8 +1,11 @@
-import { Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3 } from 'three';
+import {
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3,
+} from 'three';
 import { Car } from '~/bodies/Car';
 import { ambientLight, directionalLight } from '~/misc/lights';
 import { Track, TrackCreator } from '~/tracks/TrackCreator';
 import { keyboard } from '~/misc/Keyboard';
+import { addTouchEventListenerPreventDefaults } from '~/helpers/canvasHelper';
 
 type CameraView = 'top' | 'behindCar';
 
@@ -50,21 +53,21 @@ export class World {
     this.camera.up.set(0, 0, 1);
     this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
     this.buildTrack();
-    this.addTouchEventListenerPreventDefaults()
+    addTouchEventListenerPreventDefaults();
   }
 
   private buildTrack() {
-    this.track.walls.map((wall) => {
+    this.track.walls.forEach((wall) => {
       this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
-      this.scene.add(wall)
-    })
-    this.scene.add(this.track.ground[0])
+      this.scene.add(wall);
+    });
+    this.scene.add(this.track.ground[0]);
   }
 
   private removeTrack() {
-    this.track.walls.map((wall) => {
+    this.track.walls.forEach((wall) => {
       this.scene.remove(this.scene.getObjectById(wall.id)!);
-    })
+    });
     this.collidableBoundingBoxes = [];
     this.scene.remove(this.track.ground[0]);
   }
@@ -73,17 +76,9 @@ export class World {
     this.collidableBoundingBoxes.forEach((collidableBox) => {
       if ((this.car.boundingBox.intersectsBox(collidableBox))) {
         this.car.handleCollision();
-        // add cars and their handle collisions here 
+        // add cars and their handle collisions here
       }
     });
-  }
-
-  private addTouchEventListenerPreventDefaults() {
-    const canvas = document.querySelector('canvas')!;
-    canvas.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
-    canvas.addEventListener('touchend', (e) => e.preventDefault(), { passive: false });
-    canvas.addEventListener('touchcancel', (e) => e.preventDefault(), { passive: false });
-    canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
   }
 
   public removeCar() {
@@ -119,7 +114,7 @@ export class World {
   }
 
   public setBigTrack(): void {
-    this.removeTrack()
+    this.removeTrack();
     this.track = this.trackCreator.bigTrack();
     this.buildTrack();
   }
