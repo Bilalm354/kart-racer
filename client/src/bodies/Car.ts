@@ -52,6 +52,11 @@ export class Car {
     this.power *= 0.5;
   }
 
+  public getHorizontalSpeed(): number {
+    const horizontalVelocity = this.velocity.clone().setY(0);
+    return Math.round(horizontalVelocity.length() * 100) / 100;
+  }
+
   setColor(color: string): void {
     world.scene.remove(this.object3d);
     this.color = color;

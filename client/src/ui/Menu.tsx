@@ -1,4 +1,4 @@
-/* eslint-disable no-use-before-define */
+// eslint-disable-next-line no-use-before-define
 import React, { useState } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/esm/ProgressBar';
@@ -45,7 +45,13 @@ export const Menu = () => {
         {showLeaderboard ? <Leaderboard /> : undefined}
         {showAddScore ? <AddScore /> : undefined}
         <Container fluid className="fixed-bottom text-center">
-          <Row> {showTouchpad ? <Touchpad /> : undefined} </Row>
+          <Row>
+            Speed:
+            {world.car.getSpeed()}
+          </Row>
+          <Row>
+            {showTouchpad ? <Touchpad /> : undefined}
+          </Row>
           <ProgressBar variant="danger" now={world.car.health} label="Health" />
           <ProgressBar variant="info" now={world.car.turbo} label="Turbo" />
         </Container>
