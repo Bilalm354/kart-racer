@@ -47,7 +47,7 @@ export const Menu = () => {
         <Container fluid className="fixed-bottom text-center">
           <Row>
             Speed:
-            {world.car.getSpeed()}
+            {world.car.getHorizontalSpeed()}
           </Row>
           <Row>
             {showTouchpad ? <Touchpad /> : undefined}
