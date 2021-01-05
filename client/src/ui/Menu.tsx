@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Container, Row } from 'react-bootstrap';
 import ProgressBar from 'react-bootstrap/esm/ProgressBar';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import { world } from '~/index';
+import { world } from '~/World';
 import { Leaderboard } from '~/ui/components/Leaderboard';
 import { AddScore } from '~/ui/components/AddScore';
 import { Touchpad } from '~/ui/components/TouchPad';

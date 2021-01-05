@@ -155,3 +155,5 @@ export class World {
     this.mode = 'create';
   }
 }
+
+export const world = new World();
