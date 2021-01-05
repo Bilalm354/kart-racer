@@ -34,21 +34,24 @@ export class Keyboard {
       }
     }
 
-    keyUpHandler(event: KeyboardEvent) {
-      if (event.key === 'ArrowRight') {
-        this.right = false;
-      }
-      if (event.key === 'ArrowLeft') {
-        this.left = false;
-      }
-      if (event.key === 'ArrowDown') {
-        this.down = false;
-      }
-      if (event.key === 'ArrowUp') {
-        this.up = false;
-      }
-      if (event.key === ' ') {
-        this.space = false;
+    keyUpHandler(key: string) {
+      switch (key) {
+        case 'ArrowRight':
+          this.right = false;
+          break;
+        case 'ArrowLeft':
+          this.left = false;
+          break;
+        case 'ArrowDown':
+          this.down = false;
+          break;
+        case 'ArrowUp':
+          this.up = false;
+          break;
+        case ' ':
+          this.space = false;
+          break;
+        default:
       }
     }
 }

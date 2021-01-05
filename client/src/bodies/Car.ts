@@ -131,7 +131,8 @@ export class Car {
   }
 
   updateCamera(camera: Camera): void {
-    const turboFactor = this.isTurbo ? 1.1 : 1;
+    // const turboFactor = this.isTurbo ? 1.1 : 1;
+    const turboFactor = 1;
     const distanceBehindCamera = 40;
     const x = this.x - turboFactor * distanceBehindCamera * Math.sin(this.angle);
     const y = this.y - turboFactor * distanceBehindCamera * Math.cos(this.angle);

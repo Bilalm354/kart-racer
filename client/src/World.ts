@@ -29,7 +29,7 @@ export class World {
   private playerPosition: Vector3;
 
   constructor() {
-    this.scene = new Scene(); // TODO: add fog to scene or distance fog if that is different
+    this.scene = new Scene();
     this.camera = new PerspectiveCamera(
       75, window.innerWidth / window.innerHeight, 0.1, 2000,
     );
@@ -68,7 +68,6 @@ export class World {
   public addToGui() {
     gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson']).listen();
     gui.add(this, 'mode', ['play', 'create']).listen(); // doesn't work because need to call the change mode function
-    gui.add(this, 'mode', ['play', 'create']).listen();
   }
 
   private buildTrack() {
@@ -91,7 +90,6 @@ export class World {
     this.collidableBoundingBoxes.forEach((collidableBox) => {
       if ((this.car.boundingBox.intersectsBox(collidableBox))) {
         this.car.handleCollision();
-        // add cars and their handle collisions here
       }
     });
   }

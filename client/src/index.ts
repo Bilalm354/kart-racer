@@ -7,14 +7,14 @@ import { keyboard } from '~/misc/Keyboard';
 import { World } from '~/World';
 
 const stats = new Stats();
-stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+stats.showPanel(0);
 document.body.appendChild(stats.dom);
 
 export const world = new World();
 
-// document.addEventListener("orientationchange", console.log(orientation));
+document.addEventListener('orientationchange', (orientation) => console.log(orientation));
 document.addEventListener('keydown', (event) => keyboard.keyDownHandler(event.key));
-document.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
+document.addEventListener('keyup', (event) => keyboard.keyUpHandler(event.key));
 window.addEventListener('resize', () => world.onWindowResize());
 
 function animate() {
