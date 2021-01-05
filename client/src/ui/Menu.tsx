@@ -7,7 +7,6 @@ import { world } from '~/index';
 import { Leaderboard } from '~/ui/components/Leaderboard';
 import { AddScore } from '~/ui/components/AddScore';
 import { Touchpad } from '~/ui/components/TouchPad';
-import { trackCreatorMode } from '~/trackCreatorMode';
 
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -26,14 +25,14 @@ export const Menu = () => {
     <ApolloProvider client={client}>
       <Container fluid className="p-0">
         <form>
-          <button type="button" onClick={() => world.init()}>Play</button>
+          <button type="button" onClick={() => world.addCar()}>Play</button>
           <button type="button" onClick={() => world.removeCar()}>Pause</button>
           <button type="button" onClick={() => world.setSmallTrack()}>Small Track</button>
           <button type="button" onClick={() => world.setBigTrack()}>Large Track</button>
           <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
           <button type="button" onClick={() => setShowAddScore(!showAddScore)}>Add Score</button>
           <button type="button" onClick={() => setShowTouchpad(!showTouchpad)}>Show Touchpad</button>
-          <button type="button" onClick={() => trackCreatorMode()}>Track Creator</button>
+          <button type="button" onClick={() => world.setCreateMode()}>Track Creator</button>
           <button type="button" onClick={() => audioElement.play()}>Play Music</button>
           <button type="button" onClick={() => audioElement.pause()}>Pause Music</button>
           <button type="button" onClick={() => world.setCameraView('top')}>Top Camera</button>

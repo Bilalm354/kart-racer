@@ -1,19 +1,9 @@
 import * as THREE from 'three';
+import { Camera } from 'three';
 
 export function trackCreatorMode() {
   alert('track creator mode');
   return;
-
-  let camera; let scene; let
-    renderer;
-  let plane;
-  let mouse; let raycaster; let
-    isShiftDown = false;
-
-  let rollOverMesh; let
-    rollOverMaterial;
-  let cubeGeo; let
-    cubeMaterial;
 
   const objects = [];
 

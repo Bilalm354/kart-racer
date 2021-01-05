@@ -1,13 +1,17 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3,
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, Vector3,
 } from 'three';
+import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
 import { ambientLight, directionalLight } from '~/misc/lights';
 import { Track, TrackCreator } from '~/tracks/TrackCreator';
 import { keyboard } from '~/misc/Keyboard';
 import { addTouchEventListenerPreventDefaults } from '~/helpers/canvasHelper';
 
-type CameraView = 'top' | 'behindCar';
+const gui = new dat.GUI();
+
+type CameraView = 'top' | 'behindCar' | 'firstPerson';
+type Mode = 'play' | 'create';
 
 export class World {
   public car: Car;
@@ -21,9 +25,11 @@ export class World {
   private renderer: WebGLRenderer
   private collidableBoundingBoxes: Box3[];
   private trackCreator: TrackCreator;
+  private mode: Mode;
+  private playerPosition: Vector3;
 
   constructor() {
-    this.scene = new Scene();
+    this.scene = new Scene(); // TODO: add fog to scene or distance fog if that is different
     this.camera = new PerspectiveCamera(
       75, window.innerWidth / window.innerHeight, 0.1, 2000,
     );
@@ -35,6 +41,8 @@ export class World {
     this.car = new Car();
     this.cameraView = 'behindCar';
     this.collidableBoundingBoxes = [];
+    this.mode = 'play';
+    this.playerPosition = new Vector3(0, 0, 0);
   }
 
   public onWindowResize() {
@@ -54,6 +62,13 @@ export class World {
     this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
     this.buildTrack();
     addTouchEventListenerPreventDefaults();
+    this.addToGui();
+  }
+
+  public addToGui() {
+    gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson']).listen();
+    gui.add(this, 'mode', ['play', 'create']).listen(); // doesn't work because need to call the change mode function
+    gui.add(this, 'mode', ['play', 'create']).listen();
   }
 
   private buildTrack() {
@@ -81,15 +96,25 @@ export class World {
     });
   }
 
+  public addCar() {
+    this.scene.add(this.car.object3d);
+  }
+
   public removeCar() {
     this.scene.remove(this.car.object3d);
   }
 
   public updateSceneAndCamera() {
-    this.car.updateFromKeyboard(keyboard);
-    this.car.update();
-    this.resolveCollisionsBetweenCarsAndTrackWalls();
-    this.setCameraPosition(this.cameraView);
+    if (this.mode === 'play') {
+      this.car.updateFromKeyboard(keyboard);
+      this.car.update();
+      this.resolveCollisionsBetweenCarsAndTrackWalls();
+      this.setCameraPosition(this.cameraView);
+    } else if (this.mode === 'create') {
+      // TODO: add first person walking camera for track creator mode -- like minecraft
+      this.setCameraPosition('top');
+      // TODO: if create mode then show track creator
+    }
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -100,6 +125,9 @@ export class World {
       this.camera.up.set(0, 1, 0);
     } else if (view === 'behindCar') {
       this.car.updateCamera(this.camera);
+    } else if (view === 'firstPerson') {
+      this.camera.position.copy(this.playerPosition);
+      // set what the camera looks at
     }
   }
 
@@ -117,5 +145,15 @@ export class World {
     this.removeTrack();
     this.track = this.trackCreator.bigTrack();
     this.buildTrack();
+  }
+
+  public setPlayMode(): void { // this is never used rn
+    // TODO: if no car then add car
+    this.mode = 'play';
+  }
+
+  public setCreateMode(): void {
+    this.removeCar();
+    this.mode = 'create';
   }
 }

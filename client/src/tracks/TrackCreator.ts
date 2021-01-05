@@ -1,5 +1,5 @@
 import {
-  BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Vector3,
+  BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry,
 } from 'three';
 
 type Direction = 'x' | 'y';
@@ -14,7 +14,7 @@ export class TrackCreator {
   private track: Track;
   constructor() {
     this.cubeLength = 10;
-    this.track = {ground: [], walls: []}
+    this.track = { ground: [], walls: [] };
   }
 
   newCube(): Mesh {
@@ -41,7 +41,7 @@ export class TrackCreator {
       color: 'grey',
       wireframe: false,
     });
-    this.track.ground.push(new Mesh(geometry, material))
+    this.track.ground.push(new Mesh(geometry, material));
   }
 
   createWall(xStart: number, yStart: number, wallLengthInCubes: number, direction: Direction) {
@@ -76,7 +76,7 @@ export class TrackCreator {
       -(wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
       wallLengthInCubes,
       'x',
-    ),this.createWall(
+    ), this.createWall(
       -(wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
       (wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
       wallLengthInCubes,
@@ -91,23 +91,22 @@ export class TrackCreator {
       -(wallLengthInCubes * this.cubeLength - this.cubeLength) / 2,
       wallLengthInCubes,
       'y',
-    )
-    )
+    ));
   }
 
   smallTrack(): Track {
-    this.track = {ground: [], walls: []}
-    this.createGround(40)
-    this.createSquareOfWalls(20)
-    this.createSquareOfWalls(40)
-    return this.track
+    this.track = { ground: [], walls: [] };
+    this.createGround(40);
+    this.createSquareOfWalls(20);
+    this.createSquareOfWalls(40);
+    return this.track;
   }
 
   bigTrack(): Track {
-    this.track = {ground: [], walls: []}
+    this.track = { ground: [], walls: [] };
     this.createGround(160);
     this.createSquareOfWalls(80);
     this.createSquareOfWalls(160);
-    return this.track
+    return this.track;
   }
 }

@@ -46,6 +46,7 @@
     "@babel/preset-typescript": "^7.10.4",
     "@types/stats.js": "^0.17.0",
     "bootstrap": "^4.5.2",
+    "dat.gui": "^0.7.7",
     "eslint-plugin-jest": "^24.0.2",
     "graphql": "^15.3.0",
     "react": "^16.13.1",
