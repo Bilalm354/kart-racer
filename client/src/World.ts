@@ -13,7 +13,14 @@ const gui = new dat.GUI();
 type CameraView = 'top' | 'behindCar' | 'firstPerson' | '2d';
 type Mode = 'play' | 'create';
 
+// const clock = new THREE.Clock();
+// const updateDelta = clock.getDelta();
+
 // TODO: add grid to GUI
+
+/**
+ * Comment test
+ */
 
 export class World {
   public car: Car;

@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "A sick game.",
   "scripts": {
-    "start": "parcel src/index.html",
+    "docs": "npx typedoc",
     "build": "parcel build src/index.html --public-url ./ --no-minify",
     "lint": "eslint '**/*.js' --ignore-pattern node_modules/",
     "lint-fix": "eslint --fix '**/*.js' --ignore-pattern node_modules/",
+    "start": "parcel src/index.html",
     "stylelint": "npx stylelint \"**/*.scss\"",
     "stylelint-fix": "npx stylelint \"**/*.scss\" --fix",
-    "test": "jest --watch",
-    "docs": "npx typedoc"
+    "test": "jest --watch"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
