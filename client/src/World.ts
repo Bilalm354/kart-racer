@@ -45,24 +45,31 @@ export class World {
     this.mode = 'play';
   }
 
-  public onWindowResize() {
-    this.camera = new PerspectiveCamera(
-      75, window.innerWidth / window.innerHeight, 0.1, 2000,
-    );
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-  }
-
-  public init() {
+  public init(): void {
     this.scene.background = new Color(0xfad6a5);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(this.renderer.domElement);
-    this.renderer.shadowMap.enabled = true;
+    this.initRenderer();
     directionalLight.position.set(1, 1, 0.5).normalize();
     this.camera.up.set(0, 0, 1);
     this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
     this.buildTrack();
     addTouchEventListenerPreventDefaults();
     this.addToGui();
+  }
+
+  public initRenderer(): void {
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.domElement.tabIndex = 1; // this is so that the canvas element can be focused and keydown event listeners can work
+    this.renderer.domElement.addEventListener('keydown', (event) => keyboard.keyDownHandler(event));
+    this.renderer.domElement.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
+    document.body.appendChild(this.renderer.domElement);
+    this.renderer.shadowMap.enabled = true;
+  }
+
+  public onWindowResize() {
+    this.camera = new PerspectiveCamera(
+      75, window.innerWidth / window.innerHeight, 0.1, 2000,
+    );
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
   public addToGui() {
@@ -104,22 +111,31 @@ export class World {
 
   public updateSceneAndCamera() {
     if (this.mode === 'play') {
-      this.scene.add(this.car.object3d); // after the first frame I'm add a car that is already in the scene
+      this.scene.add(this.car.object3d);
       this.car.updateFromKeyboard(keyboard);
       this.car.update();
       this.resolveCollisionsBetweenCarsAndTrackWalls();
       this.setCameraPosition(this.cameraView);
     } else if (this.mode === 'create') { // first person walking camera for track creator mode -- like minecraft
-      this.scene.remove(this.car.object3d); // after the first frame I'm removing a car that isn't in the scene
+      this.scene.remove(this.car.object3d);
       this.setCameraPosition('firstPerson');
-      this.moveCameraWithKeyboard();
-      // TODO: if create mode then show track creator
+      this.movePlayer();
     }
     this.renderer.render(this.scene, this.camera);
   }
 
+  public updateCameraIfViewChanged() {
+    if (this.cameraView === '2d') {
+      const groundGeometry = this.track.ground[0].geometry as any;
+      const { width, height } = groundGeometry.parameters;
+      const orthographicCamera = new OrthographicCamera(width / -2, width / 2, height / 2, height / -2, 1, 1000);
+      this.camera = orthographicCamera;
+    }
+  }
+
   private setCameraPosition(view: CameraView) {
-    const { width, height } = this.track.ground[0].geometry.parameters; // dno how to get rid of that but it does exist on this
+    const groundGeometry = this.track.ground[0].geometry as any;
+    const { width } = groundGeometry.parameters;
 
     if (view === 'top') {
       this.camera.position.set(0, 0, width);
@@ -128,19 +144,16 @@ export class World {
     } else if (view === 'behindCar') {
       this.car.updateCamera(this.camera);
     } else if (view === 'firstPerson') {
-      // need a variable for position so that it doesn't reset on every frame.
       this.camera.position.set(0, 0, 30);
       this.camera.lookAt(300, 0, 1);
-      // weird but ok
-    } else if (view === '2d') { // BUG: FPS goes down on this. maybe because its a new camera on every frame. That should go somehwere else.
-      this.camera = new OrthographicCamera(width / -2, width / 2, height / 2, height / -2, 1, 1000);
+    } else if (view === '2d') {
       this.camera.position.set(0, 0, 300);
       this.camera.lookAt(0, 0, 0);
       this.camera.up.set(0, 1, 0);
     }
   }
 
-  public moveCameraWithKeyboard() {
+  public movePlayer() {
     if (keyboard.down) {
       this.camera.position.y -= 10;
     }
@@ -157,6 +170,7 @@ export class World {
 
   public setCameraView(view: CameraView) {
     this.cameraView = view;
+    this.updateCameraIfViewChanged();
   }
 
   public setSmallTrack(): void {

@@ -13,8 +13,8 @@ export class Keyboard {
       this.space = false;
     }
 
-    keyDownHandler(key: string): void {
-      switch (key) {
+    keyDownHandler(event: KeyboardEvent): void {
+      switch (event.key) {
         case 'ArrowRight':
           this.right = true;
           break;
@@ -34,8 +34,8 @@ export class Keyboard {
       }
     }
 
-    keyUpHandler(key: string) {
-      switch (key) {
+    keyUpHandler(event : KeyboardEvent) {
+      switch (event.key) {
         case 'ArrowRight':
           this.right = false;
           break;

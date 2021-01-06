@@ -3,15 +3,13 @@ import { createElement } from 'react';
 import ReactDOM from 'react-dom';
 import Stats from 'stats.js';
 import { Menu } from '~/ui/Menu';
-import { keyboard } from '~/misc/Keyboard';
 import { world } from '~/World';
 
 const stats = new Stats();
 stats.showPanel(0);
 document.body.appendChild(stats.dom);
 document.addEventListener('orientationchange', (orientation) => console.log(orientation));
-document.addEventListener('keydown', (event) => keyboard.keyDownHandler(event.key));
-document.addEventListener('keyup', (event) => keyboard.keyUpHandler(event.key));
+
 window.addEventListener('resize', () => world.onWindowResize());
 
 function animate() {
