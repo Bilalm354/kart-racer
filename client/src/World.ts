@@ -1,5 +1,5 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, Vector3,
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, Vector3, Plane,
 } from 'three';
 import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
@@ -110,6 +110,7 @@ export class World {
       this.setCameraPosition(this.cameraView);
     } else if (this.mode === 'create') {
       // TODO: add first person walking camera for track creator mode -- like minecraft
+      this.scene.remove(this.car.object3d); // after the first frame I'm removing a car that isn't in the scene
       this.setCameraPosition('top');
       // TODO: if create mode then show track creator
     }

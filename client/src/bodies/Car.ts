@@ -1,8 +1,12 @@
 import {
   Box3, Camera, Group, Vector3,
 } from 'three';
-import { world } from '~/index';
+import { world } from '~/World';
 import { createCarObject3d } from '~/bodies/createCarObject3d';
+
+const FRAMES_PER_SECOND = 120;
+const ACCELERATION_DUE_TO_GRAVITY = 9.8;
+const ACCELERATION_DUE_TO_GRAVITY_PER_FRAME = ACCELERATION_DUE_TO_GRAVITY / FRAMES_PER_SECOND;
 
 export class Car {
   public angle: number;
@@ -27,8 +31,8 @@ export class Car {
   constructor() {
     this.x = -150;
     this.y = 0;
-    this.z = 3; // makes car sit on top of track
-    this.velocity = new Vector3(0, 0, 0);
+    this.z = 300; // makes car sit on top of track
+    this.velocity = new Vector3(0, 0, 0); //
     this.angle = 0;
     this.power = 0;
     this.reverse = 0;
@@ -46,7 +50,16 @@ export class Car {
     this.boundingBox = new Box3().setFromObject(this.object3d);
   }
 
-  handleCollision(): void {
+  public applyGravity() {
+    if (this.z > 3) {
+      this.velocity.z -= ACCELERATION_DUE_TO_GRAVITY_PER_FRAME;
+    } else {
+      this.velocity.z = 0;
+      this.z = 3;
+    }
+  }
+
+  public handleCollision(): void {
     this.health = Math.max(0, this.health - this.power * 200);
     this.velocity = this.velocity.multiplyScalar(-1);
     this.power *= 0.5;
@@ -105,8 +118,10 @@ export class Car {
 
     this.x += this.velocity.x;
     this.y += this.velocity.y;
+    this.z += this.velocity.z;
     this.velocity.x *= drag;
     this.velocity.y *= drag;
+    this.applyGravity();
     this.angle += this.angularVelocity;
     this.angularVelocity *= angularDrag;
     this.health = Math.min(this.health + 0.1, 100);
@@ -131,11 +146,9 @@ export class Car {
   }
 
   updateCamera(camera: Camera): void {
-    // const turboFactor = this.isTurbo ? 1.1 : 1;
-    const turboFactor = 1;
     const distanceBehindCamera = 40;
-    const x = this.x - turboFactor * distanceBehindCamera * Math.sin(this.angle);
-    const y = this.y - turboFactor * distanceBehindCamera * Math.cos(this.angle);
+    const x = this.x - distanceBehindCamera * Math.sin(this.angle);
+    const y = this.y - distanceBehindCamera * Math.cos(this.angle);
     const z = this.z + 20;
     camera.position.set(x, y, z);
     camera.lookAt(this.x, this.y, this.z);
