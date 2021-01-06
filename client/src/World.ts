@@ -1,5 +1,5 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera, GridHelper,
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera, GridHelper, Material,
 } from 'three';
 import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
@@ -63,10 +63,11 @@ export class World {
     this.addToGui();
     const grid = new GridHelper(400, 40, 0x000000, 0x000000);
     grid.rotateX(-Math.PI / 2);
+    grid.material = grid.material as Material;
     grid.material.opacity = 0.5;
     grid.material.depthWrite = false;
     grid.material.transparent = true;
-    grid.material.visible = false;
+    grid.material.visible = true;
     this.scene.add(grid);
   }
 
