@@ -1,5 +1,5 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera,
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera, GridHelper,
 } from 'three';
 import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
@@ -43,6 +43,7 @@ export class World {
     );
     this.trackCreator = new TrackCreator();
     this.renderer = new WebGLRenderer();
+    // this.renderer = new WebGLRenderer({ antialias: true }); // looks better but laggy
     this.track = this.trackCreator.smallTrack();
     this.ambientLight = ambientLight;
     this.directionalLight = directionalLight;
@@ -60,16 +61,27 @@ export class World {
     this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
     this.buildTrack();
     this.addToGui();
+    const grid = new GridHelper(400, 40, 0x000000, 0x000000);
+    grid.rotateX(-Math.PI / 2);
+    grid.material.opacity = 0.5;
+    grid.material.depthWrite = false;
+    grid.material.transparent = true;
+    grid.material.visible = false;
+    this.scene.add(grid);
   }
 
   public initRenderer(): void {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.domElement.tabIndex = 1; // allows the canvas element to be focused so keydown event listeners can work
-    this.renderer.domElement.addEventListener('keydown', (event) => keyboard.keyDownHandler(event));
-    this.renderer.domElement.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
+    this.addKeyboardEventListeners();
     addTouchEventListenerPreventDefaults(this.renderer.domElement);
     document.body.appendChild(this.renderer.domElement);
     this.renderer.shadowMap.enabled = true;
+  }
+
+  public addKeyboardEventListeners(): void {
+    this.renderer.domElement.addEventListener('keydown', (event) => keyboard.keyDownHandler(event));
+    this.renderer.domElement.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
   }
 
   public onWindowResize() {
@@ -123,7 +135,7 @@ export class World {
       this.car.update();
       this.resolveCollisionsBetweenCarsAndTrackWalls();
       this.setCameraPosition(this.cameraView);
-    } else if (this.mode === 'create') { // first person walking camera for track creator mode -- like minecraft
+    } else if (this.mode === 'create') {
       this.scene.remove(this.car.object3d);
       this.setCameraPosition('firstPerson');
       this.movePlayer();
