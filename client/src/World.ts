@@ -46,21 +46,21 @@ export class World {
   }
 
   public init(): void {
-    this.scene.background = new Color(0xfad6a5);
     this.initRenderer();
     directionalLight.position.set(1, 1, 0.5).normalize();
     this.camera.up.set(0, 0, 1);
+    this.scene.background = new Color(0xfad6a5);
     this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
     this.buildTrack();
-    addTouchEventListenerPreventDefaults();
     this.addToGui();
   }
 
   public initRenderer(): void {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.domElement.tabIndex = 1; // this is so that the canvas element can be focused and keydown event listeners can work
+    this.renderer.domElement.tabIndex = 1; // allows the canvas element to be focused so keydown event listeners can work
     this.renderer.domElement.addEventListener('keydown', (event) => keyboard.keyDownHandler(event));
     this.renderer.domElement.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
+    addTouchEventListenerPreventDefaults(this.renderer.domElement);
     document.body.appendChild(this.renderer.domElement);
     this.renderer.shadowMap.enabled = true;
   }

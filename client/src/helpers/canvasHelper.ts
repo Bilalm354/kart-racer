@@ -1,7 +1,6 @@
-export function addTouchEventListenerPreventDefaults() {
-  const canvas = document.querySelector('canvas')!;
-  canvas.addEventListener('touchstart', (e) => e.preventDefault(), { passive: false });
-  canvas.addEventListener('touchend', (e) => e.preventDefault(), { passive: false });
-  canvas.addEventListener('touchcancel', (e) => e.preventDefault(), { passive: false });
-  canvas.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+export function addTouchEventListenerPreventDefaults(renderer: HTMLCanvasElement) {
+  renderer.addEventListener('touchstart', (event) => event.preventDefault(), { passive: false });
+  renderer.addEventListener('touchend', (event) => event.preventDefault(), { passive: false });
+  renderer.addEventListener('touchcancel', (event) => event.preventDefault(), { passive: false });
+  renderer.addEventListener('touchmove', (event) => event.preventDefault(), { passive: false });
 }
