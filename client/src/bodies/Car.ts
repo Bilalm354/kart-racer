@@ -109,6 +109,7 @@ export class Car {
     if (this.isTurningLeft) {
       this.angularVelocity -= direction * turnSpeed;
     }
+
     if (this.isTurningRight) {
       this.angularVelocity += direction * turnSpeed;
     }

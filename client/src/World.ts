@@ -1,17 +1,19 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, Vector3, Plane,
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3,
 } from 'three';
 import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
 import { ambientLight, directionalLight } from '~/misc/lights';
 import { Track, TrackCreator } from '~/tracks/TrackCreator';
-import { keyboard } from '~/misc/Keyboard';
+import { Keyboard, keyboard } from '~/misc/Keyboard';
 import { addTouchEventListenerPreventDefaults } from '~/helpers/canvasHelper';
 
 const gui = new dat.GUI();
 
 type CameraView = 'top' | 'behindCar' | 'firstPerson';
 type Mode = 'play' | 'create';
+
+// TODO: add grid to GUI
 
 export class World {
   public car: Car;
@@ -26,7 +28,6 @@ export class World {
   private collidableBoundingBoxes: Box3[];
   private trackCreator: TrackCreator;
   private mode: Mode;
-  private playerPosition: Vector3;
 
   constructor() {
     this.scene = new Scene();
@@ -42,7 +43,6 @@ export class World {
     this.cameraView = 'behindCar';
     this.collidableBoundingBoxes = [];
     this.mode = 'play';
-    this.playerPosition = new Vector3(0, 0, 0);
   }
 
   public onWindowResize() {
@@ -104,6 +104,7 @@ export class World {
 
   public updateSceneAndCamera() {
     if (this.mode === 'play') {
+      this.scene.add(this.car.object3d); // after the first frame I'm add a car that is already in the scene
       this.car.updateFromKeyboard(keyboard);
       this.car.update();
       this.resolveCollisionsBetweenCarsAndTrackWalls();
@@ -111,7 +112,8 @@ export class World {
     } else if (this.mode === 'create') {
       // TODO: add first person walking camera for track creator mode -- like minecraft
       this.scene.remove(this.car.object3d); // after the first frame I'm removing a car that isn't in the scene
-      this.setCameraPosition('top');
+      this.setCameraPosition('firstPerson');
+      this.moveCameraWithKeyboard();
       // TODO: if create mode then show track creator
     }
     this.renderer.render(this.scene, this.camera);
@@ -125,8 +127,25 @@ export class World {
     } else if (view === 'behindCar') {
       this.car.updateCamera(this.camera);
     } else if (view === 'firstPerson') {
-      this.camera.position.copy(this.playerPosition);
-      // set what the camera looks at
+      // need a variable for position so that it doesn't reset on every frame.
+      this.camera.position.set(0, 0, 30);
+      this.camera.lookAt(300, 0, 1);
+      // weird but ok
+    }
+  }
+
+  public moveCameraWithKeyboard() {
+    if (keyboard.down) {
+      this.camera.position.y -= 10;
+    }
+    if (keyboard.up) { // should move in the direction I'm facing
+      this.camera.position.y += 10;
+    }
+    if (keyboard.left) {
+      this.camera.position.x -= 10;
+    }
+    if (keyboard.right) {
+      this.camera.position.x += 10;
     }
   }
 
