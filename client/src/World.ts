@@ -1,16 +1,16 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3,
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera,
 } from 'three';
 import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
 import { ambientLight, directionalLight } from '~/misc/lights';
 import { Track, TrackCreator } from '~/tracks/TrackCreator';
-import { Keyboard, keyboard } from '~/misc/Keyboard';
+import { keyboard } from '~/misc/Keyboard';
 import { addTouchEventListenerPreventDefaults } from '~/helpers/canvasHelper';
 
 const gui = new dat.GUI();
 
-type CameraView = 'top' | 'behindCar' | 'firstPerson';
+type CameraView = 'top' | 'behindCar' | 'firstPerson' | '2d';
 type Mode = 'play' | 'create';
 
 // TODO: add grid to GUI
@@ -66,7 +66,7 @@ export class World {
   }
 
   public addToGui() {
-    gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson']).listen();
+    gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson', '2d']).listen();
     gui.add(this, 'mode', ['play', 'create']).listen(); // doesn't work because need to call the change mode function
   }
 
@@ -109,8 +109,7 @@ export class World {
       this.car.update();
       this.resolveCollisionsBetweenCarsAndTrackWalls();
       this.setCameraPosition(this.cameraView);
-    } else if (this.mode === 'create') {
-      // TODO: add first person walking camera for track creator mode -- like minecraft
+    } else if (this.mode === 'create') { // first person walking camera for track creator mode -- like minecraft
       this.scene.remove(this.car.object3d); // after the first frame I'm removing a car that isn't in the scene
       this.setCameraPosition('firstPerson');
       this.moveCameraWithKeyboard();
@@ -120,8 +119,10 @@ export class World {
   }
 
   private setCameraPosition(view: CameraView) {
+    const { width, height } = this.track.ground[0].geometry.parameters; // dno how to get rid of that but it does exist on this
+
     if (view === 'top') {
-      this.camera.position.set(0, 0, 300);
+      this.camera.position.set(0, 0, width);
       this.camera.lookAt(0, 0, 0);
       this.camera.up.set(0, 1, 0);
     } else if (view === 'behindCar') {
@@ -131,6 +132,11 @@ export class World {
       this.camera.position.set(0, 0, 30);
       this.camera.lookAt(300, 0, 1);
       // weird but ok
+    } else if (view === '2d') { // BUG: FPS goes down on this. maybe because its a new camera on every frame. That should go somehwere else.
+      this.camera = new OrthographicCamera(width / -2, width / 2, height / 2, height / -2, 1, 1000);
+      this.camera.position.set(0, 0, 300);
+      this.camera.lookAt(0, 0, 0);
+      this.camera.up.set(0, 1, 0);
     }
   }
 
