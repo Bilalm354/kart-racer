@@ -131,6 +131,10 @@ export class Car {
     this.boundingBox.setFromObject(this.object3d);
   }
 
+  // TODO: one player uses WASD and the other uses arrows
+
+  // TODO: allow assigning keyboard controls yourself
+
   updateFromKeyboard(keyboard: any): void {
     this.isThrottling = keyboard.up || keyboard.w;
     this.isReversing = keyboard.down || keyboard.s;

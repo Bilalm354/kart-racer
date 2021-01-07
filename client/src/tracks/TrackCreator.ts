@@ -4,9 +4,11 @@ import {
 
 type Direction = 'x' | 'y';
 
+// TODO: use box positions instead of walls
 export interface Track {
-  ground: Mesh[],
+  ground: Mesh,
   walls: Group[],
+  // boxPositions: Vector3[]
 }
 
 export class TrackCreator {
@@ -14,7 +16,7 @@ export class TrackCreator {
   private track: Track;
   constructor() {
     this.cubeLength = 10;
-    this.track = { ground: [], walls: [] };
+    this.track = { ground: new Mesh(), walls: [] };
   }
 
   public newCube(): Mesh {
@@ -23,14 +25,6 @@ export class TrackCreator {
     const box = new Mesh(geometry, material);
     return box;
   }
-
-  // createTrack(positions: Vector3[], startingPosition: Vector3, laps:number, scene: Scene) {
-  //   positions.forEach((position => {
-  //     const cube = this.newCube()
-  //     cube.position.set(position.x, position.y, position.z)
-  //     scene.add(cube)
-  //   })
-  // }
 
   createGround(lengthOfSidesInCubes: number): void {
     const geometry = new PlaneGeometry(
@@ -41,7 +35,7 @@ export class TrackCreator {
       color: 'grey',
       wireframe: false,
     });
-    this.track.ground.push(new Mesh(geometry, material));
+    this.track.ground = new Mesh(geometry, material);
   }
 
   createWall(xStart: number, yStart: number, wallLengthInCubes: number, direction: Direction) {
@@ -95,7 +89,7 @@ export class TrackCreator {
   }
 
   smallTrack(): Track {
-    this.track = { ground: [], walls: [] };
+    this.track = { ground: new Mesh(), walls: [] };
     this.createGround(40);
     this.createSquareOfWalls(20);
     this.createSquareOfWalls(40);
@@ -103,10 +97,18 @@ export class TrackCreator {
   }
 
   bigTrack(): Track {
-    this.track = { ground: [], walls: [] };
+    this.track = { ground: new Mesh(), walls: [] };
     this.createGround(160);
     this.createSquareOfWalls(80);
     this.createSquareOfWalls(160);
     return this.track;
   }
+
+  // createTrack(positions: Vector3[], startingPosition: Vector3, laps:number, scene: Scene) {
+  //   positions.forEach((position => {
+  //     const cube = this.newCube()
+  //     cube.position.set(position.x, position.y, position.z)
+  //     scene.add(cube)
+  //   })
+  // }
 }

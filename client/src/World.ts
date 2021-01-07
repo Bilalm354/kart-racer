@@ -123,7 +123,9 @@ export class World {
       this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
       this.scene.add(wall);
     });
-    this.scene.add(this.track.ground[0]);
+    if (this.track.ground) {
+      this.scene.add(this.track.ground);
+    }
   }
 
   private removeTrack(): void {
@@ -131,7 +133,9 @@ export class World {
       this.scene.remove(this.scene.getObjectById(wall.id)!);
     });
     this.collidableBoundingBoxes = [];
-    this.scene.remove(this.track.ground[0]);
+    if (this.track.ground) {
+      this.scene.remove(this.track.ground);
+    }
   }
 
   private resolveCollisionsBetweenCarsAndTrackWalls(): void {
@@ -166,14 +170,24 @@ export class World {
     this.grid.visible = this.isGridVisible;
     const intersect = this.findIntersect();
 
-    if (intersect && intersect.face && this.isMouseDown && this.mode === 'create'
+    if (intersect && intersect.face && this.isMouseDown && this.mode === 'create' // remove is mousedown for the hover thing
       && this.timeSinceLastNewCube.getElapsedTime() > MINIMUM_TIME_BETWEEN_CUBE_SPAWNS) {
       const newCube = this.trackCreator.newCube();
       newCube.position.copy(intersect.point).add(intersect.face.normal);
       newCube.position.divideScalar(this.trackCreator.cubeLength).floor()
         .multiplyScalar(this.trackCreator.cubeLength).addScalar(this.trackCreator.cubeLength / 2);
       this.scene.add(newCube);
+      newCube.material = newCube.material as Material;
+      newCube.material.opacity = 0.5;
+      newCube.material.transparent = true;
       this.timeSinceLastNewCube.start();
+      // TODO: remove transparent cube from scene
+
+      // TODO: if mouse down add to array of boxes in track
+
+      // add array to scene on every render. shouldn't be a problem because three doesn't re add thing that are already there.
+
+      // TODO:  figure out how to remove cubes from track .
     }
 
     this.renderer.render(this.scene, this.camera);
@@ -194,7 +208,7 @@ export class World {
 
   public updateCameraIfViewChanged(): void {
     if (this.cameraView === '2d') {
-      const groundGeometry = this.track.ground[0].geometry as any;
+      const groundGeometry = this.track.ground.geometry as any;
       const { width, height } = groundGeometry.parameters;
       const orthographicCamera = new OrthographicCamera(width / -2, width / 2, height / 2, height / -2, 1, 1000);
       this.camera = orthographicCamera;
@@ -202,7 +216,7 @@ export class World {
   }
 
   private setCameraPosition(view: CameraView): void {
-    const groundGeometry = this.track.ground[0].geometry as any;
+    const groundGeometry = this.track.ground.geometry as any;
     const { width } = groundGeometry.parameters;
 
     if (view === 'top') {
