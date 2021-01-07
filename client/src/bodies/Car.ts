@@ -132,10 +132,10 @@ export class Car {
   }
 
   updateFromKeyboard(keyboard: any): void {
-    this.isThrottling = keyboard.up;
-    this.isReversing = keyboard.down;
-    this.isTurningRight = keyboard.right;
-    this.isTurningLeft = keyboard.left;
+    this.isThrottling = keyboard.up || keyboard.w;
+    this.isReversing = keyboard.down || keyboard.s;
+    this.isTurningRight = keyboard.right || keyboard.d;
+    this.isTurningLeft = keyboard.left || keyboard.a;
     this.isTurbo = keyboard.space && this.turbo > 1;
   }
 

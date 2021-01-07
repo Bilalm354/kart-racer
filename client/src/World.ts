@@ -24,8 +24,9 @@ function onMouseMove(event: MouseEvent) {
 }
 
 // TODO: save tracks and load tracks
-
-// let INTERSECTED: any;
+// TODO: create keyboard shortcut for switching to create mode
+// TODO: add WASD for keyboard controls
+// TODO: shoot projectiles from car on mouse click
 
 export class World {
   public car: Car;
