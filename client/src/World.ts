@@ -1,5 +1,5 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera, GridHelper, Material,
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera, GridHelper, Material, Vector2, Raycaster, Vector3,
 } from 'three';
 import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
@@ -13,14 +13,56 @@ const gui = new dat.GUI();
 type CameraView = 'top' | 'behindCar' | 'firstPerson' | '2d';
 type Mode = 'play' | 'create';
 
+const raycaster = new Raycaster();
+const mouse = new Vector2();
+
+function onMouseMove(event: MouseEvent) {
+  // calculate mouse position in normalized device coordinates
+  // (-1 to +1) for both components
+
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
+
+// function onMouseDown(event) {
+//   event.preventDefault();
+
+//   mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+
+//   raycaster.setFromCamera(mouse, camera);
+
+//   const intersects = raycaster.intersectObjects(objects);
+
+//   if (intersects.length > 0) {
+//     const intersect = intersects[0];
+
+//     // delete cube
+
+//     if (isShiftDown) {
+//       if (intersect.object !== plane) {
+//         scene.remove(intersect.object);
+
+//         objects.splice(objects.indexOf(intersect.object), 1);
+//       }
+
+//       // create cube
+//     } else {
+//       const voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+//       voxel.position.copy(intersect.point).add(intersect.face.normal);
+//       voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+//       scene.add(voxel);
+
+//       objects.push(voxel);
+//     }
+
+//     render();
+//   }
+// }
+
+let INTERSECTED: any;
+
 // const clock = new THREE.Clock();
 // const updateDelta = clock.getDelta();
-
-// TODO: add grid to GUI
-
-/**
- * Comment test
- */
 
 export class World {
   public car: Car;
@@ -36,6 +78,7 @@ export class World {
   private trackCreator: TrackCreator;
   private mode: Mode;
   private isGridVisible: boolean;
+  private isCollisionActive: boolean;
   private grid: GridHelper;
 
   constructor() {
@@ -54,6 +97,7 @@ export class World {
     this.collidableBoundingBoxes = [];
     this.mode = 'play';
     this.isGridVisible = false;
+    this.isCollisionActive = true;
     this.grid = new GridHelper(400, 40, 0x000000, 0x000000);
   }
 
@@ -72,6 +116,8 @@ export class World {
     this.grid.material.transparent = true;
     this.grid.name = 'grid';
     this.scene.add(this.grid);
+    document.addEventListener('mousemove', onMouseMove, false);
+    // document.addEventListener('mousedown', onMouseDown, false);
   }
 
   public initRenderer(): void {
@@ -89,20 +135,21 @@ export class World {
     this.renderer.domElement.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
   }
 
-  public onWindowResize() {
+  public onWindowResize(): void {
     this.camera = new PerspectiveCamera(
       75, window.innerWidth / window.innerHeight, 0.1, 2000,
     );
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  public addToGui() {
+  public addToGui(): void {
     gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson', '2d']).listen();
     gui.add(this, 'isGridVisible').listen();
+    gui.add(this, 'isCollisionActive').listen();
     gui.add(this, 'mode', ['play', 'create']).listen(); // doesn't work because need to call the change mode function
   }
 
-  private buildTrack() {
+  private buildTrack(): void {
     this.track.walls.forEach((wall) => {
       this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
       this.scene.add(wall);
@@ -110,7 +157,7 @@ export class World {
     this.scene.add(this.track.ground[0]);
   }
 
-  private removeTrack() {
+  private removeTrack(): void {
     this.track.walls.forEach((wall) => {
       this.scene.remove(this.scene.getObjectById(wall.id)!);
     });
@@ -118,7 +165,7 @@ export class World {
     this.scene.remove(this.track.ground[0]);
   }
 
-  private resolveCollisionsBetweenCarsAndTrackWalls() {
+  private resolveCollisionsBetweenCarsAndTrackWalls(): void {
     this.collidableBoundingBoxes.forEach((collidableBox) => {
       if ((this.car.boundingBox.intersectsBox(collidableBox))) {
         this.car.handleCollision();
@@ -126,31 +173,60 @@ export class World {
     });
   }
 
-  public addCar() {
+  public addCar(): void {
     this.scene.add(this.car.object3d);
   }
 
-  public removeCar() {
+  public removeCar(): void {
     this.scene.remove(this.car.object3d);
   }
 
-  public updateSceneAndCamera() {
+  public updateSceneAndCamera(): void {
     if (this.mode === 'play') {
       this.scene.add(this.car.object3d);
       this.car.updateFromKeyboard(keyboard);
       this.car.update();
-      this.resolveCollisionsBetweenCarsAndTrackWalls();
+      if (this.isCollisionActive) {
+        this.resolveCollisionsBetweenCarsAndTrackWalls();
+      }
       this.setCameraPosition(this.cameraView);
     } else if (this.mode === 'create') {
+      this.isCollisionActive = false;
       this.scene.remove(this.car.object3d);
       this.setCameraPosition('firstPerson');
       this.movePlayer();
     }
     this.grid.visible = this.isGridVisible;
+
+    const point = this.findIntersectionPoint();
+
+    if (point && keyboard.space) {
+      console.log(point);
+      const newCube = this.trackCreator.newCube();
+      newCube.position.copy(point);
+      this.scene.add(newCube);
+    }
+
     this.renderer.render(this.scene, this.camera);
   }
 
-  public updateCameraIfViewChanged() {
+  public findIntersectionPoint(): Vector3 | undefined {
+    raycaster.setFromCamera(mouse, this.camera);
+
+    const intersects = raycaster.intersectObjects(this.scene.children);
+
+    if (intersects.length > 0) {
+      if (INTERSECTED !== intersects[0].object) {
+        INTERSECTED = intersects[0].object;
+      }
+    } else {
+      INTERSECTED = null;
+    }
+
+    return intersects[0]?.point;
+  }
+
+  public updateCameraIfViewChanged(): void {
     if (this.cameraView === '2d') {
       const groundGeometry = this.track.ground[0].geometry as any;
       const { width, height } = groundGeometry.parameters;
@@ -159,7 +235,7 @@ export class World {
     }
   }
 
-  private setCameraPosition(view: CameraView) {
+  private setCameraPosition(view: CameraView): void {
     const groundGeometry = this.track.ground[0].geometry as any;
     const { width } = groundGeometry.parameters;
 
@@ -179,7 +255,7 @@ export class World {
     }
   }
 
-  public movePlayer() {
+  public movePlayer(): void {
     if (keyboard.down) {
       this.camera.position.y -= 10;
     }
@@ -194,7 +270,7 @@ export class World {
     }
   }
 
-  public setCameraView(view: CameraView) {
+  public setCameraView(view: CameraView): void {
     this.cameraView = view;
     this.updateCameraIfViewChanged();
   }

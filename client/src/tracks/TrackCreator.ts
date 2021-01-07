@@ -17,7 +17,7 @@ export class TrackCreator {
     this.track = { ground: [], walls: [] };
   }
 
-  newCube(): Mesh {
+  public newCube(): Mesh {
     const geometry = new BoxGeometry(this.cubeLength, this.cubeLength, this.cubeLength);
     const material = new MeshStandardMaterial({ color: 0xff0000 });
     const box = new Mesh(geometry, material);
