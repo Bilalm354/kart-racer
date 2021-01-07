@@ -53,7 +53,7 @@ export class World {
     this.cameraView = 'behindCar';
     this.collidableBoundingBoxes = [];
     this.mode = 'play';
-    this.isGridVisible = true;
+    this.isGridVisible = false;
     this.grid = new GridHelper(400, 40, 0x000000, 0x000000);
   }
 
