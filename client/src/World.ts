@@ -1,5 +1,6 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera, GridHelper, Material, Vector2, Raycaster, Vector3, Clock, Points,
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera,
+  GridHelper, Material, Vector2, Raycaster, Clock, Intersection,
 } from 'three';
 import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
@@ -15,24 +16,16 @@ type Mode = 'play' | 'create';
 
 const raycaster = new Raycaster();
 const mouse = new Vector2();
+const MINIMUM_TIME_BETWEEN_CUBE_SPAWNS = 0.25;
 
 function onMouseMove(event: MouseEvent) {
-  // calculate mouse position in normalized device coordinates
-  // (-1 to +1) for both components
-
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
-/*
-TODO: add newCube to collision boxes
-- to do this might have to save them somewhere.
-- instead of spawning new cubes just add them to an array and add everything from that array to collision boxes and also spawn them.
-*/
-
 // TODO: save tracks and load tracks
 
-let INTERSECTED: any;
+// let INTERSECTED: any;
 
 export class World {
   public car: Car;
@@ -61,7 +54,6 @@ export class World {
     this.trackCreator = new TrackCreator();
     this.renderer = new WebGLRenderer();
     this.clock = new Clock();
-    // this.renderer = new WebGLRenderer({ antialias: true }); // looks better but laggy
     this.track = this.trackCreator.smallTrack();
     this.ambientLight = ambientLight;
     this.directionalLight = directionalLight;
@@ -96,7 +88,6 @@ export class World {
 
   public initRenderer(): void {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    // allows the canvas element to be focused so keydown event listeners can work
     this.renderer.domElement.tabIndex = 1;
     this.addKeyboardEventListeners();
     addTouchEventListenerPreventDefaults(this.renderer.domElement);
@@ -155,8 +146,6 @@ export class World {
     this.scene.remove(this.car.object3d);
   }
 
-  // todo: add option to create cubes a fixed distance infront of car instead of using the mouse.
-
   public updateSceneAndCamera(): void {
     if (this.mode === 'create') {
       this.isCollisionActive = false;
@@ -171,36 +160,32 @@ export class World {
 
     this.setCameraPosition(this.cameraView);
     this.grid.visible = this.isGridVisible;
-    const point = this.findIntersectionPoint();
-    this.placeNewCube(point);
-    this.renderer.render(this.scene, this.camera);
-  }
+    const intersect = this.findIntersect();
 
-  public placeNewCube(point: Vector3 | undefined): void {
-    if (point && keyboard.one && this.mode === 'create' && this.timeSinceLastNewCube.getElapsedTime() > 0.5) {
-      console.log(this.timeSinceLastNewCube.getElapsedTime());
+    if (intersect && intersect.face && keyboard.one && this.mode === 'create'
+      && this.timeSinceLastNewCube.getElapsedTime() > MINIMUM_TIME_BETWEEN_CUBE_SPAWNS) {
       const newCube = this.trackCreator.newCube();
-      const newPoint = new Vector3().copy(point).setZ(point.z + (this.trackCreator.cubeLength / 2));
-      newCube.position.copy(newPoint);
+      newCube.position.copy(intersect.point).add(intersect.face.normal);
+      newCube.position.divideScalar(this.trackCreator.cubeLength).floor()
+        .multiplyScalar(this.trackCreator.cubeLength).addScalar(this.trackCreator.cubeLength / 2);
       this.scene.add(newCube);
       this.timeSinceLastNewCube.start();
     }
+
+    this.renderer.render(this.scene, this.camera);
   }
 
-  public findIntersectionPoint(): Vector3 | undefined {
+  public findIntersect(): Intersection {
     raycaster.setFromCamera(mouse, this.camera);
 
-    const intersects = raycaster.intersectObjects(this.scene.children);
+    // TODO: add option to create cubes a fixed distance infront of car instead of using the mouse.
+    // TODO: add a crosshair and a translucent box where it would go
+    // BUG: can't build ontop of the already existing walls in my track
+    // TODO: add newCube to collision boxes
+    // * to do this might have to save them somewhere.
+    // * instead of spawning new cubes just add them to an array and add everything from that array to collision boxes and also spawn them
 
-    if (intersects.length > 0) {
-      if (INTERSECTED !== intersects[0].object) {
-        INTERSECTED = intersects[0].object;
-      }
-    } else {
-      INTERSECTED = null;
-    }
-
-    return intersects[0]?.point;
+    return raycaster.intersectObjects(this.scene.children)[0];
   }
 
   public updateCameraIfViewChanged(): void {

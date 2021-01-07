@@ -32,7 +32,7 @@ export const Menu = () => {
           <button type="button" onClick={() => world.setBigTrack()}>Large Track</button>
           <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
           <button type="button" onClick={() => setShowAddScore(!showAddScore)}>Add Score</button>
-          <button type="button" onClick={() => setShowTouchpad(!showTouchpad)}>Show Touchpad</button>
+          <button type="button" onClick={() => setShowTouchpad(!showTouchpad)}>Show/ Hide Touchpad</button>
           <button type="button" onClick={() => audioElement.play()}>Play Music</button>
           <button type="button" onClick={() => audioElement.pause()}>Pause Music</button>
           <button type="button" onClick={() => world.setCameraView('top')}>Top Camera</button>
