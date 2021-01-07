@@ -24,6 +24,8 @@ function onMouseMove(event: MouseEvent) {
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
+// TODO: add a new button for spawning a new cube
+
 // function onMouseDown(event) {
 //   event.preventDefault();
 

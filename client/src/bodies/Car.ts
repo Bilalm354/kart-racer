@@ -67,7 +67,7 @@ export class Car {
 
   public getHorizontalSpeed(): number {
     const horizontalVelocity = this.velocity.clone().setY(0);
-    return Math.round(horizontalVelocity.length() * 100) / 100;
+    return Math.round(horizontalVelocity.length() * 10);
   }
 
   setColor(color: string): void {

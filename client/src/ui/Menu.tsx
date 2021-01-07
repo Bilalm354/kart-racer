@@ -27,7 +27,7 @@ export const Menu = () => {
         <form>
           <button type="button" onClick={() => world.setMode('play')}>Play Mode</button>
           <button type="button" onClick={() => world.setMode('create')}>Create Mode (press space while mouse is on the ground)</button>
-          {true ? undefined : (<button type="button" onClick={() => world.removeCar()}>Pause</button>)}
+          {true ? undefined : (<button type="button" onClick={() => alert('Paused!')}>Pause</button>)}
           <button type="button" onClick={() => world.setSmallTrack()}>Small Track</button>
           <button type="button" onClick={() => world.setBigTrack()}>Large Track</button>
           <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
