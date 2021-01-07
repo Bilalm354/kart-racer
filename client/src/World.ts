@@ -1,5 +1,5 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera, GridHelper, Material, Vector2, Raycaster, Vector3,
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera, GridHelper, Material, Vector2, Raycaster, Vector3, Clock,
 } from 'three';
 import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
@@ -61,7 +61,7 @@ function onMouseMove(event: MouseEvent) {
 
 let INTERSECTED: any;
 
-// const clock = new THREE.Clock();
+// const clock =
 // const updateDelta = clock.getDelta();
 
 export class World {
@@ -80,6 +80,7 @@ export class World {
   private isGridVisible: boolean;
   private isCollisionActive: boolean;
   private grid: GridHelper;
+  public clock: Clock;
 
   constructor() {
     this.scene = new Scene();
@@ -88,6 +89,7 @@ export class World {
     );
     this.trackCreator = new TrackCreator();
     this.renderer = new WebGLRenderer();
+    this.clock = new Clock();
     // this.renderer = new WebGLRenderer({ antialias: true }); // looks better but laggy
     this.track = this.trackCreator.smallTrack();
     this.ambientLight = ambientLight;
@@ -181,27 +183,26 @@ export class World {
     this.scene.remove(this.car.object3d);
   }
 
+  // todo: add option to create cubes a fixed distance infront of car instead of using the mouse.
+
   public updateSceneAndCamera(): void {
-    if (this.mode === 'play') {
-      this.scene.add(this.car.object3d);
-      this.car.updateFromKeyboard(keyboard);
-      this.car.update();
-      if (this.isCollisionActive) {
-        this.resolveCollisionsBetweenCarsAndTrackWalls();
-      }
-      this.setCameraPosition(this.cameraView);
-    } else if (this.mode === 'create') {
+    if (this.mode === 'create') {
       this.isCollisionActive = false;
-      this.scene.remove(this.car.object3d);
-      this.setCameraPosition('firstPerson');
-      this.movePlayer();
     }
+
+    this.car.updateFromKeyboard(keyboard);
+    this.car.update();
+
+    if (this.isCollisionActive) {
+      this.resolveCollisionsBetweenCarsAndTrackWalls();
+    }
+
+    this.setCameraPosition(this.cameraView);
     this.grid.visible = this.isGridVisible;
 
     const point = this.findIntersectionPoint();
 
-    if (point && keyboard.space) {
-      console.log(point);
+    if (point && keyboard.space && this.mode === 'create') {
       const newCube = this.trackCreator.newCube();
       newCube.position.copy(point);
       this.scene.add(newCube);
@@ -255,21 +256,6 @@ export class World {
     }
   }
 
-  public movePlayer(): void {
-    if (keyboard.down) {
-      this.camera.position.y -= 10;
-    }
-    if (keyboard.up) { // should move in the direction I'm facing
-      this.camera.position.y += 10;
-    }
-    if (keyboard.left) {
-      this.camera.position.x -= 10;
-    }
-    if (keyboard.right) {
-      this.camera.position.x += 10;
-    }
-  }
-
   public setCameraView(view: CameraView): void {
     this.cameraView = view;
     this.updateCameraIfViewChanged();
@@ -287,14 +273,9 @@ export class World {
     this.buildTrack();
   }
 
-  public setPlayMode(): void { // this is never used rn
-    // TODO: if no car then add car
-    this.mode = 'play';
-  }
-
-  public setCreateMode(): void {
-    this.removeCar();
-    this.mode = 'create';
+  public setMode(mode: Mode): void {
+    this.isCollisionActive = mode === 'play';
+    this.mode = mode;
   }
 }
 

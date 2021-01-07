@@ -25,14 +25,14 @@ export const Menu = () => {
     <ApolloProvider client={client}>
       <Container fluid className="p-0">
         <form>
-          <button type="button" onClick={() => world.addCar()}>Play</button>
-          <button type="button" onClick={() => world.removeCar()}>Pause</button>
+          <button type="button" onClick={() => world.setMode('play')}>Play Mode</button>
+          <button type="button" onClick={() => world.setMode('create')}>Create Mode (press space while mouse is on the ground)</button>
+          {true ? undefined : (<button type="button" onClick={() => world.removeCar()}>Pause</button>)}
           <button type="button" onClick={() => world.setSmallTrack()}>Small Track</button>
           <button type="button" onClick={() => world.setBigTrack()}>Large Track</button>
           <button type="button" onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</button>
           <button type="button" onClick={() => setShowAddScore(!showAddScore)}>Add Score</button>
           <button type="button" onClick={() => setShowTouchpad(!showTouchpad)}>Show Touchpad</button>
-          <button type="button" onClick={() => world.setCreateMode()}>Track Creator</button>
           <button type="button" onClick={() => audioElement.play()}>Play Music</button>
           <button type="button" onClick={() => audioElement.pause()}>Pause Music</button>
           <button type="button" onClick={() => world.setCameraView('top')}>Top Camera</button>
@@ -47,6 +47,10 @@ export const Menu = () => {
           <Row>
             Speed:
             {world.car.getHorizontalSpeed()}
+          </Row>
+          <Row>
+            Time:
+            {Math.round(world.clock.getElapsedTime() * 100) / 100}
           </Row>
           <Row>
             {showTouchpad ? <Touchpad /> : undefined}
