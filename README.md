@@ -10,7 +10,15 @@ Update: the track is created by adding meshes of cubes and asigning them to a co
 
 [Repo](https://github.com/Bilalm354/kart-racer)
 
+## Gameplay 
+### Controls 
+- WASD and arrow keys for driving 
+- Space bar - turbo
+- In create mode click mouse where you want to place a new cube
+
 ## Planning
+
+Since I am working on my own and noone is using the site I have found it much nicer to add TODOs as comments in my code and pick them up as I go while working on master rather than doing any large planning and working issues on separate branches. But the links below were used earlier and still contain some potential future plans.
 
 Project board: https://github.com/Bilalm354/kart-racer/projects/1
 
