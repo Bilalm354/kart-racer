@@ -35,6 +35,8 @@ export class World {
   private collidableBoundingBoxes: Box3[];
   private trackCreator: TrackCreator;
   private mode: Mode;
+  private isGridVisible: boolean;
+  private grid: GridHelper;
 
   constructor() {
     this.scene = new Scene();
@@ -51,6 +53,8 @@ export class World {
     this.cameraView = 'behindCar';
     this.collidableBoundingBoxes = [];
     this.mode = 'play';
+    this.isGridVisible = true;
+    this.grid = new GridHelper(400, 40, 0x000000, 0x000000);
   }
 
   public init(): void {
@@ -61,14 +65,14 @@ export class World {
     this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
     this.buildTrack();
     this.addToGui();
-    const grid = new GridHelper(400, 40, 0x000000, 0x000000);
-    grid.rotateX(-Math.PI / 2);
-    grid.material = grid.material as Material;
-    grid.material.opacity = 0.5;
-    grid.material.depthWrite = false;
-    grid.material.transparent = true;
-    grid.material.visible = true;
-    this.scene.add(grid);
+    this.grid.rotateX(-Math.PI / 2);
+    this.grid.material = this.grid.material as Material;
+    this.grid.material.opacity = 0.5;
+    this.grid.material.depthWrite = false;
+    this.grid.material.transparent = true;
+    this.grid.material.visible = this.isGridVisible;
+    this.grid.name = 'grid';
+    this.scene.add(this.grid);
   }
 
   public initRenderer(): void {
@@ -94,6 +98,7 @@ export class World {
 
   public addToGui() {
     gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson', '2d']).listen();
+    gui.add(this, 'isGridVisible').listen();
     gui.add(this, 'mode', ['play', 'create']).listen(); // doesn't work because need to call the change mode function
   }
 
@@ -141,6 +146,7 @@ export class World {
       this.setCameraPosition('firstPerson');
       this.movePlayer();
     }
+    this.grid.visible = this.isGridVisible;
     this.renderer.render(this.scene, this.camera);
   }
 
