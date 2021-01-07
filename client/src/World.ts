@@ -45,6 +45,7 @@ export class World {
   private grid: GridHelper;
   public clock: Clock;
   public timeSinceLastNewCube: Clock;
+  public isMouseDown: boolean;
 
   constructor() {
     this.scene = new Scene();
@@ -65,6 +66,7 @@ export class World {
     this.isCollisionActive = true;
     this.grid = new GridHelper(400, 40, 0x000000, 0x000000);
     this.timeSinceLastNewCube = new Clock();
+    this.isMouseDown = false;
   }
 
   public init(): void {
@@ -83,7 +85,8 @@ export class World {
     this.grid.name = 'grid';
     this.scene.add(this.grid);
     document.addEventListener('mousemove', onMouseMove, false);
-    // document.addEventListener('mousedown', onMouseDown, false);
+    document.addEventListener('mousedown', () => { this.isMouseDown = true; }, false);
+    document.addEventListener('mouseup', () => { this.isMouseDown = false; }, false);
   }
 
   public initRenderer(): void {
@@ -111,7 +114,7 @@ export class World {
     gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson', '2d']).listen();
     gui.add(this, 'isGridVisible').listen();
     gui.add(this, 'isCollisionActive').listen();
-    gui.add(this, 'mode', ['play', 'create']).listen(); // doesn't work because need to call the change mode function
+    gui.add(this, 'mode', ['play', 'create']).listen();
   }
 
   private buildTrack(): void {
@@ -162,7 +165,7 @@ export class World {
     this.grid.visible = this.isGridVisible;
     const intersect = this.findIntersect();
 
-    if (intersect && intersect.face && keyboard.one && this.mode === 'create'
+    if (intersect && intersect.face && this.isMouseDown && this.mode === 'create'
       && this.timeSinceLastNewCube.getElapsedTime() > MINIMUM_TIME_BETWEEN_CUBE_SPAWNS) {
       const newCube = this.trackCreator.newCube();
       newCube.position.copy(intersect.point).add(intersect.face.normal);
