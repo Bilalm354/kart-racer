@@ -70,18 +70,18 @@ export class World {
     this.grid.material.opacity = 0.5;
     this.grid.material.depthWrite = false;
     this.grid.material.transparent = true;
-    this.grid.material.visible = this.isGridVisible;
     this.grid.name = 'grid';
     this.scene.add(this.grid);
   }
 
   public initRenderer(): void {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.domElement.tabIndex = 1; // allows the canvas element to be focused so keydown event listeners can work
+    // allows the canvas element to be focused so keydown event listeners can work
+    this.renderer.domElement.tabIndex = 1;
     this.addKeyboardEventListeners();
     addTouchEventListenerPreventDefaults(this.renderer.domElement);
-    document.body.appendChild(this.renderer.domElement);
     this.renderer.shadowMap.enabled = true;
+    document.body.appendChild(this.renderer.domElement);
   }
 
   public addKeyboardEventListeners(): void {
