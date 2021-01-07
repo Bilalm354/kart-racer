@@ -17,6 +17,8 @@ export const Menu = () => {
   const audioElement = document.getElementById('aliensExist')! as HTMLAudioElement;
 
   const isMobile = true;
+  // TODO: hide add score after submitting
+  // TODO: deploy server in continuous deployment
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showAddScore, setShowAddScore] = useState(false);
   const [showTouchpad, setShowTouchpad] = useState(isMobile);
