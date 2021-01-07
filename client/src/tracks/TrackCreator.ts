@@ -10,7 +10,7 @@ export interface Track {
 }
 
 export class TrackCreator {
-  private cubeLength: number;
+  public cubeLength: number;
   private track: Track;
   constructor() {
     this.cubeLength = 10;

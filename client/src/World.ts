@@ -1,5 +1,5 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera, GridHelper, Material, Vector2, Raycaster, Vector3, Clock,
+  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera, GridHelper, Material, Vector2, Raycaster, Vector3, Clock, Points,
 } from 'three';
 import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
@@ -24,47 +24,15 @@ function onMouseMove(event: MouseEvent) {
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 }
 
-// TODO: add a new button for spawning a new cube
+/*
+TODO: add newCube to collision boxes
+- to do this might have to save them somewhere.
+- instead of spawning new cubes just add them to an array and add everything from that array to collision boxes and also spawn them.
+*/
 
-// function onMouseDown(event) {
-//   event.preventDefault();
-
-//   mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
-
-//   raycaster.setFromCamera(mouse, camera);
-
-//   const intersects = raycaster.intersectObjects(objects);
-
-//   if (intersects.length > 0) {
-//     const intersect = intersects[0];
-
-//     // delete cube
-
-//     if (isShiftDown) {
-//       if (intersect.object !== plane) {
-//         scene.remove(intersect.object);
-
-//         objects.splice(objects.indexOf(intersect.object), 1);
-//       }
-
-//       // create cube
-//     } else {
-//       const voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
-//       voxel.position.copy(intersect.point).add(intersect.face.normal);
-//       voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
-//       scene.add(voxel);
-
-//       objects.push(voxel);
-//     }
-
-//     render();
-//   }
-// }
+// TODO: save tracks and load tracks
 
 let INTERSECTED: any;
-
-// const clock =
-// const updateDelta = clock.getDelta();
 
 export class World {
   public car: Car;
@@ -83,6 +51,7 @@ export class World {
   private isCollisionActive: boolean;
   private grid: GridHelper;
   public clock: Clock;
+  public timeSinceLastNewCube: Clock;
 
   constructor() {
     this.scene = new Scene();
@@ -103,6 +72,7 @@ export class World {
     this.isGridVisible = false;
     this.isCollisionActive = true;
     this.grid = new GridHelper(400, 40, 0x000000, 0x000000);
+    this.timeSinceLastNewCube = new Clock();
   }
 
   public init(): void {
@@ -201,16 +171,20 @@ export class World {
 
     this.setCameraPosition(this.cameraView);
     this.grid.visible = this.isGridVisible;
-
     const point = this.findIntersectionPoint();
-
-    if (point && keyboard.space && this.mode === 'create') {
-      const newCube = this.trackCreator.newCube();
-      newCube.position.copy(point);
-      this.scene.add(newCube);
-    }
-
+    this.placeNewCube(point);
     this.renderer.render(this.scene, this.camera);
+  }
+
+  public placeNewCube(point: Vector3 | undefined): void {
+    if (point && keyboard.one && this.mode === 'create' && this.timeSinceLastNewCube.getElapsedTime() > 0.5) {
+      console.log(this.timeSinceLastNewCube.getElapsedTime());
+      const newCube = this.trackCreator.newCube();
+      const newPoint = new Vector3().copy(point).setZ(point.z + (this.trackCreator.cubeLength / 2));
+      newCube.position.copy(newPoint);
+      this.scene.add(newCube);
+      this.timeSinceLastNewCube.start();
+    }
   }
 
   public findIntersectionPoint(): Vector3 | undefined {

@@ -3,7 +3,11 @@ export class Keyboard {
     left: boolean;
     up: boolean;
     down: boolean;
-    space: boolean
+    space: boolean;
+    one: boolean;
+    two: boolean;
+    three: boolean;
+    four: boolean
 
     constructor() {
       this.right = false;
@@ -11,6 +15,10 @@ export class Keyboard {
       this.up = false;
       this.down = false;
       this.space = false;
+      this.one = false;
+      this.two = false;
+      this.three = false;
+      this.four = false;
     }
 
     keyDownHandler(event: KeyboardEvent): void {
@@ -29,6 +37,18 @@ export class Keyboard {
           break;
         case ' ':
           this.space = true;
+          break;
+        case '1':
+          this.one = true;
+          break;
+        case '2':
+          this.two = true;
+          break;
+        case '3':
+          this.three = true;
+          break;
+        case '4':
+          this.four = true;
           break;
         default:
       }
@@ -50,6 +70,18 @@ export class Keyboard {
           break;
         case ' ':
           this.space = false;
+          break;
+        case '1':
+          this.one = false;
+          break;
+        case '2':
+          this.two = false;
+          break;
+        case '3':
+          this.three = false;
+          break;
+        case '4':
+          this.four = false;
           break;
         default:
       }
