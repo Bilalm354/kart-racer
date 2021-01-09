@@ -29,6 +29,7 @@ function onMouseMove(event: MouseEvent) {
 // TODO: remove the idea of walls from Tracks and replace with cubes
 // BUG: when you first load the page and go to create mode the first click doesn't add a block
 // TODO: add the ability to add multiple cubes while holding down mouse
+// TODO: spawn turbos and/ or items around the map like in snake/ mariokart
 
 export class World {
   public car: Car;
