@@ -1,6 +1,6 @@
 import {
   Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera,
-  GridHelper, Material, Vector2, Raycaster, Clock, Intersection,
+  GridHelper, Material, Vector2, Raycaster, Clock, Intersection, Vector3,
 } from 'three';
 import * as dat from 'dat.gui';
 import { Car } from '~/bodies/Car';
@@ -16,7 +16,7 @@ type Mode = 'play' | 'create';
 
 const raycaster = new Raycaster();
 const mouse = new Vector2();
-const MINIMUM_TIME_BETWEEN_CUBE_SPAWNS = 0.25;
+const MINIMUM_TIME_BETWEEN_CUBE_SPAWNS = 0.01;
 
 function onMouseMove(event: MouseEvent) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -25,8 +25,9 @@ function onMouseMove(event: MouseEvent) {
 
 // TODO: save tracks and load tracks
 // TODO: create keyboard shortcut for switching to create mode
-// TODO: add WASD for keyboard controls
 // TODO: shoot projectiles from car on mouse click
+// TODO: add edges or wireframes so boxes look nicer
+// TODO: remove the idea of walls from Tracks and replace with cubes
 
 export class World {
   public car: Car;
@@ -47,6 +48,7 @@ export class World {
   public clock: Clock;
   public timeSinceLastNewCube: Clock;
   public isMouseDown: boolean;
+  public positionForNewCube?: Vector3;
 
   constructor() {
     this.scene = new Scene();
@@ -86,7 +88,7 @@ export class World {
     this.grid.name = 'grid';
     this.scene.add(this.grid);
     document.addEventListener('mousemove', onMouseMove, false);
-    document.addEventListener('mousedown', () => { this.isMouseDown = true; }, false);
+    document.addEventListener('mousedown', () => this.onMouseDown(), false);
     document.addEventListener('mouseup', () => { this.isMouseDown = false; }, false);
   }
 
@@ -170,27 +172,55 @@ export class World {
     this.grid.visible = this.isGridVisible;
     const intersect = this.findIntersect();
 
-    if (intersect && intersect.face && this.isMouseDown && this.mode === 'create' // remove is mousedown for the hover thing
-      && this.timeSinceLastNewCube.getElapsedTime() > MINIMUM_TIME_BETWEEN_CUBE_SPAWNS) {
+    // TODO: save the current loaction of the potential box and check if you're in the same box on the next one and if you aren't
+    // then delete it and add it to the new spot
+
+    // BUG: I am stopping it from drawing a placeholder ontop of a place holder but that gets werid when you try to move forward one block
+    // since the current placcehodler is in the way of the next available spot. so need the placeholders to not be detected by the raycast
+
+    if (intersect
+      && intersect.face
+      && this.mode === 'create'
+      && intersect.object.name !== 'placeHolder') {
       const newCube = this.trackCreator.newCube();
       newCube.position.copy(intersect.point).add(intersect.face.normal);
       newCube.position.divideScalar(this.trackCreator.cubeLength).floor()
         .multiplyScalar(this.trackCreator.cubeLength).addScalar(this.trackCreator.cubeLength / 2);
+      this.positionForNewCube = new Vector3().copy(newCube.position);
+
+      newCube.name = 'placeHolder';
+
+      const oldPlaceHolder = this.scene.getObjectByName('placeHolder');
+
+      if (oldPlaceHolder) {
+        this.scene.remove(oldPlaceHolder);
+      }
+
       this.scene.add(newCube);
       newCube.material = newCube.material as Material;
       newCube.material.opacity = 0.5;
       newCube.material.transparent = true;
-      this.timeSinceLastNewCube.start();
-      // TODO: remove transparent cube from scene
-
-      // TODO: if mouse down add to array of boxes in track
-
-      // add array to scene on every render. shouldn't be a problem because three doesn't re add thing that are already there.
-
-      // TODO:  figure out how to remove cubes from track .
+      // TODO: add delete cube in creator mode
     }
 
     this.renderer.render(this.scene, this.camera);
+  }
+
+  public onMouseDown(): void {
+    // TODO: add this same functionality for touchscreens somehow
+    if (!this.positionForNewCube) {
+      return;
+    }
+
+    this.isMouseDown = true;
+    const newCube = this.trackCreator.newCube();
+    newCube.position.copy(this.positionForNewCube);
+
+    // add cube
+    if (this.timeSinceLastNewCube.getElapsedTime() > MINIMUM_TIME_BETWEEN_CUBE_SPAWNS) {
+      this.scene.add(newCube);
+      this.timeSinceLastNewCube.start();
+    }
   }
 
   public findIntersect(): Intersection {
