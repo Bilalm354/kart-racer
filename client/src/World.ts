@@ -30,6 +30,7 @@ function onMouseMove(event: MouseEvent) {
 // BUG: when you first load the page and go to create mode the first click doesn't add a block
 // TODO: add the ability to add multiple cubes while holding down mouse
 // TODO: spawn turbos and/ or items around the map like in snake/ mariokart
+// TODO: add socket.io for multiplayer
 
 export class World {
   public car: Car;
