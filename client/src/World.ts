@@ -168,9 +168,18 @@ export class World {
     this.resolveCollisionsBetweenCarsAndTrackWalls();
     this.setCameraPosition(this.cameraView);
     this.grid.visible = this.isGridVisible;
+    this.handleCreateMode();
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  public addNewRampToScene() {
+    // TODO: add a 3d triangle that can be used to go up inclines.
+  }
+
+  public handleCreateMode() {
     const intersect = this.findIntersect();
     this.addNewCubePlaceHolderToScene(intersect);
-    this.renderer.render(this.scene, this.camera);
   }
 
   public addNewCubePlaceHolderToScene(intersect: Intersection) {
