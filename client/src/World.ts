@@ -172,16 +172,13 @@ export class World {
     this.grid.visible = this.isGridVisible;
     const intersect = this.findIntersect();
 
-    // TODO: save the current loaction of the potential box and check if you're in the same box on the next one and if you aren't
-    // then delete it and add it to the new spot
+    if (intersect && intersect.face && this.mode === 'create') {
+      const oldPlaceHolder = this.scene.getObjectByName('placeHolder');
 
-    // BUG: I am stopping it from drawing a placeholder ontop of a place holder but that gets werid when you try to move forward one block
-    // since the current placcehodler is in the way of the next available spot. so need the placeholders to not be detected by the raycast
+      if (oldPlaceHolder) {
+        this.scene.remove(oldPlaceHolder);
+      }
 
-    if (intersect
-      && intersect.face
-      && this.mode === 'create'
-      && intersect.object.name !== 'placeHolder') {
       const newCube = this.trackCreator.newCube();
       newCube.position.copy(intersect.point).add(intersect.face.normal);
       newCube.position.divideScalar(this.trackCreator.cubeLength).floor()
@@ -189,12 +186,6 @@ export class World {
       this.positionForNewCube = new Vector3().copy(newCube.position);
 
       newCube.name = 'placeHolder';
-
-      const oldPlaceHolder = this.scene.getObjectByName('placeHolder');
-
-      if (oldPlaceHolder) {
-        this.scene.remove(oldPlaceHolder);
-      }
 
       this.scene.add(newCube);
       newCube.material = newCube.material as Material;
@@ -232,8 +223,13 @@ export class World {
     // TODO: add newCube to collision boxes
     // * to do this might have to save them somewhere.
     // * instead of spawning new cubes just add them to an array and add everything from that array to collision boxes and also spawn them
+    const intersectedObjects = raycaster.intersectObjects(this.scene.children);
 
-    return raycaster.intersectObjects(this.scene.children)[0];
+    while (intersectedObjects[0]?.object.name === 'placeHolder') {
+      intersectedObjects.shift();
+    }
+
+    return intersectedObjects[0];
   }
 
   public updateCameraIfViewChanged(): void {
