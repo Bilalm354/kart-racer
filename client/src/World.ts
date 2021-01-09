@@ -16,7 +16,6 @@ type Mode = 'play' | 'create';
 
 const raycaster = new Raycaster();
 const mouse = new Vector2();
-const MINIMUM_TIME_BETWEEN_CUBE_SPAWNS = 0.01;
 
 function onMouseMove(event: MouseEvent) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -28,6 +27,8 @@ function onMouseMove(event: MouseEvent) {
 // TODO: shoot projectiles from car on mouse click
 // TODO: add edges or wireframes so boxes look nicer
 // TODO: remove the idea of walls from Tracks and replace with cubes
+// BUG: when you first load the page and go to create mode the first click doesn't add a block
+// TODO: add the ability to add multiple cubes while holding down mouse
 
 export class World {
   public car: Car;
@@ -46,7 +47,6 @@ export class World {
   private isCollisionActive: boolean;
   private grid: GridHelper;
   public clock: Clock;
-  public timeSinceLastNewCube: Clock;
   public isMouseDown: boolean;
   public positionForNewCube?: Vector3;
 
@@ -67,8 +67,7 @@ export class World {
     this.mode = 'play';
     this.isGridVisible = false;
     this.isCollisionActive = true;
-    this.grid = new GridHelper(400, 40, 0x000000, 0x000000);
-    this.timeSinceLastNewCube = new Clock();
+    this.grid = new GridHelper(400, 40, 0x000000, 0x000000); // TODO: make a 3D grid so it finds the number of rows in each direction and adds multiple grids in all three planes to create a cube of 1x1s
     this.isMouseDown = false;
   }
 
@@ -87,9 +86,7 @@ export class World {
     this.grid.material.transparent = true;
     this.grid.name = 'grid';
     this.scene.add(this.grid);
-    document.addEventListener('mousemove', onMouseMove, false);
-    document.addEventListener('mousedown', () => this.onMouseDown(), false);
-    document.addEventListener('mouseup', () => { this.isMouseDown = false; }, false);
+    this.addMouseEventListeners();
   }
 
   public initRenderer(): void {
@@ -104,6 +101,12 @@ export class World {
   public addKeyboardEventListeners(): void {
     this.renderer.domElement.addEventListener('keydown', (event) => keyboard.keyDownHandler(event));
     this.renderer.domElement.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
+  }
+
+  private addMouseEventListeners(): void {
+    document.addEventListener('mousemove', onMouseMove, false);
+    document.addEventListener('mousedown', () => this.onMouseDown(), false);
+    document.addEventListener('mouseup', () => { this.isMouseDown = false; }, false);
   }
 
   public onWindowResize(): void {
@@ -141,6 +144,9 @@ export class World {
   }
 
   private resolveCollisionsBetweenCarsAndTrackWalls(): void {
+    if (!this.isCollisionActive) {
+      return;
+    }
     this.collidableBoundingBoxes.forEach((collidableBox) => {
       if ((this.car.boundingBox.intersectsBox(collidableBox))) {
         this.car.handleCollision();
@@ -157,22 +163,18 @@ export class World {
   }
 
   public updateSceneAndCamera(): void {
-    if (this.mode === 'create') {
-      this.isCollisionActive = false;
-    }
-
-    this.car.updateFromKeyboard(keyboard);
+    this.car.updateFromKeyboard(keyboard); // TODO: make this make more sense
     this.car.update();
-
-    if (this.isCollisionActive) {
-      this.resolveCollisionsBetweenCarsAndTrackWalls();
-    }
-
+    this.resolveCollisionsBetweenCarsAndTrackWalls();
     this.setCameraPosition(this.cameraView);
     this.grid.visible = this.isGridVisible;
     const intersect = this.findIntersect();
+    this.addNewCubePlaceHolderToScene(intersect);
+    this.renderer.render(this.scene, this.camera);
+  }
 
-    if (intersect && intersect.face && this.mode === 'create') {
+  public addNewCubePlaceHolderToScene(intersect: Intersection) {
+    if (this.mode === 'create' && intersect && intersect.face) {
       const oldPlaceHolder = this.scene.getObjectByName('placeHolder');
 
       if (oldPlaceHolder) {
@@ -180,10 +182,12 @@ export class World {
       }
 
       const newCube = this.trackCreator.newCube();
-      newCube.position.copy(intersect.point).add(intersect.face.normal);
-      newCube.position.divideScalar(this.trackCreator.cubeLength).floor()
-        .multiplyScalar(this.trackCreator.cubeLength).addScalar(this.trackCreator.cubeLength / 2);
-      this.positionForNewCube = new Vector3().copy(newCube.position);
+      newCube.position.copy(intersect.point)
+        .add(intersect.face.normal)
+        .divideScalar(this.trackCreator.cubeLength).floor()
+        .multiplyScalar(this.trackCreator.cubeLength)
+        .addScalar(this.trackCreator.cubeLength / 2);
+      this.positionForNewCube = new Vector3().copy(newCube.position); // FIXME: these last 5 lines can probably be better
 
       newCube.name = 'placeHolder';
 
@@ -191,10 +195,8 @@ export class World {
       newCube.material = newCube.material as Material;
       newCube.material.opacity = 0.5;
       newCube.material.transparent = true;
-      // TODO: add delete cube in creator mode
+      // TODO: add delete cube in create mode
     }
-
-    this.renderer.render(this.scene, this.camera);
   }
 
   public onMouseDown(): void {
@@ -206,12 +208,7 @@ export class World {
     this.isMouseDown = true;
     const newCube = this.trackCreator.newCube();
     newCube.position.copy(this.positionForNewCube);
-
-    // add cube
-    if (this.timeSinceLastNewCube.getElapsedTime() > MINIMUM_TIME_BETWEEN_CUBE_SPAWNS) {
-      this.scene.add(newCube);
-      this.timeSinceLastNewCube.start();
-    }
+    this.scene.add(newCube); // TODO: add this to Track instead of to scene and that will add collision boxes to it too
   }
 
   public findIntersect(): Intersection {
@@ -266,13 +263,13 @@ export class World {
     this.updateCameraIfViewChanged();
   }
 
-  public setSmallTrack(): void {
+  public setSmallTrack(): void { // weird
     this.removeTrack();
     this.track = this.trackCreator.smallTrack();
     this.buildTrack();
   }
 
-  public setBigTrack(): void {
+  public setBigTrack(): void { // weird
     this.removeTrack();
     this.track = this.trackCreator.bigTrack();
     this.buildTrack();
