@@ -3,7 +3,7 @@ import React from 'react';
 import { Col } from 'react-bootstrap';
 import { keyboard } from '~/misc/Keyboard';
 
-// TODO: remove unselectable from all classnames
+// TODO: remove unselectable from all classnames -- if everything still works correctly after testing (11/01/21)
 export const Touchpad = () => (
   <>
     <Col><div className="controls unselectable" id="go" onTouchStart={() => { keyboard.up = true; }} onTouchEnd={() => { keyboard.up = false; }}>Go</div></Col>

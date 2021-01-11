@@ -13,6 +13,7 @@ window.addEventListener('resize', () => world.onWindowResize());
 // prevent longpress on iphone
 // TODO: add the thing below only for mobile users
 // TODO: only auto show touchpad on mobile
+// document.addEventListener('contextmenu', (event) => event.preventDefault()); this might be nicer than the thing below
 window.oncontextmenu = (event: { preventDefault: () => void; stopPropagation: () => void; }) => {
   event.preventDefault();
   event.stopPropagation();

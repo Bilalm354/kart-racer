@@ -11,8 +11,8 @@ export interface Track {
   // boxPositions: Vector3[]
 }
 
-// TODO: make some kind of check point system
-// TODO: make some kind of lap system -- check everytime player car goes through lap flag checkpoint
+// TODO: make check point system
+// TODO: make lap system -- check everytime player car goes through lap checkpoint
 // TODO: create lap checkpoint visual on ground
 
 export class TrackCreator {
