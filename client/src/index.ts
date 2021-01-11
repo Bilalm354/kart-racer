@@ -8,9 +8,15 @@ import { world } from '~/World';
 const stats = new Stats();
 stats.showPanel(0);
 document.body.appendChild(stats.dom);
-document.addEventListener('orientationchange', (orientation) => console.log(orientation));
-
+document.addEventListener('orientationchange', (orientation) => alert(orientation));
 window.addEventListener('resize', () => world.onWindowResize());
+// prevent longpress on iphone
+// TODO: add the thing below only for mobile users
+window.oncontextmenu = (event: { preventDefault: () => void; stopPropagation: () => void; }) => {
+  event.preventDefault();
+  event.stopPropagation();
+  return false;
+};
 
 function animate() {
   stats.begin();
