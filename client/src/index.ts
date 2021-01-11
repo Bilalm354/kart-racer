@@ -12,6 +12,7 @@ document.addEventListener('orientationchange', (orientation) => alert(orientatio
 window.addEventListener('resize', () => world.onWindowResize());
 // prevent longpress on iphone
 // TODO: add the thing below only for mobile users
+// TODO: only auto show touchpad on mobile
 window.oncontextmenu = (event: { preventDefault: () => void; stopPropagation: () => void; }) => {
   event.preventDefault();
   event.stopPropagation();
