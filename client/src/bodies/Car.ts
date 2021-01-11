@@ -132,8 +132,8 @@ export class Car {
   }
 
   // TODO: one player uses WASD and the other uses arrows
-
   // TODO: allow assigning keyboard controls yourself
+  // TODO: add a button for handbrake/ drifting
 
   updateFromKeyboard(keyboard: any): void {
     this.isThrottling = keyboard.up || keyboard.w;
