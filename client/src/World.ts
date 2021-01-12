@@ -216,21 +216,18 @@ export class World {
       return;
     }
 
-    this.isMouseDown = true;
+    this.isMouseDown = true; // not currently used for anything
+
+    // delete hovered cube
     if (keyboard.shift) {
-      console.log('delete');
-      // TODO: get inserect object
-      // TODO: remove from scene
-      /*
-      if ( intersect.object !== plane ) {
-
-        scene.remove( intersect.object );
-
-        objects.splice( objects.indexOf( intersect.object ), 1 );
-
+      const intersect = this.findIntersect();
+      if (intersect.object !== this.track.ground) {
+        this.scene.remove(intersect.object);
+        // TODO: remove from track
+        // TODO: crumble things above deleted boxes that are not deeply tagged to ground
       }
-      */
     } else {
+      // create new cube where the placeholder is
       const newCube = this.trackCreator.newCube();
       newCube.position.copy(this.positionForNewCube);
       this.scene.add(newCube); // TODO: add this to Track instead of to scene and that will add collision boxes to it too
@@ -239,7 +236,6 @@ export class World {
 
   public findIntersect(): Intersection {
     raycaster.setFromCamera(mouse, this.camera);
-
     // TODO: add option to create cubes a fixed distance infront of car instead of using the mouse.
     // TODO: add a crosshair and a translucent box where it would go
     // BUG: can't build ontop of the already existing walls in my track
