@@ -7,7 +7,7 @@ import { Car } from '~/bodies/Car';
 import { ambientLight, directionalLight } from '~/misc/lights';
 import { Track, TrackCreator } from '~/tracks/TrackCreator';
 import { keyboard } from '~/misc/Keyboard';
-import { addTouchEventListenerPreventDefaults } from '~/helpers/canvasHelper';
+import { addTouchEventListenerPreventDefaults } from '~/helpers/touchHelper';
 
 const gui = new dat.GUI();
 
@@ -49,7 +49,7 @@ export class World {
   private isCollisionActive: boolean;
   private grid: GridHelper;
   public clock: Clock;
-  public isMouseDown: boolean;
+  public isMouseDown: boolean; // TODO: remove -- unused
   public positionForNewCube?: Vector3;
 
   constructor() {
@@ -217,9 +217,24 @@ export class World {
     }
 
     this.isMouseDown = true;
-    const newCube = this.trackCreator.newCube();
-    newCube.position.copy(this.positionForNewCube);
-    this.scene.add(newCube); // TODO: add this to Track instead of to scene and that will add collision boxes to it too
+    if (keyboard.shift) {
+      console.log('delete');
+      // TODO: get inserect object
+      // TODO: remove from scene
+      /*
+      if ( intersect.object !== plane ) {
+
+        scene.remove( intersect.object );
+
+        objects.splice( objects.indexOf( intersect.object ), 1 );
+
+      }
+      */
+    } else {
+      const newCube = this.trackCreator.newCube();
+      newCube.position.copy(this.positionForNewCube);
+      this.scene.add(newCube); // TODO: add this to Track instead of to scene and that will add collision boxes to it too
+    }
   }
 
   public findIntersect(): Intersection {

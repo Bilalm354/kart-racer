@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-use-before-define
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 
@@ -25,14 +26,14 @@ export const Leaderboard = () => {
   if (error) return <p>Error</p>;
 
   return (
-  <div id="leaderboard">
-    {data?.scores.map(({ name, time }) => (
-      <div key={name}>
-        <p>
-          {`${name} : ${time}`}
-        </p>
-      </div>
-    ))}
-  </div>
-  )
-} ;
+    <div id="leaderboard">
+      {data?.scores.map(({ name, time }) => (
+        <div key={name}>
+          <p>
+            {`${name} : ${time}`}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+};

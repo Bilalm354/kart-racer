@@ -12,6 +12,7 @@ export class Keyboard {
     a: boolean;
     s: boolean;
     d: boolean;
+    shift:boolean;
 
     constructor() {
       this.right = false;
@@ -27,7 +28,10 @@ export class Keyboard {
       this.a = false;
       this.s = false;
       this.d = false;
+      this.shift = false;
     }
+
+    // TODO: add enum for keys
 
     keyDownHandler(event: KeyboardEvent): void {
       switch (event.key) {
@@ -69,6 +73,9 @@ export class Keyboard {
           break;
         case 'd':
           this.d = true;
+          break;
+        case 'Shift':
+          this.shift = true;
           break;
         default:
       }
@@ -114,6 +121,9 @@ export class Keyboard {
           break;
         case 'd':
           this.d = false;
+          break;
+        case 'Shift':
+          this.shift = false;
           break;
         default:
       }
