@@ -1,26 +1,26 @@
 import {
-  BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry,
+  BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry, Vector3,
 } from 'three';
 
-type Direction = 'x' | 'y';
-
 // TODO: use box positions instead of walls
-export interface Track {
-  ground: Mesh,
-  walls: Group[],
-  // boxPositions: Vector3[]
-}
-
 // TODO: make check point system
 // TODO: make lap system -- check everytime player car goes through lap checkpoint
 // TODO: create lap checkpoint visual on ground
+
+type Direction = 'x' | 'y';
+
+export interface Track {
+  ground: Mesh,
+  walls: Group[],
+  boxPositions: Vector3[]
+}
 
 export class TrackCreator {
   public cubeLength: number;
   private track: Track;
   constructor() {
     this.cubeLength = 10;
-    this.track = { ground: new Mesh(), walls: [] };
+    this.track = { ground: new Mesh(), walls: [], boxPositions: [] };
   }
 
   public newCube(): Mesh {
@@ -93,7 +93,7 @@ export class TrackCreator {
   }
 
   smallTrack(): Track {
-    this.track = { ground: new Mesh(), walls: [] };
+    this.track = { ground: new Mesh(), walls: [], boxPositions: [] };
     this.createGround(40);
     this.createSquareOfWalls(20);
     this.createSquareOfWalls(40);
@@ -101,7 +101,7 @@ export class TrackCreator {
   }
 
   bigTrack(): Track {
-    this.track = { ground: new Mesh(), walls: [] };
+    this.track = { ground: new Mesh(), walls: [], boxPositions: [] };
     this.createGround(160);
     this.createSquareOfWalls(80);
     this.createSquareOfWalls(160);

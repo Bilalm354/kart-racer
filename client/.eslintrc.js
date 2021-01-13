@@ -48,5 +48,7 @@ module.exports = {
       groups: [{ type: 'method', sort: 'alphabetical' }],
       accessorPairPositioning: 'getThenSet',
     }],
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
   },
 };

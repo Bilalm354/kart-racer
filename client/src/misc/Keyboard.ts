@@ -31,8 +31,6 @@ export class Keyboard {
       this.shift = false;
     }
 
-    // TODO: add enum for keys
-
     keyDownHandler(event: KeyboardEvent): void {
       switch (event.key) {
         case 'ArrowRight':

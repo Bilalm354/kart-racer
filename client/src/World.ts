@@ -130,6 +130,11 @@ export class World {
       this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
       this.scene.add(wall);
     });
+    this.track.boxPositions?.forEach((boxPosition) => {
+      const newCube = this.trackCreator.newCube();
+      newCube.position.copy(boxPosition);
+      this.scene.add(newCube);
+    });
     if (this.track.ground) {
       this.scene.add(this.track.ground);
     }
@@ -143,6 +148,10 @@ export class World {
     if (this.track.ground) {
       this.scene.remove(this.track.ground);
     }
+  }
+
+  private updateTrack(): void {
+    //
   }
 
   private resolveCollisionsBetweenCarsAndTrackWalls(): void {
@@ -171,6 +180,8 @@ export class World {
     this.setCameraPosition(this.cameraView);
     this.grid.visible = this.isGridVisible;
     this.handleCreateMode();
+    this.buildTrack();
+    console.log(this.track.boxPositions);
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -228,9 +239,10 @@ export class World {
       }
     } else {
       // create new cube where the placeholder is
-      const newCube = this.trackCreator.newCube();
-      newCube.position.copy(this.positionForNewCube);
-      this.scene.add(newCube); // TODO: add this to Track instead of to scene and that will add collision boxes to it too
+      // const newCube = this.trackCreator.newCube();
+      // newCube.position.copy(this.positionForNewCube);
+      // this.scene.add(newCube); // TODO: add this to Track instead of to scene and that will add collision boxes to it to
+      this.track.boxPositions?.push(this.positionForNewCube);
     }
   }
 
