@@ -51,6 +51,9 @@ export class World {
   public clock: Clock;
   public isMouseDown: boolean; // TODO: remove -- unused
   public positionForNewCube?: Vector3;
+  // TODO: move stats to here (maybe in contructor) and add the adding to dom part to the init function in here  
+  // TODO: add isStatsVisible to this and default it to false 
+  // TODO: add isStatsVisible to GUI 
 
   constructor() {
     this.scene = new Scene();
