@@ -25,6 +25,8 @@ export const Menu = () => {
   const [showAddScore, setShowAddScore] = useState(false);
   const [showTouchpad, setShowTouchpad] = useState(isMobile);
   // TODO: stop stats.js from getting in the way of the first nav bar option
+
+  // TODO: add tips to side
   return (
     <ApolloProvider client={client}>
       <Container fluid className="p-0">
@@ -36,20 +38,20 @@ export const Menu = () => {
               <Nav.Link onClick={() => world.setMode('create')}>Create (click while mouse is on the ground)</Nav.Link>
             </NavDropdown>
             <NavDropdown title="Track" id="collasible-nav-dropdown">
-              <Nav.Link onClick={() => world.setSmallTrack()}>Small Track</Nav.Link>
-              <Nav.Link onClick={() => world.setBigTrack()}>Large Track</Nav.Link>
+              <Nav.Link onClick={() => world.setSmallTrack()}>Small</Nav.Link>
+              <Nav.Link onClick={() => world.setBigTrack()}>Large</Nav.Link>
             </NavDropdown>
             <NavDropdown title="Leaderboard" id="collasible-nav-dropdown">
-              <Nav.Link onClick={() => setShowLeaderboard(!showLeaderboard)}>See Leaderboard</Nav.Link>
+              <Nav.Link onClick={() => setShowLeaderboard(!showLeaderboard)}>See Scores</Nav.Link>
               <Nav.Link onClick={() => setShowAddScore(!showAddScore)}>Add Score</Nav.Link>
             </NavDropdown>
             <NavDropdown title="Music" id="collasible-nav-dropdown">
-              <Nav.Link onClick={() => audioElement.play()}>Play Music</Nav.Link>
-              <Nav.Link onClick={() => audioElement.pause()}>Pause Music</Nav.Link>
+              <Nav.Link onClick={() => audioElement.play()}>Play Aliens Exist</Nav.Link>
+              <Nav.Link onClick={() => audioElement.pause()}>Pause Aliens Exist</Nav.Link>
             </NavDropdown>
             <NavDropdown title="Camera" id="collasible-nav-dropdown">
-              <Nav.Link onClick={() => world.setCameraView('top')}>Top Camera</Nav.Link>
-              <Nav.Link onClick={() => world.setCameraView('behindCar')}>Behind Car Camera</Nav.Link>
+              <Nav.Link onClick={() => world.setCameraView('top')}>Top</Nav.Link>
+              <Nav.Link onClick={() => world.setCameraView('behindCar')}>Behind</Nav.Link>
             </NavDropdown>
             <NavDropdown title="Car Colour" id="collasible-nav-dropdown">
               <Nav.Link onClick={() => world.car.setColor('red')}>Red</Nav.Link>
