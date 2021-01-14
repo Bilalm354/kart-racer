@@ -1,15 +1,9 @@
 import '~/styles/index';
 import { createElement } from 'react';
 import ReactDOM from 'react-dom';
-import Stats from 'stats.js';
 import { Menu } from '~/ui/Menu';
 import { world } from '~/World';
 
-const stats = new Stats();
-stats.showPanel(0);
-document.body.appendChild(stats.dom);
-document.addEventListener('orientationchange', (orientation) => alert(orientation));
-window.addEventListener('resize', () => world.onWindowResize());
 // prevent longpress on iphone
 // TODO: add the thing below only for mobile users
 // TODO: only auto show touchpad on mobile
@@ -21,10 +15,8 @@ window.oncontextmenu = (event: { preventDefault: () => void; stopPropagation: ()
 };
 
 function animate() {
-  stats.begin();
   ReactDOM.render(createElement(Menu), document.getElementById('react'));
   world.updateSceneAndCamera();
-  stats.end();
   requestAnimationFrame(animate);
 }
 

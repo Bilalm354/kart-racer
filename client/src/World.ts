@@ -3,6 +3,7 @@ import {
   GridHelper, Material, Vector2, Raycaster, Clock, Intersection, Vector3,
 } from 'three';
 import * as dat from 'dat.gui';
+import Stats from 'stats.js';
 import { Car } from '~/bodies/Car';
 import { ambientLight, directionalLight } from '~/misc/lights';
 import { Track, TrackCreator } from '~/tracks/TrackCreator';
@@ -51,9 +52,11 @@ export class World {
   public clock: Clock;
   public isMouseDown: boolean; // TODO: remove -- unused
   public positionForNewCube?: Vector3;
-  // TODO: move stats to here (maybe in contructor) and add the adding to dom part to the init function in here  
-  // TODO: add isStatsVisible to this and default it to false 
-  // TODO: add isStatsVisible to GUI 
+  public isStatsVisible: boolean;
+  stats: Stats;
+  // TODO: move stats to here (maybe in contructor) and add the adding to dom part to the init function in here
+  // TODO: add isStatsVisible to this and default it to false
+  // TODO: add isStatsVisible to GUI
 
   constructor() {
     this.scene = new Scene();
@@ -74,6 +77,8 @@ export class World {
     this.isCollisionActive = true;
     this.grid = new GridHelper(400, 40, 0x000000, 0x000000); // TODO: make a 3D grid so it finds the number of rows in each direction and adds multiple grids in all three planes to create a cube of 1x1s
     this.isMouseDown = false;
+    this.isStatsVisible = false;
+    this.stats = new Stats();
   }
 
   public init(): void {
@@ -92,6 +97,9 @@ export class World {
     this.grid.name = 'grid';
     this.scene.add(this.grid);
     this.addMouseEventListeners();
+    this.stats.showPanel(0);
+    document.body.appendChild(this.stats.dom);
+    window.addEventListener('resize', () => this.onWindowResize());
   }
 
   public initRenderer(): void {
@@ -125,6 +133,7 @@ export class World {
     gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson', '2d']).listen();
     gui.add(this, 'isGridVisible').listen();
     gui.add(this, 'isCollisionActive').listen();
+    gui.add(this, 'isStatsVisible').listen();
     gui.add(this, 'mode', ['play', 'create']).listen();
   }
 
@@ -167,14 +176,17 @@ export class World {
     this.scene.remove(this.car.object3d);
   }
 
-  public updateSceneAndCamera(): void {
+  public updateSceneAndCamera(): void { // basically animate/ render function
+    this.stats.begin();
     this.car.updateFromKeyboard(keyboard); // TODO: make this make more sense
     this.car.update();
     this.resolveCollisionsBetweenCarsAndTrackWalls();
     this.setCameraPosition(this.cameraView);
     this.grid.visible = this.isGridVisible;
+    this.stats.dom.hidden = !this.isStatsVisible;
     this.handleCreateMode();
     this.renderer.render(this.scene, this.camera);
+    this.stats.end();
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -209,7 +221,6 @@ export class World {
       newCube.material = newCube.material as Material;
       newCube.material.opacity = 0.5;
       newCube.material.transparent = true;
-      // TODO: add delete cube in create mode
     }
   }
 
