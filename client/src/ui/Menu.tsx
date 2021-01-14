@@ -17,15 +17,13 @@ const client = new ApolloClient({
 
 // TODO: hide add score after submitting
 // TODO: deploy server in continuous deployment
-// TODO: stop stats.js from getting in the way of the first nav bar option
 // TODO: add tips to side - for example click to place block in create mode and shift + click to delete block
 
 export const Menu = () => {
   const audioElement = document.getElementById('aliensExist')! as HTMLAudioElement;
-  const isMobile = true;
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [showAddScore, setShowAddScore] = useState(false);
-  const [showTouchpad, setShowTouchpad] = useState(isMobile);
+  const [showTouchpad, setShowTouchpad] = useState(world.isMobile);
 
   return (
     <ApolloProvider client={client}>

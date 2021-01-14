@@ -1,6 +1,6 @@
 import {
   Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera,
-  GridHelper, Material, Vector2, Raycaster, Clock, Intersection, Vector3,
+  GridHelper, Material, Raycaster, Clock, Intersection, Vector3,
 } from 'three';
 import * as dat from 'dat.gui';
 import Stats from 'stats.js';
@@ -9,6 +9,7 @@ import { ambientLight, directionalLight } from '~/misc/lights';
 import { Track, TrackCreator } from '~/tracks/TrackCreator';
 import { keyboard } from '~/misc/Keyboard';
 import { addTouchEventListenerPreventDefaults } from '~/helpers/touchHelper';
+import { mouse } from '~/misc/Mouse';
 
 const gui = new dat.GUI();
 
@@ -16,12 +17,6 @@ type CameraView = 'top' | 'behindCar' | 'firstPerson' | '2d';
 type Mode = 'play' | 'create';
 
 const raycaster = new Raycaster();
-const mouse = new Vector2();
-
-function onMouseMove(event: MouseEvent) {
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-}
 
 // TODO: save tracks and load tracks
 // TODO: create keyboard shortcut for switching to create mode
@@ -32,10 +27,18 @@ function onMouseMove(event: MouseEvent) {
 // TODO: add the ability to add multiple cubes while holding down mouse
 // TODO: spawn turbos and/ or items around the map like in snake/ mariokart
 // TODO: add socket.io for multiplayer
+// TODO: add a 3d triangle that can be used to go up inclines.
+// TODO: 3d collision
+// TODO: SAT collision detection and resolution
 
 export class World {
   public car: Car;
   public scene: Scene;
+  public clock: Clock;
+  public positionForNewCube?: Vector3;
+  public isStatsVisible: boolean;
+  public stats: Stats;
+  public isMobile: boolean;
 
   private track: Track;
   private ambientLight: Light;
@@ -49,14 +52,6 @@ export class World {
   private isGridVisible: boolean;
   private isCollisionActive: boolean;
   private grid: GridHelper;
-  public clock: Clock;
-  public isMouseDown: boolean; // TODO: remove -- unused
-  public positionForNewCube?: Vector3;
-  public isStatsVisible: boolean;
-  stats: Stats;
-  // TODO: move stats to here (maybe in contructor) and add the adding to dom part to the init function in here
-  // TODO: add isStatsVisible to this and default it to false
-  // TODO: add isStatsVisible to GUI
 
   constructor() {
     this.scene = new Scene();
@@ -75,10 +70,10 @@ export class World {
     this.mode = 'play';
     this.isGridVisible = false;
     this.isCollisionActive = true;
-    this.grid = new GridHelper(400, 40, 0x000000, 0x000000); // TODO: make a 3D grid so it finds the number of rows in each direction and adds multiple grids in all three planes to create a cube of 1x1s
-    this.isMouseDown = false;
+    this.grid = new GridHelper(400, 40, 0x000000, 0x000000);
     this.isStatsVisible = false;
     this.stats = new Stats();
+    this.isMobile = false;
   }
 
   public init(): void {
@@ -96,10 +91,17 @@ export class World {
     this.grid.material.transparent = true;
     this.grid.name = 'grid';
     this.scene.add(this.grid);
-    this.addMouseEventListeners();
+    mouse.addMouseEventListeners();
     this.stats.showPanel(0);
     document.body.appendChild(this.stats.dom);
     window.addEventListener('resize', () => this.onWindowResize());
+    this.updateIsMobile();
+  }
+
+  public updateIsMobile() {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      this.isMobile = true;
+    }
   }
 
   public initRenderer(): void {
@@ -114,12 +116,6 @@ export class World {
   public addKeyboardEventListeners(): void {
     this.renderer.domElement.addEventListener('keydown', (event) => keyboard.keyDownHandler(event));
     this.renderer.domElement.addEventListener('keyup', (event) => keyboard.keyUpHandler(event));
-  }
-
-  private addMouseEventListeners(): void {
-    document.addEventListener('mousemove', onMouseMove, false);
-    document.addEventListener('mousedown', () => this.onMouseDown(), false);
-    document.addEventListener('mouseup', () => { this.isMouseDown = false; }, false);
   }
 
   public onWindowResize(): void {
@@ -176,7 +172,7 @@ export class World {
     this.scene.remove(this.car.object3d);
   }
 
-  public updateSceneAndCamera(): void { // basically animate/ render function
+  public updateSceneAndCamera(): void {
     this.stats.begin();
     this.car.updateFromKeyboard(keyboard); // TODO: make this make more sense
     this.car.update();
@@ -187,11 +183,6 @@ export class World {
     this.handleCreateMode();
     this.renderer.render(this.scene, this.camera);
     this.stats.end();
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  public addNewRampToScene() {
-    // TODO: add a 3d triangle that can be used to go up inclines.
   }
 
   public handleCreateMode() {
@@ -224,13 +215,10 @@ export class World {
     }
   }
 
-  public onMouseDown(): void {
-    // TODO: add this same functionality for touchscreens somehow
+  public createOrDelete(): void { // TODO: add this same functionality for touchscreens somehow
     if (!this.positionForNewCube) {
       return;
     }
-
-    this.isMouseDown = true; // not currently used for anything
 
     // delete hovered cube
     if (keyboard.shift) {
@@ -249,7 +237,7 @@ export class World {
   }
 
   public findIntersect(): Intersection {
-    raycaster.setFromCamera(mouse, this.camera);
+    raycaster.setFromCamera(mouse.position, this.camera);
     // TODO: add option to create cubes a fixed distance infront of car instead of using the mouse.
     // TODO: add a crosshair and a translucent box where it would go
     // BUG: can't build ontop of the already existing walls in my track
