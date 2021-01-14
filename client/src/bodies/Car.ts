@@ -66,6 +66,7 @@ export class Car {
   }
 
   public getHorizontalSpeed(): number {
+    // FIXME: is slow and appears to lag behind
     const horizontalVelocity = this.velocity.clone().setY(0);
     return Math.round(horizontalVelocity.length() * 10);
   }
