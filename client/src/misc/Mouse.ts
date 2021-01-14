@@ -12,7 +12,7 @@ class Mouse {
 
     public onMouseDown(): void {
       this.isDown = true;
-      world.createOrDelete();
+      world.createOrDeleteOnMouseDown(); // BUG: does this even when clicking on menu buttons so should add an if to stop that somewhere
     }
 
     public onMouseUp(): void {

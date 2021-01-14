@@ -11,13 +11,16 @@ import { keyboard } from '~/misc/Keyboard';
 import { addTouchEventListenerPreventDefaults } from '~/helpers/touchHelper';
 import { mouse } from '~/misc/Mouse';
 
-const gui = new dat.GUI();
-
 type CameraView = 'top' | 'behindCar' | 'firstPerson' | '2d';
 type Mode = 'play' | 'create';
 
-const raycaster = new Raycaster();
-
+function preventRightClickAndLongPress(): void {
+  window.oncontextmenu = (event: { preventDefault: () => void; stopPropagation: () => void; }) => {
+    event.preventDefault();
+    event.stopPropagation();
+    return false;
+  };
+}
 // TODO: save tracks and load tracks
 // TODO: create keyboard shortcut for switching to create mode
 // TODO: shoot projectiles from car on mouse click
@@ -52,6 +55,8 @@ export class World {
   private isGridVisible: boolean;
   private isCollisionActive: boolean;
   private grid: GridHelper;
+  private raycaster: Raycaster;
+  private gui: dat.GUI;
 
   constructor() {
     this.scene = new Scene();
@@ -74,10 +79,14 @@ export class World {
     this.isStatsVisible = false;
     this.stats = new Stats();
     this.isMobile = false;
+    this.raycaster = new Raycaster();
+    this.gui = new dat.GUI();
   }
 
   public init(): void {
     this.initRenderer();
+    preventRightClickAndLongPress();
+
     directionalLight.position.set(1, 1, 0.5).normalize();
     this.camera.up.set(0, 0, 1);
     this.scene.background = new Color(0xfad6a5);
@@ -126,11 +135,11 @@ export class World {
   }
 
   public addToGui(): void {
-    gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson', '2d']).listen();
-    gui.add(this, 'isGridVisible').listen();
-    gui.add(this, 'isCollisionActive').listen();
-    gui.add(this, 'isStatsVisible').listen();
-    gui.add(this, 'mode', ['play', 'create']).listen();
+    this.gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson', '2d']).listen();
+    this.gui.add(this, 'isGridVisible').listen();
+    this.gui.add(this, 'isCollisionActive').listen();
+    this.gui.add(this, 'isStatsVisible').listen();
+    this.gui.add(this, 'mode', ['play', 'create']).listen();
   }
 
   private buildTrack(): void {
@@ -215,36 +224,43 @@ export class World {
     }
   }
 
-  public createOrDelete(): void { // TODO: add this same functionality for touchscreens somehow
+  public createOrDeleteOnMouseDown(): void { // TODO: add this same functionality optimised for touchscreens
     if (!this.positionForNewCube) {
       return;
     }
 
-    // delete hovered cube
     if (keyboard.shift) {
-      const intersect = this.findIntersect();
-      if (intersect.object !== this.track.ground) {
-        this.scene.remove(intersect.object);
-        // TODO: remove from track
-        // TODO: crumble things above deleted boxes that are not deeply tagged to ground
-      }
+      this.deleteHoveredCube();
     } else {
-      // create new cube where the placeholder is
-      const newCube = this.trackCreator.newCube();
-      newCube.position.copy(this.positionForNewCube);
-      this.scene.add(newCube); // TODO: add this to Track instead of to scene and that will add collision boxes to it too
+      this.createNewCube();
     }
   }
 
+  public deleteHoveredCube(): void {
+    const intersect = this.findIntersect();
+    if (intersect.object !== this.track.ground) {
+      this.scene.remove(intersect.object);
+      // TODO: remove from track
+      // TODO: crumble things above deleted boxes that are not deeply tagged to ground
+    }
+  }
+
+  public createNewCube() : void {
+    // create new cube where the placeholder is
+    const newCube = this.trackCreator.newCube();
+    newCube.position.copy(this.positionForNewCube!);
+    this.scene.add(newCube); // TODO: add this to Track instead of to scene and that will add collision boxes to it too
+  }
+
   public findIntersect(): Intersection {
-    raycaster.setFromCamera(mouse.position, this.camera);
+    this.raycaster.setFromCamera(mouse.position, this.camera);
     // TODO: add option to create cubes a fixed distance infront of car instead of using the mouse.
     // TODO: add a crosshair and a translucent box where it would go
     // BUG: can't build ontop of the already existing walls in my track
     // TODO: add newCube to collision boxes
     // * to do this might have to save them somewhere.
     // * instead of spawning new cubes just add them to an array and add everything from that array to collision boxes and also spawn them
-    const intersectedObjects = raycaster.intersectObjects(this.scene.children);
+    const intersectedObjects = this.raycaster.intersectObjects(this.scene.children);
 
     while (intersectedObjects[0]?.object.name === 'placeHolder') {
       intersectedObjects.shift();

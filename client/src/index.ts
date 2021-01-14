@@ -4,15 +4,6 @@ import ReactDOM from 'react-dom';
 import { Menu } from '~/ui/Menu';
 import { world } from '~/World';
 
-document.addEventListener('contextmenu', (event) => event.preventDefault()); // if this doesn't prec\vent longpress on mobile then replace with the one below
-
-// TODO: delete me
-// window.oncontextmenu = (event: { preventDefault: () => void; stopPropagation: () => void; }) => {
-//   event.preventDefault();
-//   event.stopPropagation();
-//   return false;
-// };
-
 function animate() {
   ReactDOM.render(createElement(Menu), document.getElementById('react'));
   world.updateSceneAndCamera();
