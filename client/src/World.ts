@@ -174,7 +174,7 @@ export class World {
 
   public updateSceneAndCamera(): void {
     this.stats.begin();
-    this.car.updateFromKeyboard(keyboard); // TODO: make this make more sense
+    this.car.updateFromKeyboard(keyboard);
     this.car.update();
     this.resolveCollisionsBetweenCarsAndTrackWalls();
     this.setCameraPosition(this.cameraView);

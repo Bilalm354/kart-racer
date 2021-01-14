@@ -136,7 +136,7 @@ export class Car {
   // TODO: allow assigning keyboard controls yourself
   // TODO: add a button for handbrake/ drifting
 
-  updateFromKeyboard(keyboard: any): void {
+  updateFromKeyboard(keyboard: any): void { // TODO: rename
     this.isThrottling = keyboard.up || keyboard.w;
     this.isReversing = keyboard.down || keyboard.s;
     this.isTurningRight = keyboard.right || keyboard.d;
