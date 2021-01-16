@@ -12,7 +12,7 @@ class Mouse {
 
     public onMouseDown(): void {
       this.isDown = true;
-      world.createOrDeleteOnMouseDown(); // BUG: does this even when clicking on menu buttons so should add an if to stop that somewhere
+      world.createOrDeleteOnMouseDown();
     }
 
     public onMouseUp(): void {
@@ -24,10 +24,10 @@ class Mouse {
       this.position.y = -(event.clientY / window.innerHeight) * 2 + 1;
     }
 
-    public addMouseEventListeners(): void {
-      document.addEventListener('mousemove', (event) => this.onMouseMove(event), false);
-      document.addEventListener('mousedown', () => this.onMouseDown(), false);
-      document.addEventListener('mouseup', () => this.onMouseUp(), false);
+    public addMouseEventListeners(element: HTMLCanvasElement): void {
+      element.addEventListener('mousemove', (event) => this.onMouseMove(event), false);
+      element.addEventListener('mousedown', () => this.onMouseDown(), false);
+      element.addEventListener('mouseup', () => this.onMouseUp(), false);
     }
 }
 

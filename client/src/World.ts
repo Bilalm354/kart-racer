@@ -100,7 +100,6 @@ export class World {
     this.grid.material.transparent = true;
     this.grid.name = 'grid';
     this.scene.add(this.grid);
-    mouse.addMouseEventListeners();
     this.stats.showPanel(0);
     document.body.appendChild(this.stats.dom);
     window.addEventListener('resize', () => this.onWindowResize());
@@ -118,6 +117,7 @@ export class World {
     this.renderer.domElement.tabIndex = 1;
     this.addKeyboardEventListeners();
     addTouchEventListenerPreventDefaults(this.renderer.domElement);
+    mouse.addMouseEventListeners(this.renderer.domElement);
     this.renderer.shadowMap.enabled = true;
     document.body.appendChild(this.renderer.domElement);
   }
