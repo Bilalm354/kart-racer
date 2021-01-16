@@ -15,6 +15,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+// TODO: close dropdown fter clicking on on
 // TODO: hide add score after submitting
 // TODO: deploy server in continuous deployment
 // TODO: add tips to side - for example click to place block in create mode and shift + click to delete block
