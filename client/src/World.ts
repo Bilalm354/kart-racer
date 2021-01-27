@@ -246,7 +246,6 @@ export class World {
   }
 
   public createNewCube() : void {
-    // create new cube where the placeholder is
     const newCube = this.trackCreator.newCube();
     newCube.position.copy(this.positionForNewCube!);
     this.scene.add(newCube); // TODO: add this to Track instead of to scene and that will add collision boxes to it too
