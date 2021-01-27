@@ -236,19 +236,26 @@ export class World {
     }
   }
 
-  public deleteHoveredCube(): void {
+  public deleteHoveredCube(): void { // BUG: works weird now.
     const intersect = this.findIntersect();
     if (intersect.object !== this.track.ground) {
+      console.log(intersect.object.position);
       this.scene.remove(intersect.object);
-      // TODO: remove from track
+
+      this.track.boxPositions.forEach((position, index) => {
+        if (position.equals(intersect.object.position)) {
+          this.track.boxPositions.splice(index);
+        }
+      });
+
       // TODO: crumble things above deleted boxes that are not deeply tagged to ground
     }
   }
 
   public createNewCube() : void {
-    const newCube = this.trackCreator.newCube();
-    newCube.position.copy(this.positionForNewCube!);
-    this.scene.add(newCube); // TODO: add this to Track instead of to scene and that will add collision boxes to it too
+    this.track.boxPositions.push(this.positionForNewCube!);
+    this.trackCreator.addBoxesToScene(this.scene);
+    // TODO: add collision boxes to it too
   }
 
   public findIntersect(): Intersection {

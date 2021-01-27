@@ -1,5 +1,5 @@
 import {
-  BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry,
+  BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Vector3,
 } from 'three';
 
 type Direction = 'x' | 'y';
@@ -8,7 +8,7 @@ type Direction = 'x' | 'y';
 export interface Track {
   ground: Mesh,
   walls: Group[],
-  // boxPositions: Vector3[]
+  boxPositions: Vector3[]
 }
 
 // TODO: make check point system
@@ -20,7 +20,7 @@ export class TrackCreator {
   private track: Track;
   constructor() {
     this.cubeLength = 10;
-    this.track = { ground: new Mesh(), walls: [] };
+    this.track = { ground: new Mesh(), walls: [], boxPositions: [] };
   }
 
   public newCube(): Mesh {
@@ -93,7 +93,7 @@ export class TrackCreator {
   }
 
   smallTrack(): Track {
-    this.track = { ground: new Mesh(), walls: [] };
+    this.track = { ground: new Mesh(), walls: [], boxPositions: [] };
     this.createGround(40);
     this.createSquareOfWalls(20);
     this.createSquareOfWalls(40);
@@ -101,18 +101,19 @@ export class TrackCreator {
   }
 
   bigTrack(): Track {
-    this.track = { ground: new Mesh(), walls: [] };
+    this.track = { ground: new Mesh(), walls: [], boxPositions: [] };
     this.createGround(160);
     this.createSquareOfWalls(80);
     this.createSquareOfWalls(160);
     return this.track;
   }
 
-  // createTrack(positions: Vector3[], startingPosition: Vector3, laps:number, scene: Scene) {
-  //   positions.forEach((position => {
-  //     const cube = this.newCube()
-  //     cube.position.set(position.x, position.y, position.z)
-  //     scene.add(cube)
-  //   })
-  // }
+  addBoxesToScene(scene: Scene): void {
+    // TODO: need a unique id with each position? do i though?
+    this.track.boxPositions.forEach((position) => {
+      const newCube = this.newCube();
+      newCube.position.copy(position);
+      scene.add(newCube);
+    });
+  }
 }
