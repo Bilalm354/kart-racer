@@ -1,9 +1,5 @@
 # Kart Racing Game Built In TypeScript with Three JS
 
-Note: I started building this project on a React/ Three/ Webpack boilerplate (but don't use any of it I think) and that it is why Github shows other contributors. 
-
-Update: the track is created by adding meshes of cubes and asigning them to a constant then adding that to the scene. I am working on instead saving tracks as coordinates and creating and adding to the scene as late as possible. This will also making it possible to save to json files and make it possible to create tracks and directly save to json. This makes sense dw about it. 
-
 ## Hello and welcome.
 
 [Live app](https://kart-racer.netlify.com)
@@ -11,14 +7,15 @@ Update: the track is created by adding meshes of cubes and asigning them to a co
 [Repo](https://github.com/Bilalm354/kart-racer)
 
 ## Gameplay 
+
 ### Controls 
 - WASD and arrow keys for driving 
 - Space bar - turbo
-- In create mode click mouse where you want to place a new cube
+- In create mode click mouse where you want to place a new cube or delete an existing cube
 
 ## Planning
 
-Since I am working on my own and noone is using the site I have found it much nicer to add TODOs as comments in my code and pick them up as I go while working on master rather than doing any large planning and working issues on separate branches. But the links below were used earlier and still contain some potential future plans.
+Since I am working on my own and noone is using the site I have found it much nicer to add TODOs as comments in my code and pick them up as I go while working on master rather than doing any large planning and working issues on separate branches. But the links below were used earlier and still contain some future plans.
 
 Project board: https://github.com/Bilalm354/kart-racer/projects/1
 
@@ -31,14 +28,14 @@ Issues: https://github.com/Bilalm354/kart-racer/issues
 - Express 
 - ThreeJs
 - WebGL
+- Socket io
 
 ## Notes
 
-x is left and right.  
-
-y is forward and back.  
-
-z is up and down. 
+### Coordinate System
+- x is left and right.  
+- y is forward and back.  
+- z is up and down. 
 
 ## Structure 
 
@@ -51,6 +48,8 @@ The client side is written in Typescript and uses React, Threejs and Bootstrap.
 ### Server
 
 The server side uses Node, Express, Apollo, GraphQl, Mongoose and MongoDB.
+
+Looking to add socket io for multiplayer. 
 
 ## Dev
 
@@ -94,12 +93,8 @@ Builds: `Active`
 
 I plan to deploy a backend to Digital Ocean. This will be responsible for Leaderboards, personal best times, custom tracks or vehicles etc. 
 
-## Documentation
+# Contact
 
-Checkout the master branch and run `npm run docs` to generate docs using typedoc.
-
-## Contact
-
-*   Discord: bilzone97#2770
-*   Email: bilalm354@gmail.com
 *   Github: github.com/bilalm354
+*   Email: bilalm354@gmail.com
+*   Discord: bilzone97#2770

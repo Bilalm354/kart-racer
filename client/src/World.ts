@@ -29,10 +29,13 @@ function preventRightClickAndLongPress(): void {
 // BUG: when you first load the page and go to create mode the first click doesn't add a block
 // TODO: add the ability to add multiple cubes while holding down mouse
 // TODO: spawn turbos and/ or items around the map like in snake/ mariokart
-// TODO: add socket.io for multiplayer
 // TODO: add a 3d triangle that can be used to go up inclines.
 // TODO: 3d collision
 // TODO: SAT collision detection and resolution
+
+// TODO: add socket.io for multiplayer
+// TODO: restructure logic to work with multilplayer and minimise the amount of events that need to be sent
+// TODO: for multiplayer first need to separate game logic
 
 export class World {
   public car: Car;
