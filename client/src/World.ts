@@ -11,6 +11,10 @@ import { keyboard } from '~/misc/Keyboard';
 import { addTouchEventListenerPreventDefaults } from '~/helpers/touchHelper';
 import { mouse } from '~/misc/Mouse';
 
+const CAMERA_FOV = 110;
+const CAMERA_FRUSTUM_NEAR_PLANE = 0.1;
+const CAMERA_FRUSTUM_FAR_PLANE = 2000;
+
 type CameraView = 'top' | 'behindCar' | 'firstPerson' | '2d';
 type Mode = 'play' | 'create';
 
@@ -60,7 +64,10 @@ export class World {
   constructor() {
     this.scene = new Scene();
     this.camera = new PerspectiveCamera(
-      75, window.innerWidth / window.innerHeight, 0.1, 2000,
+      CAMERA_FOV,
+      window.innerWidth / window.innerHeight,
+      CAMERA_FRUSTUM_NEAR_PLANE,
+      CAMERA_FRUSTUM_FAR_PLANE,
     );
     this.trackCreator = new TrackCreator();
     this.renderer = new WebGLRenderer();
