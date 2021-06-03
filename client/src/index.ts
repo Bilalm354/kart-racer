@@ -6,7 +6,7 @@ import { world } from '~/World';
 
 function animate() {
   ReactDOM.render(createElement(Menu), document.getElementById('react'));
-  world.updateSceneAndCamera();
+  world.update();
   requestAnimationFrame(animate);
 }
 

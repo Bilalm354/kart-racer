@@ -21,14 +21,13 @@ function preventRightClickAndLongPress(): void {
     return false;
   };
 }
+// TODO: spawn turbos and/ or items around the map like in snake/ mariokart
 // TODO: save tracks and load tracks
 // TODO: create keyboard shortcut for switching to create mode
 // TODO: shoot projectiles from car on mouse click
-// TODO: add edges or wireframes so boxes look nicer
 // TODO: remove the idea of walls from Tracks and replace with cubes
 // BUG: when you first load the page and go to create mode the first click doesn't add a block
 // TODO: add the ability to add multiple cubes while holding down mouse
-// TODO: spawn turbos and/ or items around the map like in snake/ mariokart
 // TODO: add socket.io for multiplayer
 // TODO: add a 3d triangle that can be used to go up inclines.
 // TODO: 3d collision
@@ -86,7 +85,6 @@ export class World {
   public init(): void {
     this.initRenderer();
     preventRightClickAndLongPress();
-
     directionalLight.position.set(1, 1, 0.5).normalize();
     this.camera.up.set(0, 0, 1);
     this.scene.background = new Color(0xfad6a5);
@@ -181,7 +179,7 @@ export class World {
     this.scene.remove(this.car.object3d);
   }
 
-  public updateSceneAndCamera(): void {
+  public update(): void {
     this.stats.begin();
     this.car.updateFromKeyboard(keyboard);
     this.car.update();
