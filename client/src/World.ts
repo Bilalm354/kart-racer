@@ -1,5 +1,5 @@
 import {
-  Scene, Light, Camera, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera,
+  Scene, Light, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera,
   GridHelper, Material, Raycaster, Clock, Intersection, Vector3,
 } from 'three';
 import * as dat from 'dat.gui';
@@ -11,9 +11,9 @@ import { keyboard } from '~/misc/Keyboard';
 import { addTouchEventListenerPreventDefaults } from '~/helpers/touchHelper';
 import { mouse } from '~/misc/Mouse';
 
-const CAMERA_FOV = 110;
-const CAMERA_FRUSTUM_NEAR_PLANE = 0.1;
-const CAMERA_FRUSTUM_FAR_PLANE = 2000;
+const DEFAULT_CAMERA_FOV = 90;
+const DEFAULT_CAMERA_FRUSTUM_NEAR_PLANE = 0.1;
+const DEFAULT_CAMERA_FRUSTUM_FAR_PLANE = 2000;
 
 type CameraView = 'top' | 'behindCar' | 'firstPerson' | '2d';
 type Mode = 'play' | 'create';
@@ -45,11 +45,12 @@ export class World {
   public isStatsVisible: boolean;
   public stats: Stats;
   public isMobile: boolean;
+  public cameraFOV: number;
 
   private track: Track;
   private ambientLight: Light;
   private directionalLight: Light;
-  private camera: Camera;
+  private camera: PerspectiveCamera | OrthographicCamera;
   private cameraView: CameraView;
   private renderer: WebGLRenderer
   private collidableBoundingBoxes: Box3[];
@@ -64,10 +65,10 @@ export class World {
   constructor() {
     this.scene = new Scene();
     this.camera = new PerspectiveCamera(
-      CAMERA_FOV,
+      DEFAULT_CAMERA_FOV,
       window.innerWidth / window.innerHeight,
-      CAMERA_FRUSTUM_NEAR_PLANE,
-      CAMERA_FRUSTUM_FAR_PLANE,
+      DEFAULT_CAMERA_FRUSTUM_NEAR_PLANE,
+      DEFAULT_CAMERA_FRUSTUM_FAR_PLANE,
     );
     this.trackCreator = new TrackCreator();
     this.renderer = new WebGLRenderer();
@@ -83,6 +84,7 @@ export class World {
     this.isCollisionActive = true;
     this.grid = new GridHelper(400, 40, 0x000000, 0x000000);
     this.isStatsVisible = false;
+    this.cameraFOV = DEFAULT_CAMERA_FOV;
     this.stats = new Stats();
     this.isMobile = false;
     this.raycaster = new Raycaster();
@@ -141,6 +143,7 @@ export class World {
 
   public addToGui(): void {
     this.gui.add(this, 'cameraView', ['top', 'behindCar', 'firstPerson', '2d']).listen();
+    this.gui.add(this, 'cameraFOV', 50, 110).listen();
     this.gui.add(this, 'isGridVisible').listen();
     this.gui.add(this, 'isCollisionActive').listen();
     this.gui.add(this, 'isStatsVisible').listen();
@@ -299,6 +302,9 @@ export class World {
       this.camera.up.set(0, 1, 0);
     } else if (view === 'behindCar') {
       this.car.updateCamera(this.camera);
+      this.camera = this.camera as PerspectiveCamera;
+      this.camera.fov = this.cameraFOV;
+      this.camera.updateProjectionMatrix();
     } else if (view === 'firstPerson') {
       this.camera.position.set(0, 0, 30);
       this.camera.lookAt(300, 0, 1);
