@@ -30,7 +30,6 @@ function preventRightClickAndLongPress(): void {
 // TODO: create keyboard shortcut for switching to create mode
 // TODO: shoot projectiles from car on mouse click
 // TODO: remove the idea of walls from Tracks and replace with cubes
-// BUG: when you first load the page and go to create mode the first click doesn't add a block
 // TODO: add the ability to add multiple cubes while holding down mouse
 // TODO: add socket.io for multiplayer
 // TODO: add a 3d triangle that can be used to go up inclines.
@@ -191,13 +190,13 @@ export class World {
 
   public update(): void {
     this.stats.begin();
+    this.handleCreateMode();
     this.car.updateFromKeyboard(keyboard);
     this.car.update();
     this.resolveCollisionsBetweenCarsAndTrackWalls();
     this.setCameraPosition(this.cameraView);
     this.grid.visible = this.isGridVisible;
     this.stats.dom.hidden = !this.isStatsVisible;
-    this.handleCreateMode();
     this.renderer.render(this.scene, this.camera);
     this.stats.end();
   }
@@ -208,20 +207,20 @@ export class World {
   }
 
   public addNewCubePlaceHolderToScene(intersect: Intersection) {
+    const oldPlaceHolder = this.scene.getObjectByName('placeHolder');
+
+    if (oldPlaceHolder) {
+      this.scene.remove(oldPlaceHolder);
+    }
+
     if (this.mode === 'create' && intersect && intersect.face) {
-      const oldPlaceHolder = this.scene.getObjectByName('placeHolder');
-
-      if (oldPlaceHolder) {
-        this.scene.remove(oldPlaceHolder);
-      }
-
       const newCube = this.trackCreator.newCube();
       newCube.position.copy(intersect.point)
         .add(intersect.face.normal)
         .divideScalar(this.trackCreator.cubeLength).floor()
         .multiplyScalar(this.trackCreator.cubeLength)
         .addScalar(this.trackCreator.cubeLength / 2);
-      this.positionForNewCube = new Vector3().copy(newCube.position); // FIXME: these last 5 lines can probably be better
+      this.positionForNewCube = new Vector3().copy(newCube.position);
 
       newCube.name = 'placeHolder';
 
@@ -232,8 +231,8 @@ export class World {
     }
   }
 
-  public createOrDeleteOnMouseDown(): void { // TODO: add this same functionality optimised for touchscreens
-    if (!this.positionForNewCube) {
+  public createOrDeleteOnMouseDown(): void {
+    if (!this.positionForNewCube || this.mode !== 'create') {
       return;
     }
 
@@ -244,7 +243,7 @@ export class World {
     }
   }
 
-  public deleteHoveredCube(): void { // BUG: works weird now.
+  public deleteHoveredCube(): void {
     const intersect = this.findIntersect();
     if (intersect.object !== this.track.ground) {
       console.log(intersect.object.position);
@@ -255,8 +254,6 @@ export class World {
           this.track.boxPositions.splice(index);
         }
       });
-
-      // TODO: crumble things above deleted boxes that are not deeply tagged to ground
     }
   }
 
@@ -268,12 +265,6 @@ export class World {
 
   public findIntersect(): Intersection {
     this.raycaster.setFromCamera(mouse.position, this.camera);
-    // TODO: add option to create cubes a fixed distance infront of car instead of using the mouse.
-    // TODO: add a crosshair and a translucent box where it would go
-    // BUG: can't build ontop of the already existing walls in my track
-    // TODO: add newCube to collision boxes
-    // * to do this might have to save them somewhere.
-    // * instead of spawning new cubes just add them to an array and add everything from that array to collision boxes and also spawn them
     const intersectedObjects = this.raycaster.intersectObjects(this.scene.children);
 
     while (intersectedObjects[0]?.object.name === 'placeHolder') {
