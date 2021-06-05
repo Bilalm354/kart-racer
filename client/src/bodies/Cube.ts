@@ -1,8 +1,17 @@
-// import { BoxGeometry, MeshStandardMaterial, Mesh } from 'three';
+import {
+  Box3, Mesh, Vector3,
+} from 'three';
+import { createNewCube } from '~/bodies/BodyCreator';
 
-// export function Cube(cubeLength: number): Mesh {
-//   const geometry = new BoxGeometry(cubeLength, cubeLength, cubeLength);
-//   const material = new MeshStandardMaterial({ color: 0xff0000 });
+const CUBE_LENGTH = 10;
 
-//   return new Mesh(geometry, material);
-// }
+export class Cube {
+  public object3d: Mesh;
+  public boundingBox: Box3;
+
+  constructor(position: Vector3) {
+    this.object3d = createNewCube(CUBE_LENGTH);
+    this.object3d.position.copy(position);
+    this.boundingBox = new Box3().setFromObject(this.object3d);
+  }
+}

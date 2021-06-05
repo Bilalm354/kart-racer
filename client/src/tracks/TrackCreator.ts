@@ -1,6 +1,8 @@
 import {
-  BoxGeometry, Group, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Vector3,
+  Group, Mesh, MeshStandardMaterial, PlaneGeometry,
 } from 'three';
+import { createNewCube } from '~/bodies/BodyCreator';
+import { Cube } from '~/bodies/Cube';
 
 type Direction = 'x' | 'y';
 
@@ -8,7 +10,7 @@ type Direction = 'x' | 'y';
 export interface Track {
   ground: Mesh,
   walls: Group[],
-  boxPositions: Vector3[]
+  cubes: Cube[];
 }
 
 // TODO: make check point system
@@ -20,14 +22,9 @@ export class TrackCreator {
   private track: Track;
   constructor() {
     this.cubeLength = 10;
-    this.track = { ground: new Mesh(), walls: [], boxPositions: [] };
-  }
-
-  public newCube(): Mesh {
-    const geometry = new BoxGeometry(this.cubeLength, this.cubeLength, this.cubeLength);
-    const material = new MeshStandardMaterial({ color: 0xff0000 });
-    const box = new Mesh(geometry, material);
-    return box;
+    this.track = {
+      ground: new Mesh(), walls: [], cubes: [],
+    };
   }
 
   createGround(lengthOfSidesInCubes: number): void {
@@ -35,10 +32,12 @@ export class TrackCreator {
       lengthOfSidesInCubes * this.cubeLength,
       lengthOfSidesInCubes * this.cubeLength,
     );
+
     const material = new MeshStandardMaterial({
       color: 'grey',
       wireframe: false,
     });
+
     this.track.ground = new Mesh(geometry, material);
   }
 
@@ -46,7 +45,7 @@ export class TrackCreator {
     const wall = new Group();
 
     for (let i = 0; i < wallLengthInCubes; i++) {
-      const cube = this.newCube();
+      const cube = createNewCube(this.cubeLength);
 
       if (direction === 'x') {
         cube.position.set(
@@ -93,7 +92,9 @@ export class TrackCreator {
   }
 
   smallTrack(): Track {
-    this.track = { ground: new Mesh(), walls: [], boxPositions: [] };
+    this.track = {
+      ground: new Mesh(), walls: [], cubes: [],
+    };
     this.createGround(40);
     this.createSquareOfWalls(20);
     this.createSquareOfWalls(40);
@@ -101,19 +102,12 @@ export class TrackCreator {
   }
 
   bigTrack(): Track {
-    this.track = { ground: new Mesh(), walls: [], boxPositions: [] };
+    this.track = {
+      ground: new Mesh(), walls: [], cubes: [],
+    };
     this.createGround(160);
     this.createSquareOfWalls(80);
     this.createSquareOfWalls(160);
     return this.track;
-  }
-
-  addBoxesToScene(scene: Scene): void {
-    // TODO: need a unique id with each position? do i though?
-    this.track.boxPositions.forEach((position) => {
-      const newCube = this.newCube();
-      newCube.position.copy(position);
-      scene.add(newCube);
-    });
   }
 }

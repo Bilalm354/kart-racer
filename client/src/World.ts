@@ -10,6 +10,8 @@ import { Track, TrackCreator } from '~/tracks/TrackCreator';
 import { keyboard } from '~/misc/Keyboard';
 import { addTouchEventListenerPreventDefaults } from '~/helpers/touchHelper';
 import { mouse } from '~/misc/Mouse';
+import { createNewCube } from '~/bodies/BodyCreator';
+import { Cube } from './bodies/Cube';
 
 const DEFAULT_CAMERA_FOV = 90;
 const DEFAULT_CAMERA_FRUSTUM_NEAR_PLANE = 0.1;
@@ -22,6 +24,7 @@ function preventRightClickAndLongPress(): void {
   window.oncontextmenu = (event: { preventDefault: () => void; stopPropagation: () => void; }) => {
     event.preventDefault();
     event.stopPropagation();
+
     return false;
   };
 }
@@ -153,6 +156,7 @@ export class World {
       this.collidableBoundingBoxes.push(new Box3().setFromObject(wall));
       this.scene.add(wall);
     });
+
     if (this.track.ground) {
       this.scene.add(this.track.ground);
     }
@@ -172,6 +176,7 @@ export class World {
     if (!this.isCollisionActive) {
       return;
     }
+
     this.collidableBoundingBoxes.forEach((collidableBox) => {
       if ((this.car.boundingBox.intersectsBox(collidableBox))) {
         this.car.handleCollision();
@@ -189,8 +194,7 @@ export class World {
 
   public update(): void {
     this.stats.begin();
-    this.handleCreateMode();
-    this.handlePlayMode();
+    this.handleMode();
     this.car.updateFromKeyboard(keyboard);
     this.car.update();
     this.resolveCollisionsBetweenCarsAndTrackWalls();
@@ -201,15 +205,17 @@ export class World {
     this.stats.end();
   }
 
+  private handleMode() {
+    if (this.mode === 'create') {
+      this.handleCreateMode();
+    } else if (this.mode === 'play') {
+      this.removePlaceHolderCube();
+    }
+  }
+
   private handleCreateMode() {
     const intersect = this.findIntersect();
     this.addNewCubePlaceHolderToScene(intersect);
-  }
-
-  private handlePlayMode() {
-    if (this.mode === 'play') {
-      this.removePlaceHolderCube();
-    }
   }
 
   private removePlaceHolderCube() {
@@ -223,21 +229,21 @@ export class World {
   public addNewCubePlaceHolderToScene(intersect: Intersection) {
     if (this.mode === 'create' && intersect && intersect.face) {
       this.removePlaceHolderCube();
-
-      const newCube = this.trackCreator.newCube();
+      const newCube = createNewCube(this.trackCreator.cubeLength);
       newCube.position.copy(intersect.point)
         .add(intersect.face.normal)
         .divideScalar(this.trackCreator.cubeLength).floor()
         .multiplyScalar(this.trackCreator.cubeLength)
         .addScalar(this.trackCreator.cubeLength / 2);
+
       this.positionForNewCube = new Vector3().copy(newCube.position);
 
       newCube.name = 'placeHolder';
-
-      this.scene.add(newCube);
       newCube.material = newCube.material as Material;
       newCube.material.opacity = 0.5;
       newCube.material.transparent = true;
+
+      this.scene.add(newCube);
     }
   }
 
@@ -249,28 +255,29 @@ export class World {
     if (keyboard.shift) {
       this.deleteHoveredCube();
     } else {
-      this.createNewCube();
+      this.createNewCube(this.positionForNewCube);
     }
   }
 
   public deleteHoveredCube(): void {
     const intersect = this.findIntersect();
-    if (intersect.object !== this.track.ground) {
-      console.log(intersect.object.position);
-      this.scene.remove(intersect.object);
 
-      this.track.boxPositions.forEach((position, index) => {
-        if (position.equals(intersect.object.position)) {
-          this.track.boxPositions.splice(index);
+    if (intersect.object !== this.track.ground) {
+      this.track.cubes.forEach((cube, index) => {
+        if (cube.object3d === intersect.object) {
+          this.track.cubes.splice(index, 1);
+          this.scene.remove(cube.object3d);
+          this.collidableBoundingBoxes.splice(this.collidableBoundingBoxes.indexOf(cube.boundingBox), 1);
         }
       });
     }
   }
 
-  public createNewCube() : void {
-    this.track.boxPositions.push(this.positionForNewCube!);
-    this.trackCreator.addBoxesToScene(this.scene);
-    // TODO: add collision boxes to it too
+  public createNewCube(position: Vector3) : void {
+    const newCube = new Cube(position);
+    this.track.cubes.push(newCube);
+    this.scene.add(newCube.object3d);
+    this.collidableBoundingBoxes.push(newCube.boundingBox);
   }
 
   public findIntersect(): Intersection {
