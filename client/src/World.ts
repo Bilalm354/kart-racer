@@ -33,7 +33,6 @@ function preventRightClickAndLongPress(): void {
 // TODO: add the ability to add multiple cubes while holding down mouse
 // TODO: add socket.io for multiplayer
 // TODO: add a 3d triangle that can be used to go up inclines.
-// TODO: 3d collision
 // TODO: SAT collision detection and resolution
 
 export class World {
@@ -191,6 +190,7 @@ export class World {
   public update(): void {
     this.stats.begin();
     this.handleCreateMode();
+    this.handlePlayMode();
     this.car.updateFromKeyboard(keyboard);
     this.car.update();
     this.resolveCollisionsBetweenCarsAndTrackWalls();
@@ -201,19 +201,29 @@ export class World {
     this.stats.end();
   }
 
-  public handleCreateMode() {
+  private handleCreateMode() {
     const intersect = this.findIntersect();
     this.addNewCubePlaceHolderToScene(intersect);
   }
 
-  public addNewCubePlaceHolderToScene(intersect: Intersection) {
+  private handlePlayMode() {
+    if (this.mode === 'play') {
+      this.removePlaceHolderCube();
+    }
+  }
+
+  private removePlaceHolderCube() {
     const oldPlaceHolder = this.scene.getObjectByName('placeHolder');
 
     if (oldPlaceHolder) {
       this.scene.remove(oldPlaceHolder);
     }
+  }
 
+  public addNewCubePlaceHolderToScene(intersect: Intersection) {
     if (this.mode === 'create' && intersect && intersect.face) {
+      this.removePlaceHolderCube();
+
       const newCube = this.trackCreator.newCube();
       newCube.position.copy(intersect.point)
         .add(intersect.face.normal)
