@@ -4,6 +4,7 @@ import {
 } from 'three';
 import * as dat from 'dat.gui';
 import Stats from 'stats.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Car } from '~/bodies/Car';
 import { ambientLight, directionalLight } from '~/misc/lights';
 import { Track, TrackCreator } from '~/tracks/TrackCreator';
@@ -11,7 +12,7 @@ import { keyboard } from '~/misc/Keyboard';
 import { addTouchEventListenerPreventDefaults } from '~/helpers/touchHelper';
 import { mouse } from '~/misc/Mouse';
 import { createNewCube } from '~/bodies/BodyCreator';
-import { Cube } from './bodies/Cube';
+import { Cube } from '~/bodies/Cube';
 
 const DEFAULT_CAMERA_FOV = 90;
 const DEFAULT_CAMERA_FRUSTUM_NEAR_PLANE = 0.1;
@@ -112,6 +113,19 @@ export class World {
     document.body.appendChild(this.stats.dom);
     window.addEventListener('resize', () => this.onWindowResize());
     this.updateIsMobile();
+    this.loadModel();
+  }
+
+  private loadModel() {
+    const loader = new GLTFLoader();
+
+    loader.load('assets/mario_kart/scene.gltf', (gltf) => {
+      gltf.scene.scale.setScalar(10);
+      gltf.scene.rotateX(Math.PI / 2);
+      this.scene.add(gltf.scene);
+    }, undefined, (error) => {
+      console.error(error);
+    });
   }
 
   public updateIsMobile() {
