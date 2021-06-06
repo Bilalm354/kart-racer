@@ -29,6 +29,7 @@ function preventRightClickAndLongPress(): void {
     return false;
   };
 }
+
 // TODO: spawn turbos and/ or items around the map like in snake/ mariokart
 // TODO: save tracks and load tracks
 // TODO: create keyboard shortcut for switching to create mode
