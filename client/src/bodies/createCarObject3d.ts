@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+// no longer used SADGE
+
 export function createCarObject3d(color: string): THREE.Group {
   const bodyGeometry = new THREE.BoxGeometry(8, 12, 4);
   const bodyMaterial = new THREE.MeshStandardMaterial({
