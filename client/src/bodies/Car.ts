@@ -149,9 +149,7 @@ export class Car {
   }
 
   updateObject3d(): void {
-    this.object3d.position.x = this.x;
-    this.object3d.position.y = this.y;
-    this.object3d.position.z = this.z;
+    this.object3d.position.set(this.x, this.y, this.z);
     this.object3d.rotation.y = -this.angle + Math.PI;
   }
 

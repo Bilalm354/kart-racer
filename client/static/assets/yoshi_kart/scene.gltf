@@ -1,0 +1,580 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 434,
+      "max": [
+        0.2523219883441925,
+        1.1672999858856201,
+        0.4537540078163147
+      ],
+      "min": [
+        -0.25232300162315369,
+        0.12335799634456635,
+        -0.25651198625564575
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 5208,
+      "componentType": 5126,
+      "count": 434,
+      "max": [
+        0.99789714813232422,
+        0.99999946355819702,
+        0.99999988079071045
+      ],
+      "min": [
+        -0.99789726734161377,
+        -0.99571776390075684,
+        -0.99953353404998779
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 434,
+      "max": [
+        0.99984341859817505,
+        0.99999994039535522,
+        0.99140012264251709,
+        1
+      ],
+      "min": [
+        -0.99984341859817505,
+        -0.99953359365463257,
+        -0.9999995231628418,
+        -1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 6944,
+      "componentType": 5126,
+      "count": 434,
+      "max": [
+        0.49803921580314636,
+        0.49803921580314636,
+        0.49803921580314636,
+        1
+      ],
+      "min": [
+        0.49803921580314636,
+        0.49803921580314636,
+        0.49803921580314636,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 434,
+      "max": [
+        1.2546600103378296,
+        0.9921879768371582
+      ],
+      "min": [
+        0.015625,
+        0.015625
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 1428,
+      "max": [
+        433
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 10416,
+      "componentType": 5126,
+      "count": 471,
+      "max": [
+        0.62509000301361084,
+        0.62463098764419556,
+        1.0730700492858887
+      ],
+      "min": [
+        -0.62335401773452759,
+        0.0468796007335186,
+        -0.97832900285720825
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 16068,
+      "componentType": 5126,
+      "count": 471,
+      "max": [
+        0.9986993670463562,
+        0.99999487400054932,
+        0.99962562322616577
+      ],
+      "min": [
+        -0.99883866310119629,
+        -0.99997502565383911,
+        -1
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 13888,
+      "componentType": 5126,
+      "count": 471,
+      "max": [
+        1,
+        0.9879949688911438,
+        0.99760431051254272,
+        1
+      ],
+      "min": [
+        -1,
+        -0.96057409048080444,
+        -0.99995344877243042,
+        -1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 21424,
+      "componentType": 5126,
+      "count": 471,
+      "max": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "min": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 3472,
+      "componentType": 5126,
+      "count": 471,
+      "max": [
+        1.8808799982070923,
+        1.1757400035858154
+      ],
+      "min": [
+        -0.56289798021316528,
+        -0.43608599901199341
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 5712,
+      "componentType": 5125,
+      "count": 1083,
+      "max": [
+        470
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 21720,
+      "componentType": 5126,
+      "count": 208,
+      "max": [
+        0.61797797679901123,
+        0.43970099091529846,
+        0.62504398822784424
+      ],
+      "min": [
+        -0.61797797679901123,
+        -0.0012316999491304159,
+        -0.57127398252487183
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 24216,
+      "componentType": 5126,
+      "count": 208,
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 28960,
+      "componentType": 5126,
+      "count": 208,
+      "max": [
+        0.74605613946914673,
+        1,
+        1,
+        1
+      ],
+      "min": [
+        -0.74605613946914673,
+        -1,
+        -1,
+        -1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 32288,
+      "componentType": 5126,
+      "count": 208,
+      "max": [
+        0.70196080207824707,
+        0.70196080207824707,
+        0.70196080207824707,
+        1
+      ],
+      "min": [
+        0.49803921580314636,
+        0.49803921580314636,
+        0.49803921580314636,
+        1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 7240,
+      "componentType": 5126,
+      "count": 208,
+      "max": [
+        5.3123102188110352,
+        1.0002700090408325
+      ],
+      "min": [
+        -0.69082999229431152,
+        -1.0118700265884399
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 10044,
+      "componentType": 5125,
+      "count": 576,
+      "max": [
+        207
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "TheShibeLord (https://sketchfab.com/TheShibeLord)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/models/2dffbc12e627496ab2feae437e3ff630",
+      "title": "3DS - Nintendogs Cats - Yoshi Kart"
+    },
+    "generator": "Sketchfab-3.18.7",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 12348,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 8904,
+      "byteOffset": 12348,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 26712,
+      "byteOffset": 21252,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 35616,
+      "byteOffset": 47964,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 83580,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/mt_Yoshi_baseColor.png"
+    },
+    {
+      "uri": "textures/mt_Kart_Yoshi_Tire_S_baseColor.png"
+    },
+    {
+      "uri": "textures/mt_Yoshi_S_baseColor.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "mt_Yoshi",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseColorTexture": {
+          "index": 0,
+          "texCoord": 0
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.59999999999999998
+      }
+    },
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "mt_Yoshi_S",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseColorTexture": {
+          "index": 2,
+          "texCoord": 0
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.59999999999999998
+      }
+    },
+    {
+      "doubleSided": true,
+      "emissiveFactor": [
+        0,
+        0,
+        0
+      ],
+      "name": "mt_Kart_Yoshi_Tire_S",
+      "pbrMetallicRoughness": {
+        "baseColorFactor": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "baseColorTexture": {
+          "index": 1,
+          "texCoord": 0
+        },
+        "metallicFactor": 0,
+        "roughnessFactor": 0.59999999999999998
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "mt_Yoshi",
+      "primitives": [
+        {
+          "attributes": {
+            "COLOR_0": 3,
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 4
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "mt_Yoshi_S",
+      "primitives": [
+        {
+          "attributes": {
+            "COLOR_0": 9,
+            "NORMAL": 7,
+            "POSITION": 6,
+            "TANGENT": 8,
+            "TEXCOORD_0": 10
+          },
+          "indices": 11,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "mt_Kart_Yoshi_Tire_S",
+      "primitives": [
+        {
+          "attributes": {
+            "COLOR_0": 15,
+            "NORMAL": 13,
+            "POSITION": 12,
+            "TANGENT": 14,
+            "TEXCOORD_0": 16
+          },
+          "indices": 17,
+          "material": 2,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        -4.3711390063094768e-08,
+        0.999999999999999,
+        0,
+        0,
+        -0.999999999999999,
+        -4.3711390063094768e-08,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "Collada visual scene group"
+    },
+    {
+      "children": [
+        4,
+        5,
+        6
+      ],
+      "name": "F2_Item_Kart_Yoshi_S"
+    },
+    {
+      "mesh": 0,
+      "name": "mt_Yoshi"
+    },
+    {
+      "mesh": 1,
+      "name": "mt_Yoshi_S"
+    },
+    {
+      "mesh": 2,
+      "name": "mt_Kart_Yoshi_Tire_S"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    }
+  ]
+}
+

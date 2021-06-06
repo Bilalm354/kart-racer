@@ -1,6 +1,6 @@
 import {
   Scene, Light, Color, WebGLRenderer, PerspectiveCamera, Box3, OrthographicCamera,
-  GridHelper, Material, Raycaster, Clock, Intersection, Vector3,
+  GridHelper, Material, Raycaster, Clock, Intersection, Vector3, GammaEncoding,
 } from 'three';
 import * as dat from 'dat.gui';
 import Stats from 'stats.js';
@@ -116,10 +116,11 @@ export class World {
     this.updateIsMobile();
   }
 
-  private loadModel() {
+  public loadModel(character: 'mario' | 'yoshi' = 'mario') {
     const loader = new GLTFLoader();
 
-    loader.load('assets/mario_kart/scene.gltf', (gltf) => {
+    loader.load(`assets/${character}_kart/scene.gltf`, (gltf) => {
+      this.removeCar();
       this.car.object3d = gltf.scene;
       this.car.object3d.scale.setScalar(10);
       this.car.object3d.rotation.set(Math.PI / 2, 0, 0);
@@ -143,6 +144,9 @@ export class World {
     addTouchEventListenerPreventDefaults(this.renderer.domElement);
     mouse.addMouseEventListeners(this.renderer.domElement);
     this.renderer.shadowMap.enabled = true;
+    this.renderer.outputEncoding = GammaEncoding;
+    console.log('do not forget this gamma encoding thing');
+    console.log('it was put in to make kart models similar brightness to rest of world');
     document.body.appendChild(this.renderer.domElement);
   }
 

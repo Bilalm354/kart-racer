@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 // no longer used SADGE
 
+// remove or improve
+
 export function createCarObject3d(color: string): THREE.Group {
   const bodyGeometry = new THREE.BoxGeometry(8, 12, 4);
   const bodyMaterial = new THREE.MeshStandardMaterial({
@@ -29,5 +31,7 @@ export function createCarObject3d(color: string): THREE.Group {
 
   const car = new THREE.Group().add(body, frontLeftWheel, frontRightWheel, backLeftWheel, backRightWheel);
 
-  return car.rotateX(Math.PI);
+  car.rotateX(Math.PI);
+
+  return car;
 }

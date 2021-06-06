@@ -57,6 +57,10 @@ export const Menu = () => {
               <Nav.Link onClick={() => world.car.setColor('green')}>Green</Nav.Link>
               <Nav.Link onClick={() => world.car.setColor('blue')}>Blue</Nav.Link>
             </NavDropdown>
+            <NavDropdown title="Character" id="collasible-nav-dropdown">
+              <Nav.Link onClick={() => world.loadModel('mario')}>Mario</Nav.Link>
+              <Nav.Link onClick={() => world.loadModel('yoshi')}>Yoshi</Nav.Link>
+            </NavDropdown>
             <Nav.Link onClick={() => setShowTouchpad(!showTouchpad)}>Show/ Hide Touchpad</Nav.Link>
           </Navbar.Collapse>
         </Navbar>
