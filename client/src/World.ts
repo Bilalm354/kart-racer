@@ -14,7 +14,7 @@ import { mouse } from '~/misc/Mouse';
 import { createNewCube } from '~/bodies/BodyCreator';
 import { Cube } from '~/bodies/Cube';
 
-const DEFAULT_CAMERA_FOV = 90;
+const DEFAULT_CAMERA_FOV = 80;
 const DEFAULT_CAMERA_FRUSTUM_NEAR_PLANE = 0.1;
 const DEFAULT_CAMERA_FRUSTUM_FAR_PLANE = 2000;
 const SKY_BLUE_HEX = '#26f7fd';
