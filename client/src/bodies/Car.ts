@@ -158,7 +158,11 @@ export class Car {
     const x = this.x - distanceBehindCamera * Math.sin(this.angle);
     const y = this.y - distanceBehindCamera * Math.cos(this.angle);
     const z = this.z + 20;
-    camera.position.set(x, y, z);
+    const cameraPosition = new Vector3(x, y, z)
+      .sub(this.velocity
+        .clone()
+        .multiplyScalar(2));
+    camera.position.copy(cameraPosition);
     camera.lookAt(this.x, this.y, this.z);
     camera.up.set(0, 0, 1);
   }
