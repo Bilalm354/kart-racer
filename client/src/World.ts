@@ -95,7 +95,8 @@ export class World {
   }
 
   public init(): void {
-    this.loadModel();
+    this.loadCharacterAsset('yoshi');
+    // this.loadTrackAsset();
     this.initRenderer();
     preventRightClickAndLongPress();
     directionalLight.position.set(1, 1, 0.5).normalize();
@@ -117,7 +118,7 @@ export class World {
     this.updateIsMobile();
   }
 
-  public loadModel(character: 'mario' | 'yoshi' = 'mario') {
+  public loadCharacterAsset(character: 'mario' | 'yoshi' = 'mario') {
     const loader = new GLTFLoader();
 
     loader.load(`assets/${character}_kart/scene.gltf`, (gltf) => {
@@ -127,6 +128,19 @@ export class World {
       this.car.object3d.rotation.set(Math.PI / 2, 0, 0);
       this.addCar();
       this.car.updateBoundingBox();
+    }, undefined, (error) => {
+      console.error(error);
+    });
+  }
+
+  public loadTrackAsset() {
+    const loader = new GLTFLoader();
+
+    loader.load('assets/race_track__low_poly/scene.gltf', (gltf) => {
+      gltf.scene.scale.setScalar(0.05);
+      gltf.scene.rotation.set(Math.PI / 2, 0, 0);
+      this.scene.add(gltf.scene);
+      this.removeTrack();
     }, undefined, (error) => {
       console.error(error);
     });

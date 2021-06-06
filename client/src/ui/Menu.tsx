@@ -58,10 +58,11 @@ export const Menu = () => {
               <Nav.Link onClick={() => world.car.setColor('blue')}>Blue</Nav.Link>
             </NavDropdown>
             <NavDropdown title="Character" id="collasible-nav-dropdown">
-              <Nav.Link onClick={() => world.loadModel('mario')}>Mario</Nav.Link>
-              <Nav.Link onClick={() => world.loadModel('yoshi')}>Yoshi</Nav.Link>
+              <Nav.Link onClick={() => world.loadCharacterAsset('mario')}>Mario</Nav.Link>
+              <Nav.Link onClick={() => world.loadCharacterAsset('yoshi')}>Yoshi</Nav.Link>
             </NavDropdown>
             <Nav.Link onClick={() => setShowTouchpad(!showTouchpad)}>Show/ Hide Touchpad</Nav.Link>
+            <Nav.Link onClick={() => world.loadTrackAsset()}>Try Track Assset</Nav.Link>
           </Navbar.Collapse>
         </Navbar>
         {showLeaderboard ? <Leaderboard /> : undefined}
