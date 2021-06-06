@@ -155,10 +155,10 @@ export class Car {
 
   updateCamera(camera: Camera): void {
     const distanceBehindCamera = 40;
-    const x = this.x - distanceBehindCamera * Math.sin(this.angle);
-    const y = this.y - distanceBehindCamera * Math.cos(this.angle);
-    const z = this.z + 20;
-    const cameraPosition = new Vector3(x, y, z)
+    const cameraX = this.x - distanceBehindCamera * Math.sin(this.angle);
+    const cameraY = this.y - distanceBehindCamera * Math.cos(this.angle);
+    const cameraZ = this.z + 20;
+    const cameraPosition = new Vector3(cameraX, cameraY, cameraZ)
       .sub(this.velocity
         .clone()
         .multiplyScalar(2));
