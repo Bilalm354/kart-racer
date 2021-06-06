@@ -14,7 +14,7 @@ import { mouse } from '~/misc/Mouse';
 import { createNewCube } from '~/bodies/BodyCreator';
 import { Cube } from '~/bodies/Cube';
 
-const DEFAULT_CAMERA_FOV = 90;
+const DEFAULT_CAMERA_FOV = 80;
 const DEFAULT_CAMERA_FRUSTUM_NEAR_PLANE = 0.1;
 const DEFAULT_CAMERA_FRUSTUM_FAR_PLANE = 2000;
 
@@ -94,12 +94,13 @@ export class World {
   }
 
   public init(): void {
+    this.loadModel();
     this.initRenderer();
     preventRightClickAndLongPress();
     directionalLight.position.set(1, 1, 0.5).normalize();
     this.camera.up.set(0, 0, 1);
     this.scene.background = new Color(0xfad6a5);
-    this.scene.add(this.ambientLight, this.directionalLight, this.car.object3d);
+    this.scene.add(this.ambientLight, this.directionalLight);
     this.buildTrack();
     this.addToGui();
     this.grid.rotateX(-Math.PI / 2);
@@ -113,16 +114,17 @@ export class World {
     document.body.appendChild(this.stats.dom);
     window.addEventListener('resize', () => this.onWindowResize());
     this.updateIsMobile();
-    this.loadModel();
   }
 
   private loadModel() {
     const loader = new GLTFLoader();
 
     loader.load('assets/mario_kart/scene.gltf', (gltf) => {
-      gltf.scene.scale.setScalar(10);
-      gltf.scene.rotateX(Math.PI / 2);
-      this.scene.add(gltf.scene);
+      this.car.object3d = gltf.scene;
+      this.car.object3d.scale.setScalar(10);
+      this.car.object3d.rotation.set(Math.PI / 2, 0, 0);
+      this.addCar();
+      this.car.updateBoundingBox();
     }, undefined, (error) => {
       console.error(error);
     });

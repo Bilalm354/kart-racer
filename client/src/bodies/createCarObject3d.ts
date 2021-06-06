@@ -25,5 +25,7 @@ export function createCarObject3d(color: string): THREE.Group {
 
   [frontLeftWheel, frontRightWheel, backLeftWheel, backRightWheel].forEach((wheel) => { wheel.rotateZ(Math.PI / 2); });
 
-  return new THREE.Group().add(body, frontLeftWheel, frontRightWheel, backLeftWheel, backRightWheel);
+  const car = new THREE.Group().add(body, frontLeftWheel, frontRightWheel, backLeftWheel, backRightWheel);
+
+  return car.rotateX(Math.PI);
 }

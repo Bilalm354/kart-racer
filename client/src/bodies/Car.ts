@@ -50,6 +50,10 @@ export class Car {
     this.boundingBox = new Box3().setFromObject(this.object3d);
   }
 
+  public updateBoundingBox() {
+    this.boundingBox.setFromObject(this.object3d);
+  }
+
   public applyGravity() {
     if (this.z > 3) {
       this.velocity.z -= ACCELERATION_DUE_TO_GRAVITY_PER_FRAME;
@@ -148,7 +152,7 @@ export class Car {
     this.object3d.position.x = this.x;
     this.object3d.position.y = this.y;
     this.object3d.position.z = this.z;
-    this.object3d.rotation.z = -this.angle;
+    this.object3d.rotation.y = -this.angle + Math.PI;
   }
 
   updateCamera(camera: Camera): void {
