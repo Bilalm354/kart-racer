@@ -17,6 +17,7 @@ import { Cube } from '~/bodies/Cube';
 const DEFAULT_CAMERA_FOV = 90;
 const DEFAULT_CAMERA_FRUSTUM_NEAR_PLANE = 0.1;
 const DEFAULT_CAMERA_FRUSTUM_FAR_PLANE = 2000;
+const SKY_BLUE_HEX = '#26f7fd';
 
 type CameraView = 'top' | 'behindCar' | 'firstPerson' | '2d';
 type Mode = 'play' | 'create';
@@ -101,7 +102,7 @@ export class World {
     preventRightClickAndLongPress();
     directionalLight.position.set(1, 1, 0.5).normalize();
     this.camera.up.set(0, 0, 1);
-    this.scene.background = new Color(0xfad6a5);
+    this.scene.background = new Color(SKY_BLUE_HEX);
     this.scene.add(this.ambientLight, this.directionalLight);
     this.buildTrack();
     this.addToGui();
@@ -160,8 +161,6 @@ export class World {
     mouse.addMouseEventListeners(this.renderer.domElement);
     this.renderer.shadowMap.enabled = true;
     this.renderer.outputEncoding = GammaEncoding;
-    console.log('do not forget this gamma encoding thing');
-    console.log('it was put in to make kart models similar brightness to rest of world');
     document.body.appendChild(this.renderer.domElement);
   }
 
